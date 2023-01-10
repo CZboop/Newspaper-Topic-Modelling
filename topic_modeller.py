@@ -1,11 +1,14 @@
 from data_processor import DataProcessor
-import nltk
-from nltk.corpus import stopwords
+import spacy
+from spacy.lang.en.stop_words import STOP_WORDS
+from umap import UMAP
+from hdbscan import HDBSCAN
+from sklearn.feature_extraction.text import CountVectorizer
 
 class TopicModeller:
     def __init__(self, data_dir, data_cols, data_selector):
         self.data = DataProcessor(data_dir, data_cols, data_selector).read_and_concat_data_files()
-        self.stopwords_list = stopwords.words('english')
+        self.stopwords_list = STOP_WORDS
 
     # clean up the data in place within the text columns of df in self.data
     # note this could get slow as data expands, may need mitigation/some kind of checkpointing
@@ -18,6 +21,16 @@ class TopicModeller:
     # TODO: further clean eg remove special chars (currently lowercases and removes stopwords)
     def _clean_text(self, text):
         return ' '.join([word for word in str(text).lower().split() if word not in (self.stopwords_list)])
+
+    def model_topics(self):
+        # umap way of reducing dimensions of vector repr
+        self.umap = UMAP(n_neighbours = 15, # this is default, can lower to narrow and increase to broaden (with expected pros and cons for each)
+            n_components = 5, # dimensions of data passed in to cluster
+            min_dist = 0.0, # minimum distance of points/embeddings together, for clustering zero so can group nicely and overlap
+            metric = cosine, # distance calculated with cosine
+            random_state = 42) # specify random seed, otherwise results will differ each time for the same input
+        
+        self.count_vectoriser = CountVectorizer(stopwords = self.stopwords)
 
 if __name__ == "__main__":
     topic_modeller = TopicModeller('../uk_news_scraping/data', ['headline', 'subheading', 'text', 'date'], 'guardian_*.csv')
