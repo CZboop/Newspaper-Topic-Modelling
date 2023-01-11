@@ -45,8 +45,22 @@ class TopicModeller:
         self.topics = self.topic_model.fit_transform(list(self.data['headline'].apply(lambda x: str(x))))
 
         self.topic_model.get_topic_info()
+        print(self.topic_model.get_topic_info())
+
+    # prob want couple of these methods and above to do for different data e.g. headlines subheadings and article text
+    def get_topics_over_time(self):
+        self.topics_over_time = self.topic_model.topics_over_time(
+            self.data['headline'].apply(lambda x: str(x)), # documents, may need to actively cast to str again
+            self.data['date'].apply(lambda x: str(x)), # dates
+            global_tuning = True, # averaging specific time with overall for that topic
+            evolution_tuning = True, # different averaging within that short period of time like rolling average
+            nr_bins = 10 # number of date snapshots, recommended under 50, can think how many months total and sample each n months
+        )
+        print(self.topics_over_time.head)
+        # returns a pd df with the topic (similar to initial topic model -1, 0, 1 by overall freq but words separated, freq as own column and then timestamp as own column)
 
 if __name__ == "__main__":
     topic_modeller = TopicModeller('../uk_news_scraping/data', ['headline', 'subheading', 'text', 'date'], 'guardian_*.csv')
     # topic_modeller._preprocess()
     topic_modeller.model_topics()
+    topic_modeller.get_topics_over_time()
