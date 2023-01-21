@@ -42,7 +42,6 @@ class DataProcessor:
         
     def filter_dates(self, start_date, end_date):
         # where start date is further back in time
-        pd.to_datetime(self.combined_data['date'])
-        self.data_in_range = self.combined_data.loc[(lambda data: data.headline.dt.date >= start_date) & (lambda data: data.headline.dt.date <= end_date)]
+        self.combined_data['date'] = pd.to_datetime(self.combined_data['date'], errors='coerce')
+        self.data_in_range = self.combined_data.loc[(self.combined_data['date'].dt.date >= start_date) & (self.combined_data['date'].dt.date <= end_date)]
         return self.data_in_range
-    
