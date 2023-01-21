@@ -1,6 +1,8 @@
 # read concat and select data for topic modelling
 import glob
 import pandas as pd
+import datetime
+from datetime import datetime as dt
 
 class DataProcessor:
     def __init__(self, path_to_dir, cols, selector= "*"):
@@ -27,4 +29,20 @@ class DataProcessor:
         self.combined_data = combined_df
         return combined_df
 
+    def resolve_encoding_errors(self):
+        # a couple seem to get weird windows encoding issue, is this just when viewing in excel?
+        # but anyway goal here is to remove those issues
+        pass
+
+    def remove_duplicates(self):
+        # hard coding headline category for now
+        if not hasattr(self, 'files'):
+            self.read_and_concat_data_files()
+        self.combined_data = self.combined_data.drop_duplicates(subset='headline')
+        
+    def filter_dates(self, start_date, end_date):
+        # where start date is further back in time
+        pd.to_datetime(self.combined_data['date'])
+        self.data_in_range = self.combined_data.loc[(lambda data: data.headline.dt.date >= start_date) & (lambda data: data.headline.dt.date <= end_date)]
+        return self.data_in_range
     

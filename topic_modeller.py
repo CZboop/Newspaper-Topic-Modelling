@@ -59,6 +59,17 @@ class TopicModeller:
         print(self.topics_over_time.head)
         # returns a pd df with the topic (similar to initial topic model -1, 0, 1 by overall freq but words separated, freq as own column and then timestamp as own column)
 
+    def visualise_over_time_builtin(self):
+        # ie the built in method that BERTopic has for visualising, thinking could take the time topic df and do own visualisation
+        self.topic_model.visualise_topics_over_time(self.topics_over_time, top_n_topics = 10) # shows if run in a notebook
+
+    def web_convert(self):
+        pass 
+
+    def cluster_examples(self):
+        # trying to get a representative example of each cluster
+        pass
+
 if __name__ == "__main__":
     topic_modeller = TopicModeller('../uk_news_scraping/data', ['headline', 'subheading', 'text', 'date'], 'guardian_*.csv')
     # topic_modeller._preprocess()
