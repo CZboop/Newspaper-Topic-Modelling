@@ -5,9 +5,11 @@ from umap import UMAP
 from hdbscan import HDBSCAN
 from sklearn.feature_extraction.text import CountVectorizer
 from bertopic import BERTopic
+import datetime
 
+# TODO: refactor to take multiple data sources
 class TopicModeller:
-    def __init__(self, data_dir, data_cols, data_selector, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5)):
+    def __init__(self, data_selector, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5), data_dir = '../uk_news_scraping/data', data_cols = ['headline', 'date']):
         self.data = DataProcessor(data_dir, data_cols, data_selector).read_and_concat_data_files()
         self.start_date = start_date
         self.end_date = end_date
@@ -27,6 +29,7 @@ class TopicModeller:
     def _clean_text(self, text):
         return ' '.join([word for word in str(text).lower().split() if word not in (self.stopwords_list)])
 
+    # TODO: refactor to handle more than one model at once? or no need to save as object property if saving model
     def model_topics(self):
         # umap way of reducing dimensions of vector repr
         self.umap = UMAP(n_neighbors = 15, # this is default, can lower to narrow and increase to broaden (with expected pros and cons for each)
@@ -67,7 +70,7 @@ class TopicModeller:
         # ie the built in method that BERTopic has for visualising, thinking could take the time topic df and do own visualisation
         self.topic_model.visualise_topics_over_time(self.topics_over_time, top_n_topics = 10) # shows if run in a notebook
 
-    def web_convert(self):
+    def html_plot(self, data):
         pass 
 
     def cluster_examples(self):
@@ -75,7 +78,7 @@ class TopicModeller:
         pass
 
 if __name__ == "__main__":
-    topic_modeller = TopicModeller('../uk_news_scraping/data', ['headline', 'subheading', 'text', 'date'], 'guardian_*.csv')
-    # topic_modeller._preprocess()
-    topic_modeller.model_topics()
-    topic_modeller.get_topics_over_time()
+    guardian_topic_modeller = TopicModeller('guardian_*.csv')
+    # guardian_topic_modeller._preprocess()
+    guardian_topic_modeller.model_topics()
+    guardian_topic_modeller.get_topics_over_time()
