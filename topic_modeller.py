@@ -6,6 +6,8 @@ from hdbscan import HDBSCAN
 from sklearn.feature_extraction.text import CountVectorizer
 from bertopic import BERTopic
 import datetime
+import plotly.io as pio
+from pathlib import Path
 
 # TODO: refactor to take multiple data sources
 class TopicModeller:
@@ -53,6 +55,7 @@ class TopicModeller:
 
         self.topic_model.get_topic_info()
         print(self.topic_model.get_topic_info())
+        return self.topic_model
 
     # prob want couple of these methods and above to do for different data e.g. headlines subheadings and article text
     def get_topics_over_time(self):
@@ -70,8 +73,10 @@ class TopicModeller:
         # ie the built in method that BERTopic has for visualising, thinking could take the time topic df and do own visualisation
         self.topic_model.visualise_topics_over_time(self.topics_over_time, top_n_topics = 10) # shows if run in a notebook
 
-    def html_plot(self, data):
-        pass 
+    def html_plot(self, name):
+        plot = self.topic_model.visualize_topics()
+        path = Path(__file__).parent
+        plot.write_html(f'{path}/plots/{name}.html')
 
     def cluster_examples(self):
         # trying to get a representative example of each cluster
@@ -81,4 +86,5 @@ if __name__ == "__main__":
     guardian_topic_modeller = TopicModeller('guardian_*.csv')
     # guardian_topic_modeller._preprocess()
     guardian_topic_modeller.model_topics()
-    guardian_topic_modeller.get_topics_over_time()
+    # guardian_topic_modeller.get_topics_over_time()
+    guardian_topic_modeller.html_plot('guardian_topic_plot')
