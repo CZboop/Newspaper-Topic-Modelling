@@ -3,9 +3,12 @@ from bertopic import BERTopic
 import datetime
 from topic_modeller import TopicModeller
 
+#data_selectors = {'guardian' : 'guardian_*.csv', 'mirror' : 'mirror_*.csv', 'telegraph': 'telegraph_*.csv', 
+    # 'sun' : 'sun_*.csv', 'mail' : 'mail_*.csv', 'metro' : 'metro_*.csv', 'express' : 'express_*.csv'}
+    # mail may be causing memory issues, will exclude and come back to
+
 class MultiSourceModeller:
-    def __init__(self, data_selectors = {'guardian' : 'guardian_*.csv', 'mirror' : 'mirror_*.csv', 'telegraph': 'telegraph_*.csv', 
-    'sun' : 'sun_*.csv', 'mail' : 'mail_*.csv', 'metro' : 'metro_*.csv', 'express' : 'express_*.csv'}):
+    def __init__(self, data_selectors = {'metro' : 'metro_*.csv', 'express' : 'express_*.csv'}):
         self.data_selectors = data_selectors
 
     def model_all_sources(self):
