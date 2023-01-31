@@ -3,6 +3,9 @@ from data_processor import DataProcessor
 import plotly.express as px
 import pandas as pd
 from pathlib import Path
+import datetime
+from datetime import timedelta
+from dateutil.relativedelta import relativedelta
 
 class GeneralAnalyser:
     def __init__(self, data_selectors = {'guardian' : 'guardian_*.csv', 'mirror' : 'mirror_*.csv', 'telegraph': 'telegraph_*.csv', 
@@ -36,9 +39,24 @@ class GeneralAnalyser:
         path = Path(__file__).parent
         figure.write_html(f'{path}/plots/{name}.html')
     
-    def compare_num_of_docs_over_time(self):
-        pass
-        # iterate over each month
+    def compare_num_of_docs_over_time(self, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5)):
+        # iterate over each month and get number of articles in that month for each source and total
+        # TODO: for this and other analysis, may need to revisit based on hugely disproportionate daily mail number of articles that may filter/have option to ignore
+        month_year = start_date
+        docs_by_month_total = {}
+        docs_by_month_source = {}
+        while month_year <= end_date:
+            doc_num_list = {}
+            for source in self.data_selectors.keys():
+                article_df = DataProcessor(selector = self.data_selectors.get(source), path_to_dir = '../uk_news_scraping/data', cols = ['headline', 'date']).read_and_concat_data_files()
+                articles_in_range = article_df['date'].loc[lambda x: (pd.DatetimeIndex(x).month == month_year.month) & (pd.DatetimeIndex(x).year == month_year.year)]
+                doc_num_list[source] = len(list(articles_in_range))
+            docs_by_month_source[month_year] = doc_num_list
+            complete_df = DataProcessor(selector = '*.csv', path_to_dir = '../uk_news_scraping/data', cols = ['headline', 'date']).read_and_concat_data_files()
+            docs_by_month_total[month_year] = len(list(complete_df['date'].loc[lambda x: (pd.DatetimeIndex(x).month == month_year.month) & (pd.DatetimeIndex(x).year == month_year.year)]))
+            month_year -= relativedelta(months = 1)
+        
+        return docs_by_month_source, docs_by_month_total
     
     def visualise_number_over_time(self, data):
         pass
@@ -48,4 +66,6 @@ if __name__ == "__main__":
     # analyser = GeneralAnalyser()
     # print(analyser.compare_ratio_of_docs())
     # analyser.visualise_percentages(analyser.compare_ratio_of_docs()[2])
-    pass
+    # below to get how many articles by each month
+    analyser = GeneralAnalyser()
+    print(analyser.compare_num_of_docs_over_time())
