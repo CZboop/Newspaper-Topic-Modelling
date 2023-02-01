@@ -44,22 +44,34 @@ class GeneralAnalyser:
         # TODO: for this and other analysis, may need to revisit based on hugely disproportionate daily mail number of articles that may filter/have option to ignore
         month_year = start_date
         docs_by_month_total = {}
-        docs_by_month_source = {}
+        docs_by_month_source = []
         while month_year <= end_date:
             doc_num_list = {}
             for source in self.data_selectors.keys():
                 article_df = DataProcessor(selector = self.data_selectors.get(source), path_to_dir = '../uk_news_scraping/data', cols = ['headline', 'date']).read_and_concat_data_files()
                 articles_in_range = article_df['date'].loc[lambda x: (pd.DatetimeIndex(x).month == month_year.month) & (pd.DatetimeIndex(x).year == month_year.year)]
                 doc_num_list[source] = len(list(articles_in_range))
-            docs_by_month_source[month_year] = doc_num_list
+            docs_by_month_source.append(doc_num_list)
             complete_df = DataProcessor(selector = '*.csv', path_to_dir = '../uk_news_scraping/data', cols = ['headline', 'date']).read_and_concat_data_files()
             docs_by_month_total[month_year] = len(list(complete_df['date'].loc[lambda x: (pd.DatetimeIndex(x).month == month_year.month) & (pd.DatetimeIndex(x).year == month_year.year)]))
             month_year -= relativedelta(months = 1)
         
         return docs_by_month_source, docs_by_month_total
     
-    def visualise_number_over_time(self, data):
-        pass
+    def visualise_number_over_time(self, data, single = false): # single kwarg is for whether it's one data source per graph or not
+        if single:
+            data_df = pd.DataFrame(data.items(), columns=['month', 'articles'])
+            fig = px.line(data_df, x= 'month', y= 'articles', title='Article number over time')
+        else:
+            data_df = pd.DataFrame(data, columns=['source', 'month', 'articles'])
+            fig = px.line(data_df, x= 'month', y= 'articles', title='Article number over time', color = 'source')
+
+    def run(self):
+        analyser = GeneralAnalyser()
+        analyser.visualise_percentages(analyser.compare_ratio_of_docs()[2])
+        number_by_source, number_total = analyser.compare_num_of_docs_over_time()
+        analyser.visualise_number_over_time(number_by_source)
+        analyser.visualise_number_over_time(number_total, single = true)
 
 if __name__ == "__main__":
     # below to create pie chart of ratios across each news source (total articles/documents)
