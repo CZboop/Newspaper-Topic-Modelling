@@ -11,7 +11,7 @@ from pathlib import Path
 
 # TODO: refactor to take multiple data sources
 class TopicModeller:
-    def __init__(self, data_selector, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5), data_dir = '../uk_news_scraping/data', data_cols = ['headline', 'date']):
+    def __init__(self, data_selector, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5), data_dir = '../../uk_news_scraping/data', data_cols = ['headline', 'date']):
         self.data = DataProcessor(data_dir, data_cols, data_selector).read_and_concat_data_files()
         self.start_date = start_date
         self.end_date = end_date
