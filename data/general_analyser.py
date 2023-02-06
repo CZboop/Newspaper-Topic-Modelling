@@ -19,7 +19,7 @@ class GeneralAnalyser:
         record_numbers = {}
         for paper in self.data_selectors.keys():
             record_nums = DataProcessor(selector = self.data_selectors.get(paper), path_to_dir = '../../uk_news_scraping/data', cols = ['headline', 'date']).read_and_concat_data_files().shape[0]
-            record_numbers[paper] = record_nums
+            record_numbers[paper.title()] = record_nums
         # percentage of each
         record_percentages = {}
         for paper in record_numbers.keys():
@@ -29,9 +29,9 @@ class GeneralAnalyser:
 
     def visualise_percentages(self, percentages): # percentages as dict e.g. coming from compare_ratio_of_docs method
         # values into df
-        percent_df = pd.DataFrame(percentages.items(), columns=['source', 'percentage'])
+        percent_df = pd.DataFrame(percentages.items(), columns=['Source', 'Percentage'])
         # df into plotly pie chart
-        fig = px.pie(percent_df, values='percentage', names='source', title='Ratio of articles by news source')
+        fig = px.pie(percent_df, values='Percentage', names='Source', title='Ratio of Articles by News Source')
         # save as html
         self.save_as_json(fig, 'news_source_ratios')
 
@@ -40,6 +40,9 @@ class GeneralAnalyser:
         figure.write_html(f'{path}/plots/{name}.html')
     
     def save_as_json(self, figure, name):
+        # setting to have transparent background
+        figure.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", legend_font_color="rgba(255,255,255,1)", title_font_color="rgba(255,255,255,1)")
+        # saving by getting relative path as absolute path
         path = Path(__file__).parent
         figure.write_json(f'{path}/plots/{name}.json')
     
@@ -65,12 +68,12 @@ class GeneralAnalyser:
     def visualise_number_over_time(self, data, single = False, source_name= None): # single kwarg is for whether it's one data source per graph or not
         filename = 'articles_over_time' if source_name == None else f'articles_over_time_{source_name}'
         if single:
-            data_df = pd.DataFrame(data.items(), columns=['month', 'articles'])
-            fig = px.line(data_df, x= 'month', y= 'articles', title='Article number over time')
+            data_df = pd.DataFrame(data.items(), columns=['Month', 'Articles'])
+            fig = px.line(data_df, x= 'Month', y= 'Articles', title='Article Number Over Time')
             self.save_as_json(fig, filename)
         else:
-            data_df = pd.DataFrame(data, columns=['source', 'month', 'articles'])
-            fig = px.line(data_df, x= 'month', y= 'articles', title='Article number over time', color = 'source')
+            data_df = pd.DataFrame(data, columns=['Source', 'Month', 'Articles'])
+            fig = px.line(data_df, x= 'Month', y= 'Articles', title='Article Number Over Time', color = 'source')
             self.save_as_json(fig, filename)
 
     def run(self):
@@ -87,5 +90,5 @@ if __name__ == "__main__":
     analyser.visualise_percentages(analyser.compare_ratio_of_docs()[2])
     # below to get how many articles by each month
     # analyser = GeneralAnalyser()
-    # print(analyser.compare_num_of_docs_over_time())
-    # analyser.visualise_number_over_time(analyser.compare_num_of)
+    print(analyser.compare_num_of_docs_over_time())
+    analyser.visualise_number_over_time(analyser.compare_num_of_docs_over_time())
