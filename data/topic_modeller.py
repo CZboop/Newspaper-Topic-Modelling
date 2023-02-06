@@ -32,7 +32,7 @@ class TopicModeller:
         return ' '.join([word for word in str(text).lower().split() if word not in (self.stopwords_list)])
 
     # TODO: refactor to handle more than one model at once? or no need to save as object property if saving model
-    def model_topics(self):
+    def model_topics(self, min_topic_size = 50):
         # umap way of reducing dimensions of vector repr
         self.umap = UMAP(n_neighbors = 15, # this is default, can lower to narrow and increase to broaden (with expected pros and cons for each)
             n_components = 5, # dimensions of data passed in to cluster - umap will reduce dimensions to this
@@ -45,7 +45,7 @@ class TopicModeller:
         self.topic_model = BERTopic(umap_model = self.umap,
             vectorizer_model = self.count_vectoriser,
             diversity = 0.75, # uses mmr algo to increase/decrease synonyms or diff ways of saying same thing
-            min_topic_size = 50, # minimum documents/articles making up each cluster
+            min_topic_size = min_topic_size, # minimum documents/articles making up each cluster
             top_n_words = 4, # how many of the top words used to describe/define each cluster
             language = 'english', # the default is english but specifying
             calculate_probabilities = True # calculate probability of document being in all clusters and assign to highest prob
@@ -83,8 +83,11 @@ class TopicModeller:
         pass
 
 if __name__ == "__main__":
-    guardian_topic_modeller = TopicModeller('guardian_*.csv')
-    # guardian_topic_modeller._preprocess()
-    guardian_topic_modeller.model_topics()
-    # guardian_topic_modeller.get_topics_over_time()
-    guardian_topic_modeller.html_plot('guardian_topic_plot')
+    # guardian_topic_modeller = TopicModeller('guardian_*.csv')
+    # # guardian_topic_modeller._preprocess()
+    # guardian_topic_modeller.model_topics()
+    # # guardian_topic_modeller.get_topics_over_time()
+    # guardian_topic_modeller.html_plot('guardian_topic_plot')
+    mail_topic_modeller = TopicModeller('mail*.csv')
+    mail_topic_modeller.model_topics(min_topic_size = 10000)
+    mail_topic_modeller.html_plot('mail_topic_plot')
