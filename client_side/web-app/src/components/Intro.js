@@ -9,13 +9,13 @@ function Intro() {
         <h3>The Shape of the Data</h3>
         <p>Headline data was gathered from seven of the top newspapers in the UK:</p>
         <ul>
-            <li><a href='https://www.theguardian.com/'>The Guardian</a></li>
-            <li><a href='https://www.mirror.co.uk/'>The Mirror</a></li>
-            <li><a href='https://metro.co.uk/'>Metro</a></li>
-            <li><a href='https://www.dailymail.co.uk/home/index.html'>The Daily Mail</a></li>
-            <li><a href='https://www.telegraph.co.uk/'>The Telegraph</a></li>
-            <li><a href='https://www.thesun.co.uk/'>The Sun</a></li>         
-            <li><a href='https://www.express.co.uk/'>The Daily Express</a></li>
+            <li className='highlighted-link'><a href='https://www.theguardian.com/'>The Guardian</a></li>
+            <li className='highlighted-link'><a href='https://www.mirror.co.uk/'>The Mirror</a></li>
+            <li className='highlighted-link'><a href='https://metro.co.uk/'>Metro</a></li>
+            <li className='highlighted-link'><a href='https://www.dailymail.co.uk/home/index.html'>The Daily Mail</a></li>
+            <li className='highlighted-link'><a href='https://www.telegraph.co.uk/'>The Telegraph</a></li>
+            <li className='highlighted-link'><a href='https://www.thesun.co.uk/'>The Sun</a></li>         
+            <li className='highlighted-link'><a href='https://www.express.co.uk/'>The Daily Express</a></li>
         </ul>
         <p>The links above will take you to their respective websites, where you can read their reporting and support their work if you are interested.</p>
         <p>The percentages of articles from each news source can be seen below.</p>

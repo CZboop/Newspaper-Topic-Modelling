@@ -11,6 +11,6 @@ a {
   color: aliceblue;
 }
 
-a:hover {
+.highlighted-link a:hover {
   color:rgb(195, 155, 233);
 }

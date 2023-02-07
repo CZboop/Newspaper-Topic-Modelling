@@ -1,0 +1,19 @@
+.Nav-links {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    width: 60%;
+}
+
+.Navbar {
+    display: flex;
+}
+
+.Navbar-title {
+    font-size: xx-large;
+    font-weight: bolder;
+}
+
+nav {
+    width: 90%;
+}
