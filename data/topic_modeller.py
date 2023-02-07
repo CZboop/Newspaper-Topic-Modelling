@@ -70,13 +70,28 @@ class TopicModeller:
         # returns a pd df with the topic (similar to initial topic model -1, 0, 1 by overall freq but words separated, freq as own column and then timestamp as own column)
 
     def visualise_over_time_builtin(self):
+        if not self.topics_over_time:
+            self.get_topics_over_time()
         # ie the built in method that BERTopic has for visualising, thinking could take the time topic df and do own visualisation
-        self.topic_model.visualise_topics_over_time(self.topics_over_time, top_n_topics = 10) # shows if run in a notebook
+        self.visualised_over_time = self.topic_model.visualize_topics_over_time(self.topics_over_time, top_n_topics = 10) # shows if run in a notebook
+        return self.visualised_over_time
 
     def html_plot(self, name):
         plot = self.topic_model.visualize_topics()
         path = Path(__file__).parent
         plot.write_html(f'{path}/plots/{name}.html')
+
+    def save_as_json(self, name):
+        topic_figure = self.topic_model.visualize_topics()
+        time_figure = self.visualise_over_time_builtin()
+        # setting to have transparent background
+        topic_figure.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", legend_font_color="rgba(255,255,255,1)", title_font_color="rgba(255,255,255,1)")
+        time_figure.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", legend_font_color="rgba(255,255,255,1)", title_font_color="rgba(255,255,255,1)")
+        
+        # saving by getting relative path as absolute path
+        path = Path(__file__).parent
+        topic_figure.write_json(f'{path}/plots/{name}_topics.json')
+        time_figure.write_json(f'{path}/plots/{name}_over_time.json')
 
     def cluster_examples(self):
         # trying to get a representative example of each cluster
@@ -88,6 +103,6 @@ if __name__ == "__main__":
     # guardian_topic_modeller.model_topics()
     # # guardian_topic_modeller.get_topics_over_time()
     # guardian_topic_modeller.html_plot('guardian_topic_plot')
-    mail_topic_modeller = TopicModeller('mail*.csv')
-    mail_topic_modeller.model_topics(min_topic_size = 10000)
-    mail_topic_modeller.html_plot('mail_topic_plot')
+    guardian_topic_modeller = TopicModeller('guardian*.csv')
+    guardian_topic_modeller.model_topics(min_topic_size = 50)
+    guardian_topic_modeller.save_as_json('guardian')
