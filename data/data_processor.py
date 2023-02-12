@@ -34,11 +34,11 @@ class DataProcessor:
         # but anyway goal here is to remove those issues
         pass
 
-    def remove_duplicates(self):
+    def remove_duplicates_and_nones(self):
         # hard coding headline category for now
         if not hasattr(self, 'files'):
             self.read_and_concat_data_files()
-        self.combined_data = self.combined_data.drop_duplicates(subset='headline')
+        self.combined_data = self.combined_data.drop_duplicates(subset='headline').dropna()
         
     def filter_dates(self, start_date, end_date):
         # where start date is further back in time

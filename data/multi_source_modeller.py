@@ -46,5 +46,5 @@ class MultiSourceModeller:
 
 if __name__ == "__main__":
     # currently not running all at once 
-    modeller = MultiSourceModeller({'express' : 'express_*.csv', 'mail' : 'mail_*.csv', 'mirror' : 'mirror_*.csv', 'sun' : 'sun_*.csv'})
+    modeller = MultiSourceModeller({'mirror' : 'mirror_*.csv', 'sun' : 'sun_*.csv', 'mail' : 'mail_*.csv'})
     modeller.run()

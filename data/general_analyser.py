@@ -48,6 +48,7 @@ class GeneralAnalyser:
     
     def compare_num_of_docs_over_time(self, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5)):
         # iterate over each month and get number of articles in that month for each source and total
+        # TODO: switch around the loops to do by source and finish for each so slightly less messy, might still be nested
         # TODO: for this and other analysis, may need to revisit based on hugely disproportionate daily mail number of articles that may filter/have option to ignore
         month_year = start_date
         docs_by_month_total = {}
