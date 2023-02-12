@@ -11,11 +11,12 @@ from pathlib import Path
 
 # TODO: refactor to take multiple data sources
 class TopicModeller:
-    def __init__(self, data_selector, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5), data_dir = '../../uk_news_scraping/data', data_cols = ['headline', 'date']):
+    def __init__(self, data_selector, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5), data_dir = '../../uk_news_scraping/data', data_cols = ['headline', 'date'], min_topic_size = 50):
         self.data = DataProcessor(data_dir, data_cols, data_selector).read_and_concat_data_files()
         self.start_date = start_date
         self.end_date = end_date
         self.stopwords_list = STOP_WORDS
+        self.min_topic_size = min_topic_size
 
     # clean up the data in place within the text columns of df in self.data
     # note this could get slow as data expands, may need mitigation/some kind of checkpointing
@@ -23,16 +24,15 @@ class TopicModeller:
         self.data.remove_duplicates()
         self.data.filter_dates(start_date, end_date)
         self.data['headline'] = self.data['headline'].apply(lambda x: self._clean_text(x))
-        self.data['subheading'] = self.data['subheading'].apply(lambda x: self._clean_text(x))
-        self.data['text'] = self.data['text'].apply(lambda x: self._clean_text(x))
+        self.data['date'] = self.data['date'].apply(lambda x: str(x))
 
     # to apply to a pandas df column within lambda func
     # TODO: further clean eg remove special chars (currently lowercases and removes stopwords)
     def _clean_text(self, text):
-        return ' '.join([word for word in str(text).lower().split() if word not in (self.stopwords_list)])
+        return ' '.join([str(word) for word in str(text).lower().split() if word not in (self.stopwords_list)])
 
     # TODO: refactor to handle more than one model at once? or no need to save as object property if saving model
-    def model_topics(self, min_topic_size = 50):
+    def model_topics(self):
         # umap way of reducing dimensions of vector repr
         self.umap = UMAP(n_neighbors = 15, # this is default, can lower to narrow and increase to broaden (with expected pros and cons for each)
             n_components = 5, # dimensions of data passed in to cluster - umap will reduce dimensions to this
@@ -45,7 +45,7 @@ class TopicModeller:
         self.topic_model = BERTopic(umap_model = self.umap,
             vectorizer_model = self.count_vectoriser,
             diversity = 0.75, # uses mmr algo to increase/decrease synonyms or diff ways of saying same thing
-            min_topic_size = min_topic_size, # minimum documents/articles making up each cluster
+            min_topic_size = self.min_topic_size, # minimum documents/articles making up each cluster
             top_n_words = 4, # how many of the top words used to describe/define each cluster
             language = 'english', # the default is english but specifying
             calculate_probabilities = True # calculate probability of document being in all clusters and assign to highest prob

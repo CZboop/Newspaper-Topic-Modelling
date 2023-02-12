@@ -8,15 +8,18 @@ from topic_modeller import TopicModeller
     # mail may be causing memory issues, will exclude and come back to
 
 class MultiSourceModeller:
-    def __init__(self, data_selectors = {'metro' : 'metro_*.csv', 'express' : 'express_*.csv'}):
+    def __init__(self, data_selectors = {'metro' : 'metro_*.csv', 'express' : 'express_*.csv'}, min_topic_size = 70):
         self.data_selectors = data_selectors
+        self.min_topic_size = min_topic_size
 
     def model_all_sources(self):
         # getting topic models for each newspaper including saving
         for source_name in self.data_selectors.keys():
             # for each:
             # - create model and save
-            model = TopicModeller(self.data_selectors.get(source_name)).model_topics()
+            topic_modeller = TopicModeller(self.data_selectors.get(source_name), min_topic_size = self.min_topic_size)
+            model = topic_modeller.model_topics()
+            topic_modeller.save_as_json(source_name)
             model_name = f'{source_name}_model'
             setattr(self, model_name, model)
             print(self._save_model(model, model_name))
@@ -42,5 +45,6 @@ class MultiSourceModeller:
         self.model_all_sources()
 
 if __name__ == "__main__":
-    modeller = MultiSourceModeller()
+    # currently not running all at once 
+    modeller = MultiSourceModeller({'express' : 'express_*.csv', 'mail' : 'mail_*.csv', 'mirror' : 'mirror_*.csv', 'sun' : 'sun_*.csv'})
     modeller.run()
