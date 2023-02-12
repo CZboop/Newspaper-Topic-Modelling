@@ -48,7 +48,7 @@ class SentimentAnalyser:
         return {'positive': positive_percent, 'negative': negative_percent, 'neutral': neutral_percent}
 
     def plot_polarity_ratio(self, ratios): # ratio result of calling get_polarity_ratio, name of data source to use in title
-        perentage_df = pd.DataFrame(ratios.items(), columns=['Polarity', 'Percentage'])
+        percentage_df = pd.DataFrame(ratios.items(), columns=['Polarity', 'Percentage'])
         fig = px.pie(percentage_df, values='Percentage', names='Polarity', title=f'{self.source_name} - Percentages of Positive, Negative and Neutral Headlines')
         self.save_as_json(fig, f'{self.source_name}_polarity_ratio')
 
