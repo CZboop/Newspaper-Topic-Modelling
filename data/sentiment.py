@@ -87,13 +87,30 @@ class SentimentAnalyser:
 
     def plot_subjectivity(self):
         box_plot = px.box(self.data_df, y= 'subjectivity', title= f'{self.source_name} - Subjectivity of Headlines')
-        self.save_as_json(box_plot, self.source_name)
+        self.save_as_json(box_plot, f'{self.source_name}_subjectivity_box_plot')
 
-    def get_subjectivity_over_time(self):
-        pass 
+    def get_subjectivity_over_time(self, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5)):
+        if not hasattr(self, 'data_df'):
+            self._get_polarity_subjectivity()
 
-    def plot_subjectivity_over_time(self):
-        pass
+        current_date = end_date
+        month_subjectivity = {}
+        while current_date >= start_date:
+            # slice df
+            current_month_subjectivity = self.data_df.loc[lambda df: (pd.DatetimeIndex(df['date']).month == current_date.month) & (pd.DatetimeIndex(df['date']).year == current_date.year)]['subjectivity']
+            # get avg subjectivity
+            avg_subjectivity = current_month_subjectivity.mean()
+            # assign to dict
+            month_subjectivity[current_date] = avg_subjectivity
+            print(current_date, avg_subjectivity)
+            # decrement current month
+            current_date -= relativedelta(months= 1)
+        return month_subjectivity
+
+    def plot_subjectivity_over_time(self, overtime_data):
+        overtime_subjectivity_df = pd.DataFrame(overtime_data.items(), columns=['Date', 'Subjectivity'])
+        fig = px.line(overtime_subjectivity_df, x="Date", y="Subjectivity", title=f'{self.source_name} - Subjectivity of Headlines Over Time')
+        self.save_as_json(fig, f'{self.source_name}_subjectivity_over_time')
 
     def save_as_json(self, fig, name):
         fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", legend_font_color="rgba(255,255,255,1)", title_font_color="rgba(255,255,255,1)", font=dict(color="rgba(255,255,255,1)"))
@@ -107,3 +124,6 @@ if __name__ == "__main__":
     polarity_over_time = sentiment_analyser.get_polarity_over_time()
     sentiment_analyser.plot_polarity_over_time(polarity_over_time)
     sentiment_analyser.plot_polarity_ratio(sentiment_analyser.get_polarity_ratio())
+    subjectivity_over_time = sentiment_analyser.get_subjectivity_over_time()
+    sentiment_analyser.plot_subjectivity()
+    sentiment_analyser.plot_subjectivity_over_time(subjectivity_over_time)
