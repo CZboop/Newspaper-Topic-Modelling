@@ -4,12 +4,12 @@ import Intro from './components/Intro.js';
 import Navbar from './components/Navbar.js';
 import NewspaperPage from './components/NewspaperPage.js';
 
-import guardianTopics from './components/graph_data/guardian_topics.json';
-import guardianOverTime from './components/graph_data/guardian_over_time.json';
-import guardianPolarityTime from './components/graph_data/guardian_polarity_over_time.json';
-import guardianPolarityRatio from './components/graph_data/guardian_polarity_ratio.json';
-import guardianSubjectivityPlot from './components/graph_data/guardian_subjectivity_box_plot.json';
-import guardianSubjectivityTime from './components/graph_data/guardian_subjectivity_over_time.json';
+import guardianTopics from './components/graph_data/guardian/guardian_topics.json';
+import guardianOverTime from './components/graph_data/guardian/guardian_over_time.json';
+import guardianPolarityTime from './components/graph_data/guardian/guardian_polarity_over_time.json';
+import guardianPolarityRatio from './components/graph_data/guardian/guardian_polarity_ratio.json';
+import guardianSubjectivityPlot from './components/graph_data/guardian/guardian_subjectivity_box_plot.json';
+import guardianSubjectivityTime from './components/graph_data/guardian/guardian_subjectivity_over_time.json';
 
 function App() {
   return (
