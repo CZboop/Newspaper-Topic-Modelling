@@ -53,9 +53,6 @@ class DataProcessor:
         if not hasattr(self, 'files'):
             self.read_and_concat_data_files()
         if 'url' not in self.combined_data.columns:
-            raise Exception('Filter topic method relies on having the url within the dataset. Try running again with url as one of the items in the \'cols\' parameter')
-        # self.combined_data = self.combined_data.loc[lambda df: topic not in df.url for topic in topics_to_remove]
-
-if __name__ == "__main__":
-    processor = DataProcessor(path_to_dir = '../../uk_news_scraping/data', cols = ['headline', 'date', 'url'], selector = 'mail*.csv')
-    # processor.
+            raise Exception('Filter topic method relies on having the url as column within the dataset. Try running again with url as one of the items in the \'cols\' parameter')
+        for topic in topics_to_remove:
+            self.combined_data = self.combined_data[~self.combined_data['url'].str.contains(topic)]
