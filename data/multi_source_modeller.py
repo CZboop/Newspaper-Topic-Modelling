@@ -8,7 +8,7 @@ from topic_modeller import TopicModeller
     # mail may be causing memory issues, will exclude and come back to
 
 class MultiSourceModeller:
-    def __init__(self, data_selectors = {'metro' : 'metro_*.csv', 'express' : 'express_*.csv'}, min_topic_size = 70):
+    def __init__(self, data_selectors, min_topic_size = 70):
         self.data_selectors = data_selectors
         self.min_topic_size = min_topic_size
 
