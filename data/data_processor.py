@@ -40,9 +40,22 @@ class DataProcessor:
             self.read_and_concat_data_files()
         self.combined_data = self.combined_data.drop_duplicates(subset='headline')
         self.combined_data = self.combined_data.dropna()
+        return self.combined_data
         
     def filter_dates(self, start_date, end_date):
         # where start date is further back in time
         self.combined_data['date'] = pd.to_datetime(self.combined_data['date'], errors='coerce')
-        self.data_in_range = self.combined_data.loc[(self.combined_data['date'].dt.date >= start_date) & (self.combined_data['date'].dt.date <= end_date)]
-        return self.data_in_range
+        self.combined_data = self.combined_data.loc[(self.combined_data['date'].dt.date >= start_date) & (self.combined_data['date'].dt.date <= end_date)]
+        return self.combined_data
+
+    # somewhat blunt tool to remove certain topics based on url, mainly intended to make daily mail dataset size manageable
+    def filter_topics(self, topics_to_remove):
+        if not hasattr(self, 'files'):
+            self.read_and_concat_data_files()
+        if 'url' not in self.combined_data.columns:
+            raise Exception('Filter topic method relies on having the url within the dataset. Try running again with url as one of the items in the \'cols\' parameter')
+        # self.combined_data = self.combined_data.loc[lambda df: topic not in df.url for topic in topics_to_remove]
+
+if __name__ == "__main__":
+    processor = DataProcessor(path_to_dir = '../../uk_news_scraping/data', cols = ['headline', 'date', 'url'], selector = 'mail*.csv')
+    # processor.

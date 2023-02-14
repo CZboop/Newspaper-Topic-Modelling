@@ -12,17 +12,22 @@ from pathlib import Path
 # TODO: refactor to take multiple data sources
 class TopicModeller:
     def __init__(self, data_selector, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5), data_dir = '../../uk_news_scraping/data', data_cols = ['headline', 'date'], min_topic_size = 50):
-        self.data = DataProcessor(data_dir, data_cols, data_selector).read_and_concat_data_files()
+        self.data_processor = DataProcessor(data_dir, data_cols, data_selector)
         self.start_date = start_date
         self.end_date = end_date
         self.stopwords_list = STOP_WORDS
         self.min_topic_size = min_topic_size
+        self._preprocess()
 
     # clean up the data in place within the text columns of df in self.data
     # note this could get slow as data expands, may need mitigation/some kind of checkpointing
     def _preprocess(self):
-        self.data.remove_duplicates_and_nones()
-        self.data.filter_dates(start_date, end_date)
+        # filtering and processing within the data processor object then getting the data out of the object
+        self.data_processor.read_and_concat_data_files()
+        self.data_processor.remove_duplicates_and_nones()
+        self.data_processor.filter_dates(self.start_date, self.end_date)
+        self.data = self.data_processor.combined_data
+
         self.data['headline'] = self.data['headline'].apply(lambda x: self._clean_text(x))
         self.data['date'] = self.data['date'].apply(lambda x: str(x))
 
