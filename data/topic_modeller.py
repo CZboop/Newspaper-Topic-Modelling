@@ -21,7 +21,7 @@ class TopicModeller:
     # clean up the data in place within the text columns of df in self.data
     # note this could get slow as data expands, may need mitigation/some kind of checkpointing
     def _preprocess(self):
-        self.data.remove_duplicates()
+        self.data.remove_duplicates_and_nones()
         self.data.filter_dates(start_date, end_date)
         self.data['headline'] = self.data['headline'].apply(lambda x: self._clean_text(x))
         self.data['date'] = self.data['date'].apply(lambda x: str(x))

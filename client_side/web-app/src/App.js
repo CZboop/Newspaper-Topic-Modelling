@@ -10,6 +10,7 @@ import guardianPolarityTime from './components/graph_data/guardian/guardian_pola
 import guardianPolarityRatio from './components/graph_data/guardian/guardian_polarity_ratio.json';
 import guardianSubjectivityPlot from './components/graph_data/guardian/guardian_subjectivity_box_plot.json';
 import guardianSubjectivityTime from './components/graph_data/guardian/guardian_subjectivity_over_time.json';
+import guardianText from './components/text_data/guardian_text.json';
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         <Navbar />
           <Routes>
           <Route path='intro' element={<Intro />}/>
-          <Route path='guardian' element={<NewspaperPage name='The Guardian' intro='lorem ipsum' topic_plot={guardianTopics} time_plot={guardianOverTime} polarity_time={guardianPolarityTime} polarity_ratio={guardianPolarityRatio} subjectivity_box={guardianSubjectivityPlot} subjectivity_over_time={guardianSubjectivityTime} extra_info='lorem ipsum' />}/>
+          <Route path='guardian' element={<NewspaperPage name='The Guardian' topic_intro={guardianText.topic_intro} topic_plot={guardianTopics} time_plot={guardianOverTime} polarity_time={guardianPolarityTime} polarity_ratio={guardianPolarityRatio} subjectivity_box={guardianSubjectivityPlot} subjectivity_over_time={guardianSubjectivityTime} polarity_comments={guardianText.polarity_comments} subjectivity_comments={guardianText.subjectivity_comments} extra_info={guardianText.extra_info} />}/>
           <Route path='mirror' element={<NewspaperPage name='The Mirror' intro='lorem ipsum' extra_info='lorem ipsum' />}/>
           <Route path='metro' element={<NewspaperPage name='Metro' intro='lorem ipsum' extra_info='lorem ipsum' />}/>
           <Route path='mail' element={<NewspaperPage name='The Daily Mail' intro='lorem ipsum' extra_info='lorem ipsum'/>}/>

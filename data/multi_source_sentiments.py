@@ -22,5 +22,5 @@ class SentimentGetter:
         sentiment_analyser.plot_subjectivity_over_time(subjectivity_over_time)
 
 if __name__ == "__main__":
-    sentiment_getter = SentimentGetter()
+    sentiment_getter = SentimentGetter(selectors = {'metro' : 'metro_*.csv', 'express' : 'express_*.csv', 'all': '*.csv', 'mail' : 'mail_*.csv'})
     sentiment_getter.run()
