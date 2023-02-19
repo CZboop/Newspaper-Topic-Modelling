@@ -11,12 +11,13 @@ from pathlib import Path
 
 # TODO: refactor to take multiple data sources
 class TopicModeller:
-    def __init__(self, data_selector, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5), data_dir = '../../uk_news_scraping/data', data_cols = ['headline', 'date'], min_topic_size = 50):
+    def __init__(self, data_selector, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5), data_dir = '../../uk_news_scraping/data', data_cols = ['headline', 'date'], min_topic_size = 70, topics_to_remove = None):
         self.data_processor = DataProcessor(data_dir, data_cols, data_selector)
         self.start_date = start_date
         self.end_date = end_date
         self.stopwords_list = STOP_WORDS
         self.min_topic_size = min_topic_size
+        self.topics_to_remove = topics_to_remove
         self._preprocess()
 
     # clean up the data in place within the text columns of df in self.data
@@ -25,7 +26,10 @@ class TopicModeller:
         # filtering and processing within the data processor object then getting the data out of the object
         self.data_processor.read_and_concat_data_files()
         self.data_processor.remove_duplicates_and_nones()
-        self.data_processor.filter_dates(self.start_date, self.end_date)
+        self.data_processor.filter_dates()
+        # optionally removing topics if these have been passed in in the constructor
+        if self.data_processor.topics_to_remove:
+            self.data_processor.filter_topics(self.topics_to_remove)
         self.data = self.data_processor.combined_data
 
         self.data['headline'] = self.data['headline'].apply(lambda x: self._clean_text(x))
@@ -64,6 +68,7 @@ class TopicModeller:
 
     # prob want couple of these methods and above to do for different data e.g. headlines subheadings and article text
     def get_topics_over_time(self):
+        self.data.reset_index(inplace = True,drop = True)
         self.topics_over_time = self.topic_model.topics_over_time(
             self.data['headline'].apply(lambda x: str(x)), # documents, may need to actively cast to str again
             self.data['date'].apply(lambda x: str(x)), # dates
@@ -108,6 +113,6 @@ if __name__ == "__main__":
     # guardian_topic_modeller.model_topics()
     # # guardian_topic_modeller.get_topics_over_time()
     # guardian_topic_modeller.html_plot('guardian_topic_plot')
-    guardian_topic_modeller = TopicModeller('guardian*.csv')
-    guardian_topic_modeller.model_topics(min_topic_size = 80)
-    guardian_topic_modeller.save_as_json('guardian')
+    mail_topic_modeller = TopicModeller('mail*.csv', data_cols = ['headline', 'date', 'url'], topics_to_remove = ['wires'])
+    mail_topic_modeller.model_topics()
+    mail_topic_modeller.save_as_json('mail_no_wires')

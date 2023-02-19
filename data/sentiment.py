@@ -22,6 +22,15 @@ class SentimentAnalyser:
         # passing in a data processor object to handle reading data instead of repeating logic
         self.nlp = spacy.load('en_core_web_sm')
         self.nlp.add_pipe('spacytextblob')
+        self._preprocess()
+
+    def _preprocess(self):
+        self.data_processor.read_and_concat_data_files()
+        self.data_processor.remove_duplicates_and_nones()
+        self.data_processor.filter_dates()
+        # optionally removing topics if these have been passed in in the constructor
+        if self.data_processor.topics_to_remove:
+            self.data_processor.filter_topics(self.topics_to_remove)
 
     def _get_polarity_subjectivity(self):
         # init will create .combined_data within the self.data_processor

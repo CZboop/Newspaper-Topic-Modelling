@@ -18,7 +18,7 @@ class MultiSourceModeller:
             # for each:
             # - create model and save
             topic_modeller = TopicModeller(self.data_selectors.get(source_name), min_topic_size = self.min_topic_size)
-            topic_modeller._preprocess()
+            # topic_modeller._preprocess()
             model = topic_modeller.model_topics()
             topic_modeller.save_as_json(source_name)
             model_name = f'{source_name}_model'

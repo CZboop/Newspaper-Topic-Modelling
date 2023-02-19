@@ -5,13 +5,18 @@ import datetime
 from datetime import datetime as dt
 
 class DataProcessor:
-    def __init__(self, path_to_dir, cols, selector= "*"):
+    def __init__(self, path_to_dir, cols, selector= "*", topics_to_remove = None, start_date = datetime.date(2019, 12, 1), end_date = datetime.date(2023, 1, 5)):
         # relative path to the directory storing data (assuming multiple csv files)
         self.path_to_dir = path_to_dir
         # target column(s) within resulting dataframe
         self.cols = cols 
         # selector within that directory if we only want some files, glob format
         self.selector = selector
+        # optional, leaving as None will mean no topics are filtered out
+        self.topics_to_remove = topics_to_remove
+        # optional, default set to end of 2019 to start of 2023
+        self.start_date = start_date 
+        self.end_date = end_date
 
     def select_data_files(self):
         files = glob.glob(f'{self.path_to_dir}/{self.selector}')
@@ -42,14 +47,16 @@ class DataProcessor:
         self.combined_data = self.combined_data.dropna()
         return self.combined_data
         
-    def filter_dates(self, start_date, end_date):
+    def filter_dates(self):
         # where start date is further back in time
         self.combined_data['date'] = pd.to_datetime(self.combined_data['date'], errors='coerce')
-        self.combined_data = self.combined_data.loc[(self.combined_data['date'].dt.date >= start_date) & (self.combined_data['date'].dt.date <= end_date)]
+        self.combined_data = self.combined_data.loc[(self.combined_data['date'].dt.date >= self.start_date) & (self.combined_data['date'].dt.date <= self.end_date)]
         return self.combined_data
 
     # somewhat blunt tool to remove certain topics based on url, mainly intended to make daily mail dataset size manageable
-    def filter_topics(self, topics_to_remove):
+    def filter_topics(self):
+        if not self.topics_to_remove:
+            raise Exception('No topics to remove found. Please pass these in to the DataProcessor as an array topics_to_remove')
         if not hasattr(self, 'files'):
             self.read_and_concat_data_files()
         if 'url' not in self.combined_data.columns:
