@@ -9,7 +9,6 @@ import datetime
 import plotly.io as pio
 from pathlib import Path
 
-# TODO: refactor to take multiple data sources
 class TopicModeller:
     def __init__(self, data_selector, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5), data_dir = '../../uk_news_scraping/data', data_cols = ['headline', 'date'], min_topic_size = 70, topics_to_remove = None):
         self.data_processor = DataProcessor(data_dir, data_cols, data_selector)
@@ -105,6 +104,10 @@ class TopicModeller:
 
     def cluster_examples(self):
         # trying to get a representative example of each cluster
+        pass
+
+    # TODO: slightly different process to run all sources together as classes to compare
+    def multi_class_model(self):
         pass
 
 if __name__ == "__main__":

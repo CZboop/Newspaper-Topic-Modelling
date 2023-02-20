@@ -61,5 +61,5 @@ class DataProcessor:
             self.read_and_concat_data_files()
         if 'url' not in self.combined_data.columns:
             raise Exception('Filter topic method relies on having the url as column within the dataset. Try running again with url as one of the items in the \'cols\' parameter')
-        for topic in topics_to_remove:
+        for topic in self.topics_to_remove:
             self.combined_data = self.combined_data[~self.combined_data['url'].str.contains(topic)]

@@ -30,7 +30,7 @@ class SentimentAnalyser:
         self.data_processor.filter_dates()
         # optionally removing topics if these have been passed in in the constructor
         if self.data_processor.topics_to_remove:
-            self.data_processor.filter_topics(self.topics_to_remove)
+            self.data_processor.filter_topics()
 
     def _get_polarity_subjectivity(self):
         # init will create .combined_data within the self.data_processor
