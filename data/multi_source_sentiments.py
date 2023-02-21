@@ -30,6 +30,10 @@ class SentimentGetter:
         sentiment_analyser.plot_subjectivity()
         sentiment_analyser.plot_subjectivity_over_time(subjectivity_over_time)
 
+    # for huge/combined datasets to prevent memory errors
+    def _with_csv(self):
+        pass
+
 if __name__ == "__main__":
     sentiment_getter = SentimentGetter({'mail' : {'selector': 'mail_*.csv', 'cols': ['headline', 'date', 'url'], 'topics_to_remove': ['wires','femail', 'sport', 'showbiz']},
     'all': {'selector': '*.csv'}})
