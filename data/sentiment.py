@@ -10,6 +10,7 @@ import datetime
 from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 from pathlib import Path
+import os
 
 class SentimentAnalyser:
     def __init__(self, data_processor, source_name = None):
@@ -126,6 +127,72 @@ class SentimentAnalyser:
         # saving by getting relative path as absolute path
         path = Path(__file__).parent
         fig.write_json(f'{path}/plots/{name}.json')
+
+    # getting and saving to csv in batches for huge/combined datasets to prevent memory errors
+    def _get_subjectivity_polarity_with_csv(self):
+        # TODO: in the main get subjectivity function, have a check for dataset size and run this instead if too big
+        self.data_df = self.data_processor.combined_data
+        headlines = self.data_df['headline']
+        # go through the df with same logic but save to a csv in slices
+        current_path = Path(__file__).parent
+        temp_csv_path = f'{current_path}/temp/temp_sentiments.csv'
+        # TODO: update to use the full length/extent of the df/
+        # for i in range(0, len(headlines) - 10000, 10000):
+        for i in range(0, 20000, 10000):
+            sentiment_docs = headlines[i:i+10000].apply(lambda x: self.nlp(str(x))) 
+            temp_df = pd.DataFrame()
+            temp_df['polarity'] = sentiment_docs.apply(lambda x: x._.blob.polarity)
+            temp_df['subjectivity'] = sentiment_docs.apply(lambda x: x._.blob.subjectivity)
+            # save append to csv, no headers or index
+            temp_df.reset_index(drop=True)
+            temp_df.to_csv(temp_csv_path, mode='a', header= False, index = False)
+        # then load back in and assign to dataframe
+        full_df = pd.read_csv(temp_csv_path, names = ['polarity', 'subjectivity'], header = None)
+        # some checks on length matching?
+        self.data_df['polarity'] = full_df['polarity']
+        self.data_df['subjectivity'] = full_df['subjectivity']
+        os.remove(temp_csv_path)
+
+    # TODO: 
+    def get_subjectivity_over_time_with_csv(self, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5)):
+        if not hasattr(self, 'data_df'):
+            self._get_subjectivity_polarity_with_csv()
+
+        current_date = end_date
+        month_subjectivity = {}
+        while current_date >= start_date:
+            # slice df
+            current_month_subjectivity = self.data_df.loc[lambda df: (pd.DatetimeIndex(df['date']).month == current_date.month) & (pd.DatetimeIndex(df['date']).year == current_date.year)]['subjectivity']
+            # get avg subjectivity
+            avg_subjectivity = current_month_subjectivity.mean()
+            # assign to dict
+            month_subjectivity[current_date] = avg_subjectivity
+            print(current_date, avg_subjectivity)
+            # decrement current month
+            current_date -= relativedelta(months= 1)
+        return month_subjectivity
+
+    # TODO: 
+    def get_polarity_over_time_with_csv(self, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5)):
+        if not hasattr(self, 'data_df'):
+            self._get_subjectivity_polarity_with_csv()
+
+        # calculate average polarity by month?
+        # using datetimes to step through months and slice the df
+        current_date = end_date
+        month_polarity = {}
+        while current_date >= start_date:
+            # slice df
+            current_month_polarity = self.data_df.loc[lambda df: (pd.DatetimeIndex(df['date']).month == current_date.month) & (pd.DatetimeIndex(df['date']).year == current_date.year)]['polarity']
+            print(current_month_polarity)
+            # get avg 
+            avg_polarity = current_month_polarity.mean()
+            # assign to dict
+            month_polarity[current_date] = avg_polarity
+            print(current_date, avg_polarity)
+            # decrement current month
+            current_date -= relativedelta(months=1)
+        return month_polarity
 
 if __name__ == "__main__":
     sentiment_analyser = SentimentAnalyser(DataProcessor('../../uk_news_scraping/data', ['headline', 'date'], 'guardian*.csv'))
