@@ -106,9 +106,45 @@ class TopicModeller:
         # trying to get a representative example of each cluster
         pass
 
-    # TODO: slightly different process to run all sources together as classes to compare
-    def multi_class_model(self):
-        pass
+    # TODO: slightly different process to run all sources together as classes to compare - by joint broad categories as defined by the newspapers
+    # potential shared categories - uk news, world news, health, money, politics, royals?, education?, environment?
+    # note might not be able to get any categories for - metro, express (maybe with getting data again slight change), 
+    def multi_class_model(self, topic):
+        # TODO: add a check for if the data has everything you need e.g. columns have the source to use as class and something to get the category 
+        # TODO: class will need to add to the df based on the file name - first word after splitting by underscores
+        # have added classes as 'source' column at the data processor stage
+        self.umap = UMAP(n_neighbors = 15,
+            n_components = 5,
+            min_dist = 0.0,
+            metric = 'cosine',
+            random_state = 42)
+        
+        self.count_vectoriser = CountVectorizer(stop_words = self.stopwords_list)
+
+        self.topic_model = BERTopic(umap_model = self.umap,
+            vectorizer_model = self.count_vectoriser,
+            diversity = 0.75,
+            min_topic_size = self.min_topic_size,
+            top_n_words = 4,
+            language = 'english',
+            calculate_probabilities = True
+        )
+
+        self.topics = self.topic_model.fit_transform(list(self.data['headline'].apply(lambda x: str(x))))
+        classes = self.data['']
+        # example from the docs below - 
+        # data = fetch_20newsgroups(subset='all',  remove=('headers', 'footers', 'quotes'))
+        # docs = data["data"]
+        # classes = [data["target_names"][i] for i in data["target"]]
+
+        # # Create topic model and calculate topics per class
+        # topic_model = BERTopic()
+        # topics, probs = topic_model.fit_transform(docs)
+        # topics_per_class = topic_model.topics_per_class(docs, classes=classes)
+
+        self.topic_model.get_topic_info()
+        print(self.topic_model.get_topic_info())
+        return self.topic_model
 
 if __name__ == "__main__":
     # guardian_topic_modeller = TopicModeller('guardian_*.csv')

@@ -32,6 +32,7 @@ class SentimentAnalyser:
         # optionally removing topics if these have been passed in in the constructor
         if self.data_processor.topics_to_remove:
             self.data_processor.filter_topics()
+        # self.data_processor.combined_data['headlines'] = self.data_processor._clean_text(self.data_processor.combined_data['headlines'])
 
     def _get_polarity_subjectivity(self):
         # init will create .combined_data within the self.data_processor
@@ -74,6 +75,7 @@ class SentimentAnalyser:
             # slice df
             current_month_polarity = self.data_df.loc[lambda df: (pd.DatetimeIndex(df['date']).month == current_date.month) & (pd.DatetimeIndex(df['date']).year == current_date.year)]['polarity']
             # get avg 
+            print(current_month_polarity)
             avg_polarity = current_month_polarity.mean()
             # assign to dict
             month_polarity[current_date] = avg_polarity
@@ -140,6 +142,7 @@ class SentimentAnalyser:
         # for i in range(0, len(headlines) - 10000, 10000):
         for i in range(0, 20000, 10000):
             sentiment_docs = headlines[i:i+10000].apply(lambda x: self.nlp(str(x))) 
+            print(sentiment_docs[:10].apply(lambda x: x._.blob.polarity))
             temp_df = pd.DataFrame()
             temp_df['polarity'] = sentiment_docs.apply(lambda x: x._.blob.polarity)
             temp_df['subjectivity'] = sentiment_docs.apply(lambda x: x._.blob.subjectivity)
@@ -184,12 +187,12 @@ class SentimentAnalyser:
         while current_date >= start_date:
             # slice df
             current_month_polarity = self.data_df.loc[lambda df: (pd.DatetimeIndex(df['date']).month == current_date.month) & (pd.DatetimeIndex(df['date']).year == current_date.year)]['polarity']
-            print(current_month_polarity)
+            # print(current_month_polarity)
             # get avg 
             avg_polarity = current_month_polarity.mean()
             # assign to dict
             month_polarity[current_date] = avg_polarity
-            print(current_date, avg_polarity)
+            # print(current_date, avg_polarity)
             # decrement current month
             current_date -= relativedelta(months=1)
         return month_polarity

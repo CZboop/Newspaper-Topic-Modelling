@@ -3,9 +3,10 @@ import glob
 import pandas as pd
 import datetime
 from datetime import datetime as dt
+from spacy.lang.en.stop_words import STOP_WORDS
 
 class DataProcessor:
-    def __init__(self, path_to_dir, cols, selector= "*", topics_to_remove = None, start_date = datetime.date(2019, 12, 1), end_date = datetime.date(2023, 1, 5)):
+    def __init__(self, path_to_dir, cols, selector= "*.csv", topics_to_remove = None, start_date = datetime.date(2019, 12, 1), end_date = datetime.date(2023, 1, 5)):
         # relative path to the directory storing data (assuming multiple csv files)
         self.path_to_dir = path_to_dir
         # target column(s) within resulting dataframe
@@ -18,6 +19,8 @@ class DataProcessor:
         self.start_date = start_date 
         self.end_date = end_date
 
+        self.stopwords_list = STOP_WORDS
+
     def select_data_files(self):
         files = glob.glob(f'{self.path_to_dir}/{self.selector}')
         self.files = files 
@@ -29,10 +32,15 @@ class DataProcessor:
         df_list = []
         for file_ in self.files:
             df = pd.read_csv(file_, usecols = self.cols)
+            # below to get and add source from file name hard coded to the existing data files and how they're formatted
+            df['source'] = file_.split("\\")[-1].split("_")[0]
             df_list.append(df)
         combined_df = pd.concat(df_list, axis=0, ignore_index=True)
         self.combined_data = combined_df
         return combined_df
+
+    def _clean_text(self, text):
+        return ' '.join([str(word) for word in str(text).lower().split() if word not in (self.stopwords_list)])
 
     def resolve_encoding_errors(self):
         # a couple seem to get weird windows encoding issue, is this just when viewing in excel?
