@@ -46,5 +46,5 @@ class MultiSourceModeller:
 
 if __name__ == "__main__":
     # currently not running all at once 
-    modeller = MultiSourceModeller(data_selectors = {'metro' : {'selector': 'metro_*.csv'}, 'express' : {'selector': 'express_*.csv'}})
+    modeller = MultiSourceModeller()
     modeller.run()

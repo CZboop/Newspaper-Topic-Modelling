@@ -8,15 +8,19 @@ from bertopic import BERTopic
 import datetime
 import plotly.io as pio
 from pathlib import Path
+import json
 
 class TopicModeller:
     def __init__(self, data_selector, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5), data_dir = '../../uk_news_scraping/data', data_cols = ['headline', 'date'], min_topic_size = 70, topics_to_remove = None):
         self.data_processor = DataProcessor(data_dir, data_cols, data_selector)
+        self.data_selector = data_selector
         self.start_date = start_date
         self.end_date = end_date
         self.stopwords_list = STOP_WORDS
         self.min_topic_size = min_topic_size
         self.topics_to_remove = topics_to_remove
+        # getting the data source name based on selector, in most cases this can be overridden but need to be automatically passed in to get examples of each topic
+        self.source_name = ''.join(letter for letter in self.data_selector.split('.')[0] if letter.isalnum())
         self._preprocess()
 
     # clean up the data in place within the text columns of df in self.data
@@ -60,7 +64,7 @@ class TopicModeller:
         )
 
         self.topics = self.topic_model.fit_transform(list(self.data['headline'].apply(lambda x: str(x))))
-
+        self._cluster_examples(self.source_name)
         self.topic_model.get_topic_info()
         print(self.topic_model.get_topic_info())
         return self.topic_model
@@ -102,9 +106,26 @@ class TopicModeller:
         topic_figure.write_json(f'{path}/plots/{name}_topics.json')
         time_figure.write_json(f'{path}/plots/{name}_over_time.json')
 
-    def cluster_examples(self):
-        # trying to get a representative example of each cluster
-        pass
+    def _cluster_examples(self, name):
+        # TODO: have this handle large datasets by saving in chunks 
+        # getting representative examples for each cluster/topic in the model
+        if hasattr(self, 'topic_model'):
+            example_docs = self.topic_model.get_representative_docs()
+            # TODO: how to save these and then show them
+            # saving as json for now, can either import into where showing results as a separate thing
+            # or try and look at ways of incorporating into existing visualisations
+            path = Path(__file__).parent
+            # have to explicitly cast to int, otherwise type is int32 (presumably numpy) and causes issues dumping into json file
+            example_docs_cast = {int(x):example_docs[x] for x in example_docs.keys()}
+            with open(f'{path}/plots/topic_doc_examples/{name}.json', 'w') as file_:
+                json.dump(example_docs_cast, file_)
+            # returned as a dict with topic # int : [list of docs, more docs, for each topic]
+            # note lack of order so would want to iterate explicitly by key to get right order
+            # also note the returned docs won't be the exact headline due to preprocessing
+            
+            return example_docs
+        else:
+            raise Exception('Topic model not found, run .model_topics() to create the topic model and get examples')
 
     # TODO: slightly different process to run all sources together as classes to compare - by joint broad categories as defined by the newspapers
     # potential shared categories - uk news, world news, health, money, politics, royals?, education?, environment?
@@ -147,11 +168,13 @@ class TopicModeller:
         return self.topic_model
 
 if __name__ == "__main__":
-    # guardian_topic_modeller = TopicModeller('guardian_*.csv')
-    # # guardian_topic_modeller._preprocess()
-    # guardian_topic_modeller.model_topics()
+    guardian_topic_modeller = TopicModeller('guardian_*.csv')
+    # note, preprocessing not called separately anymore, done by default on init
+    # guardian_topic_modeller._preprocess()
+    guardian_topic_modeller.model_topics()
     # # guardian_topic_modeller.get_topics_over_time()
     # guardian_topic_modeller.html_plot('guardian_topic_plot')
-    mail_topic_modeller = TopicModeller('mail*.csv', data_cols = ['headline', 'date', 'url'], topics_to_remove = ['wires'])
+    mail_topic_modeller = TopicModeller('mail*.csv', data_cols = ['headline', 'date', 'url'], topics_to_remove = ['wires','femail', 'sport', 'showbiz'])
+    # ['wires','femail', 'sport', 'showbiz']
     mail_topic_modeller.model_topics()
-    mail_topic_modeller.save_as_json('mail_no_wires')
+    # mail_topic_modeller.save_as_json('mail_topics')
