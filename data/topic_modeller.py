@@ -9,6 +9,7 @@ import datetime
 import plotly.io as pio
 from pathlib import Path
 import json
+import pandas as pd
 
 class TopicModeller:
     def __init__(self, data_selector, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5), data_dir = '../../uk_news_scraping/data', data_cols = ['headline', 'date'], min_topic_size = 70, topics_to_remove = None):
@@ -110,15 +111,61 @@ class TopicModeller:
         # TODO: have this handle large datasets by saving in chunks 
         # getting representative examples for each cluster/topic in the model
         if hasattr(self, 'topic_model'):
-            example_docs = self.topic_model.get_representative_docs()
+            num_topics = max(self.topic_model.topics_)
+            if num_topics > 150:
+                # save with csv if over certain num of topics else get all at once
+                # note, .topics_ gives array of ints and -1, can try getting the max and using as range
+                print(num_topics)
+                current_path = Path(__file__).parent
+                temp_csv_path = f'{current_path}/temp/temp_repesentative_docs_{self.source_name}.csv'
+                example_topics = []
+                example_docs = []
+                for i in range(num_topics):
+                    if i % 19 == 0:
+                        temp_df = pd.DataFrame()
+                        temp_df['topic'] = example_topics
+                        temp_df['docs'] = example_docs
+                        # save append to csv, no headers or index
+                        temp_df.reset_index(drop=True)
+                        temp_df.to_csv(temp_csv_path, mode='a', header= False, index = False)
+
+                        example_topics = []
+                        example_docs = []
+                    example_topics.append(i)
+                    example_docs.append(self.topic_model.get_representative_docs(i))
+                    
+                # then load back in and assign to dataframe
+                full_df = pd.read_csv(temp_csv_path, names = ['topic', 'docs'], header = None)
+                # example_docs = self.topic_model.get_representative_docs() # may not save as property if this is unnecessary use of memory
+                path = Path(__file__).parent
+                
+                example_docs_cast = dict(full_df.values)
+                with open(f'{path}/plots/topic_doc_examples/{name}.json', 'w') as file_:
+                    json.dump(example_docs_cast, file_)
+            else:
+                example_docs = self.topic_model.get_representative_docs()
+                path = Path(__file__).parent
+                # have to explicitly cast to int, otherwise type is int32 (presumably numpy) and causes issues dumping into json file
+                example_docs_cast = {int(x):example_docs[x] for x in example_docs.keys()}
+                with open(f'{path}/plots/topic_doc_examples/{name}.json', 'w') as file_:
+                    json.dump(example_docs_cast, file_)
+                # returned as a dict with topic # int : [list of docs, more docs, for each topic]
+                # note lack of order so would want to iterate explicitly by key to get right order
+                # also note the returned docs won't be the exact headline due to preprocessing
+
+                return example_docs
+
+            # os.remove(temp_csv_path)
             # TODO: how to save these and then show them
             # saving as json for now, can either import into where showing results as a separate thing
             # or try and look at ways of incorporating into existing visualisations
-            path = Path(__file__).parent
+            # path = Path(__file__).parent
             # have to explicitly cast to int, otherwise type is int32 (presumably numpy) and causes issues dumping into json file
-            example_docs_cast = {int(x):example_docs[x] for x in example_docs.keys()}
-            with open(f'{path}/plots/topic_doc_examples/{name}.json', 'w') as file_:
-                json.dump(example_docs_cast, file_)
+            # example_docs_cast = {int(x):example_docs[x] for x in example_docs.keys()}
+            # print(example_docs_cast)
+            # UNCOMMENT BELOW 2 LINES vvvv
+            # with open(f'{path}/plots/topic_doc_examples/{name}.json', 'w') as file_:
+            #     json.dump(example_docs_cast, file_)
             # returned as a dict with topic # int : [list of docs, more docs, for each topic]
             # note lack of order so would want to iterate explicitly by key to get right order
             # also note the returned docs won't be the exact headline due to preprocessing
@@ -168,13 +215,17 @@ class TopicModeller:
         return self.topic_model
 
 if __name__ == "__main__":
-    guardian_topic_modeller = TopicModeller('guardian_*.csv')
+    # guardian_topic_modeller = TopicModeller('guardian_*.csv')
+    # guardian_topic_modeller.model_topics()
+
     # note, preprocessing not called separately anymore, done by default on init
     # guardian_topic_modeller._preprocess()
-    guardian_topic_modeller.model_topics()
+    # 
     # # guardian_topic_modeller.get_topics_over_time()
     # guardian_topic_modeller.html_plot('guardian_topic_plot')
-    mail_topic_modeller = TopicModeller('mail*.csv', data_cols = ['headline', 'date', 'url'], topics_to_remove = ['wires','femail', 'sport', 'showbiz'])
     # ['wires','femail', 'sport', 'showbiz']
-    mail_topic_modeller.model_topics()
+    
     # mail_topic_modeller.save_as_json('mail_topics')
+    
+    mail_topic_modeller = TopicModeller('mail*.csv', data_cols = ['headline', 'date', 'url'], topics_to_remove = ['wires','femail', 'sport', 'showbiz'])
+    mail_topic_modeller.model_topics()
