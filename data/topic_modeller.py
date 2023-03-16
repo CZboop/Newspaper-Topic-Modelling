@@ -13,7 +13,7 @@ import pandas as pd
 
 class TopicModeller:
     def __init__(self, data_selector, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5), data_dir = '../../uk_news_scraping/data', data_cols = ['headline', 'date'], min_topic_size = 70, topics_to_remove = None):
-        self.data_processor = DataProcessor(data_dir, data_cols, data_selector)
+        self.data_processor = DataProcessor(data_dir, data_cols, data_selector, topics_to_remove = topics_to_remove)
         self.data_selector = data_selector
         self.start_date = start_date
         self.end_date = end_date
@@ -33,7 +33,7 @@ class TopicModeller:
         self.data_processor.filter_dates()
         # optionally removing topics if these have been passed in in the constructor
         if self.data_processor.topics_to_remove:
-            self.data_processor.filter_topics(self.topics_to_remove)
+            self.data_processor.filter_topics()
         self.data = self.data_processor.combined_data
 
         self.data['headline'] = self.data['headline'].apply(lambda x: self._clean_text(x))

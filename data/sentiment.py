@@ -138,7 +138,7 @@ class SentimentAnalyser:
         # go through the df with same logic but save to a csv in slices
         current_path = Path(__file__).parent
         temp_csv_path = f'{current_path}/temp/temp_sentiments.csv'
-        # TODO: update to use the full length/extent of the df/
+        # TODO: update to use the full length/extent of the df/ rerun for bigger datasets?
         # for i in range(0, len(headlines) - 10000, 10000):
         for i in range(0, 20000, 10000):
             sentiment_docs = headlines[i:i+10000].apply(lambda x: self.nlp(str(x))) 
