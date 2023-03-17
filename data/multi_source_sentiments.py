@@ -5,8 +5,8 @@ from data_processor import DataProcessor
 class SentimentGetter:
     def __init__(self, selectors = {'guardian' : {'selector': 'guardian_*.csv'}, 'mirror' : {'selector': 'mirror_*.csv'}, 
     'telegraph': {'selector':'telegraph_*.csv'}, 'sun' : {'selector': 'sun_*.csv'}, 'metro' : {'selector': 'metro_*.csv'}, 
-    'express' : {'selector': 'express_*.csv'}, 'mail' : {'selector': 'mail_*.csv', 'cols': ['headline', 'date', 'url'], 'topics_to_remove': ['wires','femail', 'sport', 'showbiz']},
-    'all': {'selector': '*.csv','cols': ['headline', 'date', 'url'], 'topics_to_remove': ['wires','femail', 'sport', 'showbiz']}}, with_save = False):
+    'express' : {'selector': 'express_*.csv'}, 'mail' : {'selector': 'mail_*.csv', 'cols': ['headline', 'date', 'url'], 'topics_to_remove': ['wires','femail', 'sport', 'showbiz']}
+    }, with_save = False):
         self.selectors = selectors
         self.with_save = with_save
 
@@ -35,6 +35,5 @@ class SentimentGetter:
         sentiment_analyser.plot_subjectivity_over_time(subjectivity_over_time)
 
 if __name__ == "__main__":
-    # TODO: when running all sources together, filter out if also removed from individual sources
-    sentiment_getter = SentimentGetter({'all': {'selector': '*.csv','cols': ['headline', 'date', 'url'], 'topics_to_remove': ['wires','femail', 'sport', 'showbiz']}}, with_save = True)
+    sentiment_getter = SentimentGetter()
     sentiment_getter.run()

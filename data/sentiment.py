@@ -139,10 +139,12 @@ class SentimentAnalyser:
         current_path = Path(__file__).parent
         temp_csv_path = f'{current_path}/temp/temp_sentiments.csv'
         # TODO: update to use the full length/extent of the df/ rerun for bigger datasets?
-        # for i in range(0, len(headlines) - 10000, 10000):
-        for i in range(0, 20000, 10000):
-            sentiment_docs = headlines[i:i+10000].apply(lambda x: self.nlp(str(x))) 
-            print(sentiment_docs[:10].apply(lambda x: x._.blob.polarity))
+        num_headlines = len(headlines)
+        for i in range(0, len(headlines), 10000):
+            try:
+                sentiment_docs = headlines[i:i+10000].apply(lambda x: self.nlp(str(x)))
+            except IndexError: # for the final slice may get expected indexerror handling here
+                sentiment_docs = headlines[i:].apply(lambda x: self.nlp(str(x)))
             temp_df = pd.DataFrame()
             temp_df['polarity'] = sentiment_docs.apply(lambda x: x._.blob.polarity)
             temp_df['subjectivity'] = sentiment_docs.apply(lambda x: x._.blob.subjectivity)
@@ -156,7 +158,6 @@ class SentimentAnalyser:
         self.data_df['subjectivity'] = full_df['subjectivity']
         os.remove(temp_csv_path)
 
-    # TODO: 
     def get_subjectivity_over_time_with_csv(self, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5)):
         if not hasattr(self, 'data_df'):
             self._get_subjectivity_polarity_with_csv()
@@ -175,7 +176,6 @@ class SentimentAnalyser:
             current_date -= relativedelta(months= 1)
         return month_subjectivity
 
-    # TODO: 
     def get_polarity_over_time_with_csv(self, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5)):
         if not hasattr(self, 'data_df'):
             self._get_subjectivity_polarity_with_csv()
@@ -198,7 +198,7 @@ class SentimentAnalyser:
         return month_polarity
 
 if __name__ == "__main__":
-    sentiment_analyser = SentimentAnalyser(DataProcessor('../../uk_news_scraping/data', ['headline', 'date'], 'guardian*.csv'))
+    sentiment_analyser = SentimentAnalyser(DataProcessor('../../uk_news_scraping/data', ['headline', 'date', 'url'], 'mail*.csv', topics_to_remove = ['wires','femail', 'sport', 'showbiz']))
     # sentiment_analyser.plot_polarity_ratio(sentiment_analyser.get_polarity_ratio()) #NOTE: still need to run this fully to save result
     polarity_over_time = sentiment_analyser.get_polarity_over_time()
     sentiment_analyser.plot_polarity_over_time(polarity_over_time)
