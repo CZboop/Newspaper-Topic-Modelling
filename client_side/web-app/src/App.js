@@ -42,6 +42,15 @@ import mailSubjectivityPlot from './components/graph_data/mail/mail_subjectivity
 import mailSubjectivityTime from './components/graph_data/mail/mail_subjectivity_over_time.json';
 import mailText from './components/text_data/mail_text.json';
 
+// importing telegraph plots and text content //
+import telegraphTopics from './components/graph_data/telegraph/telegraph_topics.json';
+import telegraphOverTime from './components/graph_data/telegraph/telegraph_over_time.json';
+import telegraphPolarityTime from './components/graph_data/telegraph/telegraph_polarity_over_time.json';
+import telegraphPolarityRatio from './components/graph_data/telegraph/telegraph_polarity_ratio.json';
+import telegraphSubjectivityPlot from './components/graph_data/telegraph/telegraph_subjectivity_box_plot.json';
+import telegraphSubjectivityTime from './components/graph_data/telegraph/telegraph_subjectivity_over_time.json';
+import telegraphText from './components/text_data/telegraph_text.json';
+
 function App() {
   return (
     <div className="App">
@@ -53,7 +62,7 @@ function App() {
           <Route path='mirror' element={<NewspaperPage name='The Mirror' intro='lorem ipsum' extra_info='lorem ipsum' />}/>
           <Route path='metro' element={<NewspaperPage name='Metro' topic_intro={metroText.topic_intro} topic_plot={metroTopics} time_plot={metroOverTime} polarity_time={metroPolarityTime} polarity_ratio={metroPolarityRatio} subjectivity_box={metroSubjectivityPlot} subjectivity_over_time={metroSubjectivityTime} polarity_comments={metroText.polarity_comments} subjectivity_comments={metroText.subjectivity_comments} extra_info={metroText.extra_info}/>}/>
           <Route path='mail' element={<NewspaperPage name='The Daily Mail' topic_intro={mailText.topic_intro} topic_plot={mailTopics} time_plot={mailOverTime} polarity_time={mailPolarityTime} polarity_ratio={mailPolarityRatio} subjectivity_box={mailSubjectivityPlot} subjectivity_over_time={mailSubjectivityTime} polarity_comments={mailText.polarity_comments} subjectivity_comments={mailText.subjectivity_comments} extra_info={mailText.extra_info}/>}/>
-          <Route path='telegraph' element={<NewspaperPage name='The Telegraph' intro='lorem ipsum' extra_info='lorem ipsum'/>}/>
+          <Route path='telegraph' element={<NewspaperPage name='The Telegraph' topic_intro={telegraphText.topic_intro} topic_plot={telegraphTopics} time_plot={telegraphOverTime} polarity_time={telegraphPolarityTime} polarity_ratio={telegraphPolarityRatio} subjectivity_box={telegraphSubjectivityPlot} subjectivity_over_time={telegraphSubjectivityTime} polarity_comments={telegraphText.polarity_comments} subjectivity_comments={telegraphText.subjectivity_comments} extra_info={telegraphText.extra_info}/>}/>
           <Route path='sun' element={<NewspaperPage name='The Sun' topic_intro={sunText.topic_intro} topic_plot={sunTopics} time_plot={sunOverTime} polarity_time={sunPolarityTime} polarity_ratio={sunPolarityRatio} subjectivity_box={sunSubjectivityPlot} subjectivity_over_time={sunSubjectivityTime} polarity_comments={sunText.polarity_comments} subjectivity_comments={sunText.subjectivity_comments} extra_info={sunText.extra_info}/>}/>
           <Route path='express' element={<NewspaperPage name='The Express' intro='lorem ipsum' extra_info='lorem ipsum'/>}/>
           </Routes>
