@@ -13,7 +13,6 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
         <Plot data={topic_plot.data} layout={topic_plot.layout}/>
         <p>An interactive plot of topics over time can be found below.</p>
         <p>You can select or deselect different topics to show, hide or isolate them for clarity.</p>
-        <p>Topic 0 represents all the headlines that didn't fit into a distinct cluster, so the biggest topic is topic 1.</p>
         <Plot data={time_plot.data} layout={time_plot.layout}/>
         <h3>Polarity</h3>
         <p>Polarity is a measure of how positive or negative language is. In this instance, this goes from -1 which is the most negative, or 1 which is the most positive. 0 is completely neutral in terms of polarity.</p>
