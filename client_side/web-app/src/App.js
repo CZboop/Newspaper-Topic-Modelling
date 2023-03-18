@@ -60,6 +60,15 @@ import expressSubjectivityPlot from './components/graph_data/express/express_sub
 import expressSubjectivityTime from './components/graph_data/express/express_subjectivity_over_time.json';
 import expressText from './components/text_data/express_text.json';
 
+// importing mirror plots and text content //
+import mirrorTopics from './components/graph_data/mirror/mirror_topics.json';
+import mirrorOverTime from './components/graph_data/mirror/mirror_over_time.json';
+import mirrorPolarityTime from './components/graph_data/mirror/mirror_polarity_over_time.json';
+import mirrorPolarityRatio from './components/graph_data/mirror/mirror_polarity_ratio.json';
+import mirrorSubjectivityPlot from './components/graph_data/mirror/mirror_subjectivity_box_plot.json';
+import mirrorSubjectivityTime from './components/graph_data/mirror/mirror_subjectivity_over_time.json';
+import mirrorText from './components/text_data/mirror_text.json';
+
 // ==== THE APP - PUTTING TOGETHER COMPONENTS WITH PROPS AND RETURNING ==== //
 
 function App() {
@@ -70,7 +79,7 @@ function App() {
           <Routes>
           <Route path='intro' element={<Intro />}/>
           <Route path='guardian' element={<NewspaperPage name='The Guardian' topic_intro={guardianText.topic_intro} topic_plot={guardianTopics} time_plot={guardianOverTime} polarity_time={guardianPolarityTime} polarity_ratio={guardianPolarityRatio} subjectivity_box={guardianSubjectivityPlot} subjectivity_over_time={guardianSubjectivityTime} polarity_comments={guardianText.polarity_comments} subjectivity_comments={guardianText.subjectivity_comments} extra_info={guardianText.extra_info} />}/>
-          <Route path='mirror' element={<NewspaperPage name='The Mirror' intro='lorem ipsum' extra_info='lorem ipsum' />}/>
+          <Route path='mirror' element={<NewspaperPage name='The Mirror' topic_intro={mirrorText.topic_intro} topic_plot={mirrorTopics} time_plot={mirrorOverTime} polarity_time={mirrorPolarityTime} polarity_ratio={mirrorPolarityRatio} subjectivity_box={mirrorSubjectivityPlot} subjectivity_over_time={mirrorSubjectivityTime} polarity_comments={mirrorText.polarity_comments} subjectivity_comments={mirrorText.subjectivity_comments} extra_info={mirrorText.extra_info}/>}/>
           <Route path='metro' element={<NewspaperPage name='Metro' topic_intro={metroText.topic_intro} topic_plot={metroTopics} time_plot={metroOverTime} polarity_time={metroPolarityTime} polarity_ratio={metroPolarityRatio} subjectivity_box={metroSubjectivityPlot} subjectivity_over_time={metroSubjectivityTime} polarity_comments={metroText.polarity_comments} subjectivity_comments={metroText.subjectivity_comments} extra_info={metroText.extra_info}/>}/>
           <Route path='mail' element={<NewspaperPage name='The Daily Mail' topic_intro={mailText.topic_intro} topic_plot={mailTopics} time_plot={mailOverTime} polarity_time={mailPolarityTime} polarity_ratio={mailPolarityRatio} subjectivity_box={mailSubjectivityPlot} subjectivity_over_time={mailSubjectivityTime} polarity_comments={mailText.polarity_comments} subjectivity_comments={mailText.subjectivity_comments} extra_info={mailText.extra_info}/>}/>
           <Route path='telegraph' element={<NewspaperPage name='The Telegraph' topic_intro={telegraphText.topic_intro} topic_plot={telegraphTopics} time_plot={telegraphOverTime} polarity_time={telegraphPolarityTime} polarity_ratio={telegraphPolarityRatio} subjectivity_box={telegraphSubjectivityPlot} subjectivity_over_time={telegraphSubjectivityTime} polarity_comments={telegraphText.polarity_comments} subjectivity_comments={telegraphText.subjectivity_comments} extra_info={telegraphText.extra_info}/>}/>
