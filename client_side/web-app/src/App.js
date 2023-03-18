@@ -4,7 +4,7 @@ import Intro from './components/Intro.js';
 import Navbar from './components/Navbar.js';
 import NewspaperPage from './components/NewspaperPage.js';
 
-// IMPORTING GRAPHS AND TEXT DATA TO PASS INTO PAGE COMPONENTS //
+// ==== IMPORTING GRAPHS AND TEXT DATA TO PASS INTO PAGE COMPONENTS ==== //
 
 // importing guardian plots and text content //
 import guardianTopics from './components/graph_data/guardian/guardian_topics.json';
@@ -51,6 +51,17 @@ import telegraphSubjectivityPlot from './components/graph_data/telegraph/telegra
 import telegraphSubjectivityTime from './components/graph_data/telegraph/telegraph_subjectivity_over_time.json';
 import telegraphText from './components/text_data/telegraph_text.json';
 
+// importing express plots and text content //
+import expressTopics from './components/graph_data/express/express_topics.json';
+import expressOverTime from './components/graph_data/express/express_over_time.json';
+import expressPolarityTime from './components/graph_data/express/express_polarity_over_time.json';
+import expressPolarityRatio from './components/graph_data/express/express_polarity_ratio.json';
+import expressSubjectivityPlot from './components/graph_data/express/express_subjectivity_box_plot.json';
+import expressSubjectivityTime from './components/graph_data/express/express_subjectivity_over_time.json';
+import expressText from './components/text_data/express_text.json';
+
+// ==== THE APP - PUTTING TOGETHER COMPONENTS WITH PROPS AND RETURNING ==== //
+
 function App() {
   return (
     <div className="App">
@@ -64,7 +75,7 @@ function App() {
           <Route path='mail' element={<NewspaperPage name='The Daily Mail' topic_intro={mailText.topic_intro} topic_plot={mailTopics} time_plot={mailOverTime} polarity_time={mailPolarityTime} polarity_ratio={mailPolarityRatio} subjectivity_box={mailSubjectivityPlot} subjectivity_over_time={mailSubjectivityTime} polarity_comments={mailText.polarity_comments} subjectivity_comments={mailText.subjectivity_comments} extra_info={mailText.extra_info}/>}/>
           <Route path='telegraph' element={<NewspaperPage name='The Telegraph' topic_intro={telegraphText.topic_intro} topic_plot={telegraphTopics} time_plot={telegraphOverTime} polarity_time={telegraphPolarityTime} polarity_ratio={telegraphPolarityRatio} subjectivity_box={telegraphSubjectivityPlot} subjectivity_over_time={telegraphSubjectivityTime} polarity_comments={telegraphText.polarity_comments} subjectivity_comments={telegraphText.subjectivity_comments} extra_info={telegraphText.extra_info}/>}/>
           <Route path='sun' element={<NewspaperPage name='The Sun' topic_intro={sunText.topic_intro} topic_plot={sunTopics} time_plot={sunOverTime} polarity_time={sunPolarityTime} polarity_ratio={sunPolarityRatio} subjectivity_box={sunSubjectivityPlot} subjectivity_over_time={sunSubjectivityTime} polarity_comments={sunText.polarity_comments} subjectivity_comments={sunText.subjectivity_comments} extra_info={sunText.extra_info}/>}/>
-          <Route path='express' element={<NewspaperPage name='The Express' intro='lorem ipsum' extra_info='lorem ipsum'/>}/>
+          <Route path='express' element={<NewspaperPage name='The Express' topic_intro={expressText.topic_intro} topic_plot={expressTopics} time_plot={expressOverTime} polarity_time={expressPolarityTime} polarity_ratio={expressPolarityRatio} subjectivity_box={expressSubjectivityPlot} subjectivity_over_time={expressSubjectivityTime} polarity_comments={expressText.polarity_comments} subjectivity_comments={expressText.subjectivity_comments} extra_info={expressText.extra_info}/>}/>
           </Routes>
         </BrowserRouter>
       
