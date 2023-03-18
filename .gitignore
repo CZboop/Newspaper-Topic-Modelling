@@ -3,3 +3,4 @@ data/__pycache__/*
 data/models/*
 data/temp
 data/temp/*
+data/encoder.py
