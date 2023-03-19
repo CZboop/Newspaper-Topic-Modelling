@@ -9,6 +9,7 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
         <p>{topic_intro}</p>
         <p>An interactive plot of the topics can be seen below.</p>
         <p>You can mouse over each topic to see the summary of the words that define it, as well as its number which corresponds to how many headlines form the cluster. Topic 0 will be the biggest group with most articles.</p>
+        <p>Hovering over each topic will also show a representative example of a headline from the group. These differ from the original headline in that stopwords and capitalisation have been removed.</p>
         <p>There are pan and zoom options available from the top right of the plot, and the slider along the bottom cycles through the topics one by one, highlighting each one on the graph.</p>
         <Plot data={topic_plot.data} layout={topic_plot.layout}/>
         <p>An interactive plot of topics over time can be found below.</p>
