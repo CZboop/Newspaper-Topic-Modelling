@@ -43,7 +43,7 @@ import mailSubjectivityTime from './components/graph_data/mail/mail_subjectivity
 import mailText from './components/text_data/mail_text.json';
 
 // importing telegraph plots and text content //
-import telegraphTopics from './components/graph_data/telegraph/telegraph_topics.json';
+import telegraphTopics from './components/graph_data/telegraph/telegraph_topics_with_egs.json';
 import telegraphOverTime from './components/graph_data/telegraph/telegraph_over_time.json';
 import telegraphPolarityTime from './components/graph_data/telegraph/telegraph_polarity_over_time.json';
 import telegraphPolarityRatio from './components/graph_data/telegraph/telegraph_polarity_ratio.json';
