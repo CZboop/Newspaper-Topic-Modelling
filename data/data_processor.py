@@ -42,11 +42,6 @@ class DataProcessor:
     def _clean_text(self, text):
         return ' '.join([str(word) for word in str(text).lower().split() if word not in (self.stopwords_list)])
 
-    def resolve_encoding_errors(self):
-        # a couple seem to get weird windows encoding issue, is this just when viewing in excel?
-        # but anyway goal here is to remove those issues
-        pass
-
     def remove_duplicates_and_nones(self):
         # hard coding headline category for now
         if not hasattr(self, 'files'):

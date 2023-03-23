@@ -8,6 +8,7 @@ from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 
 class GeneralAnalyser:
+    # TODO: adjust this to be able to better control data processor with topic filters and cols for mail especially
     def __init__(self, data_selectors = {'guardian' : 'guardian_*.csv', 'mirror' : 'mirror_*.csv', 'telegraph': 'telegraph_*.csv', 
     'sun' : 'sun_*.csv', 'mail' : 'mail_*.csv', 'metro' : 'metro_*.csv', 'express' : 'express_*.csv'}):
         self.data_selectors = data_selectors

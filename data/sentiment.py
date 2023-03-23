@@ -13,6 +13,7 @@ from pathlib import Path
 import os
 
 class SentimentAnalyser:
+    # note, the data processor is passed in as an object already but lots can be controlled depending on what the data processor is given e.g. filtering
     def __init__(self, data_processor, source_name = None):
         self.data_processor = data_processor
         self.data_processor.read_and_concat_data_files()
@@ -198,7 +199,7 @@ class SentimentAnalyser:
         return month_polarity
 
 if __name__ == "__main__":
-    sentiment_analyser = SentimentAnalyser(DataProcessor('../../uk_news_scraping/data', ['headline', 'date', 'url'], 'mail*.csv', topics_to_remove = ['wires','femail', 'sport', 'showbiz']))
+    sentiment_analyser = SentimentAnalyser(DataProcessor('../../uk_news_scraping/data', ['headline', 'date', 'url'], '*.csv', topics_to_remove = ['wires','femail', 'sport', 'showbiz']), source_name='all')
     # sentiment_analyser.plot_polarity_ratio(sentiment_analyser.get_polarity_ratio()) #NOTE: still need to run this fully to save result
     polarity_over_time = sentiment_analyser.get_polarity_over_time()
     sentiment_analyser.plot_polarity_over_time(polarity_over_time)

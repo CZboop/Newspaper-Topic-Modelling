@@ -35,5 +35,5 @@ class SentimentGetter:
         sentiment_analyser.plot_subjectivity_over_time(subjectivity_over_time)
 
 if __name__ == "__main__":
-    sentiment_getter = SentimentGetter()
+    sentiment_getter = SentimentGetter({'all' : {'selector': '*.csv', 'cols': ['headline', 'date', 'url'], 'topics_to_remove': ['wires','femail', 'sport', 'showbiz']}}, with_save = True)
     sentiment_getter.run()
