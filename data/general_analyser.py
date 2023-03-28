@@ -8,19 +8,21 @@ from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 
 class GeneralAnalyser:
-    # TODO: adjust this to be able to better control data processor with topic filters and cols for mail especially
-    def __init__(self, data_selectors = {'guardian' : 'guardian_*.csv', 'mirror' : 'mirror_*.csv', 'telegraph': 'telegraph_*.csv', 
-    'sun' : 'sun_*.csv', 'mail' : 'mail_*.csv', 'metro' : 'metro_*.csv', 'express' : 'express_*.csv'}):
+    def __init__(self, data_selectors = {'guardian' : {'selector': 'guardian_*.csv'}, 'mirror' : {'selector': 'mirror_*.csv'}, 
+    'telegraph': {'selector':'telegraph_*.csv'}, 'sun' : {'selector': 'sun_*.csv'}, 'metro' : {'selector': 'metro_*.csv'}, 
+    'express' : {'selector': 'express_*.csv'}, 'mail' : {'selector': 'mail_*.csv', 'cols': ['headline', 'date', 'url'], 'topics_to_remove': ['wires','femail', 'sport', 'showbiz']}
+    }):
         self.data_selectors = data_selectors
 
     def compare_ratio_of_docs(self):
         # total number of records all
-        all_records = DataProcessor(selector = '*.csv', path_to_dir = '../../uk_news_scraping/data', cols = ['headline', 'date']).read_and_concat_data_files().shape[0] # get the number of rows in returned dataframe
+        all_records = 0
         # number per each source
         record_numbers = {}
         for paper in self.data_selectors.keys():
-            record_nums = DataProcessor(selector = self.data_selectors.get(paper), path_to_dir = '../../uk_news_scraping/data', cols = ['headline', 'date']).read_and_concat_data_files().shape[0]
+            record_nums = DataProcessor(selector = self.data_selectors.get(paper).get('selector'), path_to_dir = '../../uk_news_scraping/data', cols = self.data_selectors.get(paper).get('cols'), topics_to_remove = self.data_selectors.get(paper).get('topics_to_remove', None)).read_and_concat_data_files().shape[0]
             record_numbers[paper.title()] = record_nums
+            all_records += record_nums
         # percentage of each
         record_percentages = {}
         for paper in record_numbers.keys():
