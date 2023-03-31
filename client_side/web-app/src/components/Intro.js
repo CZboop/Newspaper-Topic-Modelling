@@ -7,6 +7,8 @@ import polarityOverTime from './graph_data/combined/all_polarity_over_time.json'
 import polarityRatio from './graph_data/combined/all_polarity_ratio.json';
 import subjectivityPlot from './graph_data/combined/all_subjectivity_box_plot.json';
 import subjectivityOverTime from './graph_data/combined/all_subjectivity_over_time.json';
+import articlesOverTimeAll from './graph_data/combined/articles_over_time_All Sources.json';
+import articlesOverTimeCombined from './graph_data/combined/articles_over_time_Combined Sources.json';
 
 function Intro() {
   return (
@@ -30,6 +32,9 @@ function Intro() {
         <p>Ratios by source differed greatly, as can be seen above. The number of headlines for the biggest dataset (The Daily Mail) was around 1.89 million, and for the smallest dataset (The Guardian) was around 43,000.</p>
         <p>Headlines that form the data were published between November 2019 and early January 2023. The number of articles over time can be seen below.</p>
         {/* INSERT GRAPH HERE */}
+        <Plot data={articlesOverTimeAll.data} layout={articlesOverTimeAll.layout}/>
+        <Plot data={articlesOverTimeCombined.data} layout={articlesOverTimeCombined.layout}/>
+        {/*  */}
         <Plot data={polarityOverTime.data} layout={polarityOverTime.layout}/>
         <p>Polarity is a measure of how positive or negative the language used in a text or set of texts is. Above is a graph showing the average polarity across all headlines from all news sources for each month. Polarity in this case goes from a maximum of 1 (very positive) to -1 (very negative).</p>
         <p>Headlines tended to be neutral to slightly positive on average across large samples. Considering the possible range, polarity was fairly stable across the years in the data. However, there are two notable dips where headlines became more negative - the end of 2020 into the start of 2021, and the end of 2022 into the start of 2023.</p>
@@ -44,7 +49,7 @@ function Intro() {
         <p>We see that across the months, headlines averaged around 0.32 - more objective than not, but with a fair amount of subjectivity.</p>
         <p>Subjectivity was decreasing slightly over time until April 2021 when it began to increase over time slightly. However, the most notable trend was a sharp decline in subjectivity around November 2022.</p>
         <h3>Data Limitations</h3>
-        <p>The data is not completely comparable across sources. One key difference is that for the Daily Mail, the Daily Express and the Metro, a complete or near-complete dataset of all article headlines was initially collected. For the Daily Mail, due to the very high number of articles, several topics were actively filtered out before analysis - 'wires' (these were republications of articles from other sources such as Reuters and AP), as well as sport, showbiz and 'femail' (lifestyle articles targeted at women). This was done based on the topics as classified by the newspaper itself.</p>
+        <p>The data is not completely comparable across sources. One key difference is that for the Daily Mail, the Daily Express and the Metro, a complete or near-complete dataset of all article headlines was initially collected. For the Daily Mail, due to the very high number of articles, several topics were actively filtered out before analysis - 'wires' (these were republications of articles from other sources such as Reuters and AP), as well as sport, showbiz and 'femail' (lifestyle articles targeted at women). This was done based on the topics as classified by the newspaper itself, and had the effect of removing around 800,000 headlines.</p>
         <p>The number and ratio of headlines above is after filtering, so reflects the headlines that were analysed rather than the starting dataset.</p>
         <p>On the other hand, for the other sources, headlines were collected from major news topics such as UK politics, world news, and health. These remaining sources should have a near-complete collection of those news topics but would exclude most coverage of areas such as showbiz, TV news, sports and other miscellaneous topics.</p>
 

@@ -44,28 +44,28 @@ class GeneralAnalyser:
     
     def save_as_json(self, figure, name):
         # setting to have transparent background
-        figure.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", legend_font_color="rgba(255,255,255,1)", title_font_color="rgba(255,255,255,1)")
+        figure.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", legend_font_color="rgba(255,255,255,1)", title_font_color="rgba(255,255,255,1)", font=dict(color="rgba(255,255,255,1)"))
         # saving by getting relative path as absolute path
         path = Path(__file__).parent
         figure.write_json(f'{path}/plots/{name}.json')
     
     def compare_num_of_docs_over_time(self, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5)):
         # iterate over each month and get number of articles in that month for each source and total
-        # TODO: switch around the loops to do by source and finish for each so slightly less messy, might still be nested
-        # TODO: for this and other analysis, may need to revisit based on hugely disproportionate daily mail number of articles that may filter/have option to ignore
         month_year = start_date
         docs_by_month_total = {}
         docs_by_month_source = []
         while month_year <= end_date:
             doc_num_list = {}
+            combined_total_by_month = 0
             for source in self.data_selectors.keys():
-                article_df = DataProcessor(selector = self.data_selectors.get(source), path_to_dir = '../../uk_news_scraping/data', cols = ['headline', 'date']).read_and_concat_data_files()
+                article_df = DataProcessor(selector = self.data_selectors.get(source).get('selector'), path_to_dir = '../../uk_news_scraping/data', cols = self.data_selectors.get(source).get('cols'), topics_to_remove = self.data_selectors.get(source).get('topics_to_remove', None)).read_and_concat_data_files()
                 articles_in_range = article_df['date'].loc[lambda x: (pd.DatetimeIndex(x).month == month_year.month) & (pd.DatetimeIndex(x).year == month_year.year)]
-                doc_num_list[source] = len(list(articles_in_range))
+                num_articles_in_range = len(list(articles_in_range))
+                doc_num_list[source] = num_articles_in_range
+                combined_total_by_month += num_articles_in_range
             docs_by_month_source.append(doc_num_list)
-            complete_df = DataProcessor(selector = '*.csv', path_to_dir = '../../uk_news_scraping/data', cols = ['headline', 'date']).read_and_concat_data_files()
-            docs_by_month_total[month_year] = len(list(complete_df['date'].loc[lambda x: (pd.DatetimeIndex(x).month == month_year.month) & (pd.DatetimeIndex(x).year == month_year.year)]))
-            month_year -= relativedelta(months = 1)
+            docs_by_month_total[month_year] = combined_total_by_month
+            month_year += relativedelta(months = 1)
         
         return docs_by_month_source, docs_by_month_total
     
@@ -73,26 +73,26 @@ class GeneralAnalyser:
         filename = 'articles_over_time' if source_name == None else f'articles_over_time_{source_name}'
         if single:
             data_df = pd.DataFrame(data.items(), columns=['Month', 'Articles'])
-            fig = px.line(data_df, x= 'Month', y= 'Articles', title='Article Number Over Time')
+            fig = px.line(data_df, x= 'Month', y= 'Articles', title=f'{source_name} - Article Number Over Time')
             self.save_as_json(fig, filename)
         else:
             data_df = pd.DataFrame(data, columns=['Source', 'Month', 'Articles'])
-            fig = px.line(data_df, x= 'Month', y= 'Articles', title='Article Number Over Time', color = 'source')
+            fig = px.line(data_df, x= 'Month', y= 'Articles', title=f'{source_name} - Article Number Over Time', color = 'Source')
             self.save_as_json(fig, filename)
 
     def run(self):
-        analyser = GeneralAnalyser()
-        analyser.visualise_percentages(analyser.compare_ratio_of_docs()[2])
-        number_by_source, number_total = analyser.compare_num_of_docs_over_time()
-        analyser.visualise_number_over_time(number_by_source)
-        analyser.visualise_number_over_time(number_total, single = true)
+        self.visualise_percentages(self.compare_ratio_of_docs()[2])
+        number_by_source, number_total = self.compare_num_of_docs_over_time()
+        self.visualise_number_over_time(number_by_source, source_name = "All Sources")
+        self.visualise_number_over_time(number_total, single = True, source_name = "Combined Sources")
 
 if __name__ == "__main__":
     # below to create pie chart of ratios across each news source (total articles/documents)
     analyser = GeneralAnalyser()
-    print(analyser.compare_ratio_of_docs())
-    analyser.visualise_percentages(analyser.compare_ratio_of_docs()[2])
-    # below to get how many articles by each month
-    # analyser = GeneralAnalyser()
-    print(analyser.compare_num_of_docs_over_time())
-    analyser.visualise_number_over_time(analyser.compare_num_of_docs_over_time())
+    analyser.run()
+    # print(analyser.compare_ratio_of_docs())
+    # analyser.visualise_percentages(analyser.compare_ratio_of_docs()[2])
+    # # below to get how many articles by each month
+    # # analyser = GeneralAnalyser()
+    # print(analyser.compare_num_of_docs_over_time())
+    # analyser.visualise_number_over_time(analyser.compare_num_of_docs_over_time())
