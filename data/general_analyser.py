@@ -54,19 +54,23 @@ class GeneralAnalyser:
         month_year = start_date
         docs_by_month_total = {}
         docs_by_month_source = []
+        # how to store data for multiple sources...
+        # picture df
+        # will explicitly have eac column as key and what would be cell value as value
         while month_year <= end_date:
-            doc_num_list = {}
+            doc_num_list = [month_year]
             combined_total_by_month = 0
             for source in self.data_selectors.keys():
                 article_df = DataProcessor(selector = self.data_selectors.get(source).get('selector'), path_to_dir = '../../uk_news_scraping/data', cols = self.data_selectors.get(source).get('cols'), topics_to_remove = self.data_selectors.get(source).get('topics_to_remove', None)).read_and_concat_data_files()
                 articles_in_range = article_df['date'].loc[lambda x: (pd.DatetimeIndex(x).month == month_year.month) & (pd.DatetimeIndex(x).year == month_year.year)]
                 num_articles_in_range = len(list(articles_in_range))
-                doc_num_list[source] = num_articles_in_range
+                # doc_num_list[source] = num_articles_in_range
                 combined_total_by_month += num_articles_in_range
+                doc_num_list.append(num_articles_in_range)
             docs_by_month_source.append(doc_num_list)
             docs_by_month_total[month_year] = combined_total_by_month
             month_year += relativedelta(months = 1)
-        
+        print(docs_by_month_source)
         return docs_by_month_source, docs_by_month_total
     
     def visualise_number_over_time(self, data, single = False, source_name= None): # single kwarg is for whether it's one data source per graph or not
@@ -76,8 +80,9 @@ class GeneralAnalyser:
             fig = px.line(data_df, x= 'Month', y= 'Articles', title=f'{source_name} - Article Number Over Time')
             self.save_as_json(fig, filename)
         else:
-            data_df = pd.DataFrame(data, columns=['Source', 'Month', 'Articles'])
-            fig = px.line(data_df, x= 'Month', y= 'Articles', title=f'{source_name} - Article Number Over Time', color = 'Source')
+            sources_list = list(self.data_selectors.keys()) # dict keys data type needs to be cast to list to concat later, not enough to be iterable
+            data_df = pd.DataFrame(data, columns=['Month'] + sources_list)
+            fig = px.line(data_df, x= 'Month', y= sources_list, title=f'{source_name} - Article Number Over Time')
             self.save_as_json(fig, filename)
 
     def run(self):
