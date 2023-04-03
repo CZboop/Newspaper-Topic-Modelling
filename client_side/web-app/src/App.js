@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Intro from './components/Intro.js';
 import Home from './components/Home.js';
 import Navbar from './components/Navbar.js';
@@ -78,7 +78,8 @@ function App() {
         <BrowserRouter>
         <Navbar />
           <Routes>
-          <Route path='home' element={<Home />}/>
+          <Route index path='home' element={<Home/>}/>
+          <Route path='' element={ <Navigate to="/home" /> }/>
           <Route path='intro' element={<Intro />}/>
           <Route path='guardian' element={<NewspaperPage name='The Guardian' topic_intro={guardianText.topic_intro} topic_plot={guardianTopics} time_plot={guardianOverTime} polarity_time={guardianPolarityTime} polarity_ratio={guardianPolarityRatio} subjectivity_box={guardianSubjectivityPlot} subjectivity_over_time={guardianSubjectivityTime} polarity_comments={guardianText.polarity_comments} subjectivity_comments={guardianText.subjectivity_comments} extra_info={guardianText.extra_info} />}/>
           <Route path='mirror' element={<NewspaperPage name='The Mirror' topic_intro={mirrorText.topic_intro} topic_plot={mirrorTopics} time_plot={mirrorOverTime} polarity_time={mirrorPolarityTime} polarity_ratio={mirrorPolarityRatio} subjectivity_box={mirrorSubjectivityPlot} subjectivity_over_time={mirrorSubjectivityTime} polarity_comments={mirrorText.polarity_comments} subjectivity_comments={mirrorText.subjectivity_comments} extra_info={mirrorText.extra_info}/>}/>
@@ -87,6 +88,8 @@ function App() {
           <Route path='telegraph' element={<NewspaperPage name='The Telegraph' topic_intro={telegraphText.topic_intro} topic_plot={telegraphTopics} time_plot={telegraphOverTime} polarity_time={telegraphPolarityTime} polarity_ratio={telegraphPolarityRatio} subjectivity_box={telegraphSubjectivityPlot} subjectivity_over_time={telegraphSubjectivityTime} polarity_comments={telegraphText.polarity_comments} subjectivity_comments={telegraphText.subjectivity_comments} extra_info={telegraphText.extra_info}/>}/>
           <Route path='sun' element={<NewspaperPage name='The Sun' topic_intro={sunText.topic_intro} topic_plot={sunTopics} time_plot={sunOverTime} polarity_time={sunPolarityTime} polarity_ratio={sunPolarityRatio} subjectivity_box={sunSubjectivityPlot} subjectivity_over_time={sunSubjectivityTime} polarity_comments={sunText.polarity_comments} subjectivity_comments={sunText.subjectivity_comments} extra_info={sunText.extra_info}/>}/>
           <Route path='express' element={<NewspaperPage name='The Express' topic_intro={expressText.topic_intro} topic_plot={expressTopics} time_plot={expressOverTime} polarity_time={expressPolarityTime} polarity_ratio={expressPolarityRatio} subjectivity_box={expressSubjectivityPlot} subjectivity_over_time={expressSubjectivityTime} polarity_comments={expressText.polarity_comments} subjectivity_comments={expressText.subjectivity_comments} extra_info={expressText.extra_info}/>}/>
+          <Route path='*' element={<Navigate to="/home" />}/> 
+          {/* above redirecting to home if invalid path, could always add a dedicated error page and route there instead */}
           </Routes>
         </BrowserRouter>
       
