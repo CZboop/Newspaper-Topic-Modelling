@@ -1,6 +1,7 @@
 import './App.css';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import Intro from './components/Intro.js';
+import Home from './components/Home.js';
 import Navbar from './components/Navbar.js';
 import NewspaperPage from './components/NewspaperPage.js';
 
@@ -77,6 +78,7 @@ function App() {
         <BrowserRouter>
         <Navbar />
           <Routes>
+          <Route path='home' element={<Home />}/>
           <Route path='intro' element={<Intro />}/>
           <Route path='guardian' element={<NewspaperPage name='The Guardian' topic_intro={guardianText.topic_intro} topic_plot={guardianTopics} time_plot={guardianOverTime} polarity_time={guardianPolarityTime} polarity_ratio={guardianPolarityRatio} subjectivity_box={guardianSubjectivityPlot} subjectivity_over_time={guardianSubjectivityTime} polarity_comments={guardianText.polarity_comments} subjectivity_comments={guardianText.subjectivity_comments} extra_info={guardianText.extra_info} />}/>
           <Route path='mirror' element={<NewspaperPage name='The Mirror' topic_intro={mirrorText.topic_intro} topic_plot={mirrorTopics} time_plot={mirrorOverTime} polarity_time={mirrorPolarityTime} polarity_ratio={mirrorPolarityRatio} subjectivity_box={mirrorSubjectivityPlot} subjectivity_over_time={mirrorSubjectivityTime} polarity_comments={mirrorText.polarity_comments} subjectivity_comments={mirrorText.subjectivity_comments} extra_info={mirrorText.extra_info}/>}/>

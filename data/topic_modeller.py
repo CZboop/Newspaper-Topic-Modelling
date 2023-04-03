@@ -12,14 +12,35 @@ import json
 import pandas as pd
 
 class TopicModeller:
-    def __init__(self, data_selector, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5), data_dir = '../../uk_news_scraping/data', data_cols = ['headline', 'date'], min_topic_size = 70, topics_to_remove = None):
+    def __init__(self, data_selector, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5), 
+    data_dir = '../../uk_news_scraping/data', data_cols = ['headline', 'date'], min_topic_size = 70, topics_to_remove = None,
+    n_neighbours = 15, n_components = 5, min_dist = 0.0, metric = 'cosine', random_state = 42, diversity = 0.75, top_n_words = 4,
+    language = 'english', calculate_probabilities = True, global_tuning = True, evolution_tuning = True, nr_bins = 10
+    ):
+        # properties for data selection and processing/preprocessing
         self.data_processor = DataProcessor(data_dir, data_cols, data_selector, topics_to_remove = topics_to_remove)
         self.data_selector = data_selector
         self.start_date = start_date
         self.end_date = end_date
         self.stopwords_list = STOP_WORDS
-        self.min_topic_size = min_topic_size
         self.topics_to_remove = topics_to_remove
+        # hyperparams for topic modelling - umap
+        self.min_topic_size = min_topic_size # minimum documents/articles making up each cluster
+        self.n_neighbours = n_neighbours # 15 as default, can lower to narrow and increase to broaden (with expected pros and cons for each)
+        self.n_components = n_components # dimensions of data passed in to cluster - umap will reduce dimensions to this
+        self.min_dist = min_dist # minimum distance of points/embeddings together, for clustering zero so can group nicely and overlap
+        self.metric = metric # distance calculated with cosine
+        self.random_state = random_state # specify random seed, otherwise results will differ each time for the same input
+        # hyperparams for topic modelling - topic modelling
+        self.diversity = diversity # uses mmr algo to increase/decrease synonyms or diff ways of saying same thing
+        self.top_n_words = top_n_words # how many of the top words used to describe/define each cluster
+        self.language = language # the default is english but specifying and can change
+        self.calculate_probabilities = calculate_probabilities # calculate probability of document being in all clusters and assign to highest prob
+        # hyperparams for topics over time
+        self.global_tuning = global_tuning
+        self.evolution_tuning = evolution_tuning 
+        self.nr_bins = nr_bins
+
         # getting the data source name based on selector, in most cases this can be overridden but need to be automatically passed in to get examples of each topic
         self.source_name = ''.join(letter for letter in self.data_selector.split('.')[0] if letter.isalnum())
         self._preprocess()
@@ -47,21 +68,21 @@ class TopicModeller:
     # TODO: refactor to handle more than one model at once? or no need to save as object property if saving model
     def model_topics(self):
         # umap way of reducing dimensions of vector repr
-        self.umap = UMAP(n_neighbors = 15, # this is default, can lower to narrow and increase to broaden (with expected pros and cons for each)
-            n_components = 5, # dimensions of data passed in to cluster - umap will reduce dimensions to this
-            min_dist = 0.0, # minimum distance of points/embeddings together, for clustering zero so can group nicely and overlap
-            metric = 'cosine', # distance calculated with cosine
-            random_state = 42) # specify random seed, otherwise results will differ each time for the same input
+        self.umap = UMAP(n_neighbors = self.n_neighbours, 
+            n_components = self.n_components, 
+            min_dist = self.min_dist, 
+            metric = self.metric, 
+            random_state = self.random_state) 
         
         self.count_vectoriser = CountVectorizer(stop_words = self.stopwords_list)
 
         self.topic_model = BERTopic(umap_model = self.umap,
             vectorizer_model = self.count_vectoriser,
-            diversity = 0.75, # uses mmr algo to increase/decrease synonyms or diff ways of saying same thing
-            min_topic_size = self.min_topic_size, # minimum documents/articles making up each cluster
-            top_n_words = 4, # how many of the top words used to describe/define each cluster
-            language = 'english', # the default is english but specifying
-            calculate_probabilities = True # calculate probability of document being in all clusters and assign to highest prob
+            diversity = self.diversity, 
+            min_topic_size = self.min_topic_size, 
+            top_n_words = self.top_n_words, 
+            language = self.language, 
+            calculate_probabilities = self.calculate_probabilities
         )
 
         self.topics = self.topic_model.fit_transform(list(self.data['headline'].apply(lambda x: str(x))))
@@ -76,9 +97,9 @@ class TopicModeller:
         self.topics_over_time = self.topic_model.topics_over_time(
             self.data['headline'].apply(lambda x: str(x)), # documents, may need to actively cast to str again
             self.data['date'].apply(lambda x: str(x)), # dates
-            global_tuning = True, # averaging specific time with overall for that topic
-            evolution_tuning = True, # different averaging within that short period of time like rolling average
-            nr_bins = 10 # number of date snapshots, recommended under 50, can think how many months total and sample each n months
+            global_tuning = self.global_tuning, # averaging specific time with overall for that topic
+            evolution_tuning = self.evolution_tuning, # different averaging within that short period of time like rolling average
+            nr_bins = self.nr_bins # number of date snapshots, recommended under 50, can think how many months total and sample each n months
         )
         print(self.topics_over_time.head)
         # returns a pd df with the topic (similar to initial topic model -1, 0, 1 by overall freq but words separated, freq as own column and then timestamp as own column)
@@ -166,8 +187,8 @@ class TopicModeller:
         return self.topic_model
 
 if __name__ == "__main__":
-    # guardian_topic_modeller = TopicModeller('guardian_*.csv')
-    # guardian_topic_modeller.model_topics()
+    guardian_topic_modeller = TopicModeller('guardian_*.csv')
+    guardian_topic_modeller.model_topics()
 
     # note, preprocessing not called separately anymore, done by default on init
     # guardian_topic_modeller._preprocess()
@@ -178,5 +199,5 @@ if __name__ == "__main__":
     
     # mail_topic_modeller.save_as_json('mail_topics')
     
-    mail_topic_modeller = TopicModeller('mail*.csv', data_cols = ['headline', 'date', 'url'], topics_to_remove = ['wires','femail', 'sport', 'showbiz'])
-    mail_topic_modeller.model_topics()
+    # mail_topic_modeller = TopicModeller('mail*.csv', data_cols = ['headline', 'date', 'url'], topics_to_remove = ['wires','femail', 'sport', 'showbiz'])
+    # mail_topic_modeller.model_topics()
