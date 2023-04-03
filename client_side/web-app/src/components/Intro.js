@@ -30,11 +30,12 @@ function Intro() {
         <Plot data={pieChart.data} layout={pieChart.layout}/>
         <p>The total number of headlines analysed was around 3.05 million.</p>
         <p>Ratios by source differed greatly, as can be seen above. The number of headlines for the biggest dataset (The Daily Mail) was around 1.89 million, and for the smallest dataset (The Guardian) was around 43,000.</p>
-        <p>Headlines that form the data were published between November 2019 and early January 2023. The number of articles over time can be seen below.</p>
-        {/* INSERT GRAPH HERE */}
+        <p>Headlines that form the data were published between November 2019 and early January 2023. The number of articles over time can be seen below. The dip in the last month is most likely due to the fact that data was incomplete for this month - only from the start of the month not the whole of it.</p>
         <Plot data={articlesOverTimeAll.data} layout={articlesOverTimeAll.layout}/>
+        <p>Click on a source name from the key to show or hide the line for that newspaper. Double-click to isolate one news source.</p>
+        <p>The Daily Mail had quite similar numbers of articles over time. The Sun and the Metro showed a trend of generally less articles over time. The Telegraph also had less articles over time, but this seemed to be in two stages rather than an overall trend - in mid-2021 there was a dip in article numbers and they stayed similarly low since then. The Guardian showed a slight increase in average article numbers over time, as did the Express. The Mirror showed the biggest change in articles each month, with a very clear trend of increasing articles over time, especially since 2021. For the Mirror, average articles were around 3000 per month, rising to over double this at the end of 2022.</p>
         <Plot data={articlesOverTimeCombined.data} layout={articlesOverTimeCombined.layout}/>
-        {/*  */}
+        <p>As the graph above shows, the number of articles over time was relatively stable overall, with a significant dip at the end due to only part of the month being in the dataset. However, this is likely due to the disproportionate influence of the larger Daily Mail dataset, which ends up being very similar in shape to the combined data.</p>
         <Plot data={polarityOverTime.data} layout={polarityOverTime.layout}/>
         <p>Polarity is a measure of how positive or negative the language used in a text or set of texts is. Above is a graph showing the average polarity across all headlines from all news sources for each month. Polarity in this case goes from a maximum of 1 (very positive) to -1 (very negative).</p>
         <p>Headlines tended to be neutral to slightly positive on average across large samples. Considering the possible range, polarity was fairly stable across the years in the data. However, there are two notable dips where headlines became more negative - the end of 2020 into the start of 2021, and the end of 2022 into the start of 2023.</p>
