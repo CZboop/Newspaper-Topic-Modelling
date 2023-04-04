@@ -17,3 +17,7 @@
 nav {
     width: 90%;
 }
+
+@media screen and (max-width: 666px) {
+    /* todo - for navbar can change class in js add/remove on click to then use for styling */
+}
