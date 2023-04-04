@@ -14,10 +14,84 @@
     font-weight: bolder;
 }
 
+.burger {
+    display: none;
+}
+
 nav {
     width: 90%;
 }
+/* todo: style better in general for smaller/midsize screens e.g. around 800 px nav links start to overlap*/
 
-@media screen and (max-width: 666px) {
-    /* todo - for navbar can change class in js add/remove on click to then use for styling */
+@media screen and (max-width: 650px) {
+    .Navbar {
+        width: 100%;
+    }
+    .Navbar-title {
+        width: 100%;
+    }
+    .Navbar li {
+    display: none;
+
+    }
+    .Navbar li:hover {
+    width: 100%;
+    background-color: rgb(144, 49, 165)
+    }
+    .Nav-links {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    }
+    .content {
+    padding: none;
+    }
+    .Navbar-open {
+    display: block;
+    width: 100%;
+    padding: none;
+    }
+    /* .Navbar-title{
+    display: block;
+    width: 100%;
+    padding: none;
+    } */
+    
+    .Navbar-open li {
+    display: block;
+    font-size: 1em;
+    width: 100%;
+    background-color: rgb(121, 30, 142)
+    }
+    
+    .Navbar-open .burger-toggle {
+    display: block;
+    }
+    .Navbar-open {
+    display: block;
+    }
+    .Navbar .burger {
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: auto;
+    right: 0;
+    cursor: pointer;
+    background: unset;
+    }
+    .Navbar .burger svg {
+    stroke: white;
+    }
+    .Navbar button {
+    border: none;
+    }
+    #close-button {
+    display: none;
+    }
+    .burger-open #open-button {
+    display: none;
+    }
+    .burger-open #close-button {
+    display: block;
+    }
 }

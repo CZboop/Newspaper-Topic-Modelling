@@ -14,3 +14,9 @@ a {
 .highlighted-link a:hover {
   color:rgb(195, 155, 233);
 }
+
+@media screen and (max-width: 650px) {
+  body {
+    padding: 0;
+  }
+}
