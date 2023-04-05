@@ -11,6 +11,13 @@ a {
   color: aliceblue;
 }
 
+button {
+  font-family: 'Ubuntu', sans-serif;
+  text-decoration: none;
+  color: aliceblue;
+  font-size: 1em;
+}
+
 .highlighted-link a:hover {
   color:rgb(195, 155, 233);
 }

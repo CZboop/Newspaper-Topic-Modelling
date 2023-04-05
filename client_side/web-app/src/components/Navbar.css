@@ -21,7 +21,20 @@
 nav {
     width: 90%;
 }
-/* todo: style better in general for smaller/midsize screens e.g. around 800 px nav links start to overlap*/
+
+.nav-button {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+
+.nav-button:hover {
+    color: rgb(195, 155, 233);
+}
+/* todo: style better in general for smaller/midsize screens e.g. under around 1200 px nav links start to overlap or go over multiple lines */
 
 @media screen and (max-width: 650px) {
     .Navbar {
@@ -37,6 +50,9 @@ nav {
         display: none;
         width: 100%;
     }
+    .nav-button {
+        width: 100%;
+    }
     .Navbar ul {
         width: 100%;
         margin-left: 0;
@@ -47,7 +63,10 @@ nav {
     }
     .Navbar li:hover {
         width: 100%;
-        background-color: rgb(144, 49, 165)
+        background-color: rgb(100, 20, 118)
+    }
+    .nav-button:hover {
+        color: aliceblue;
     }
     .Nav-links {
         display: flex;

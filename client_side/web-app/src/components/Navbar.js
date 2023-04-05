@@ -21,14 +21,14 @@ function Navbar() {
     <nav className={navOpen ? "Navbar Navbar-open" : "Navbar"}>
         <span className="Navbar-title"><Link className="Nav-title-link" to="/home" onClick={()=>closeNavOnClick()}>📰 UK News Topic Modelling</Link></span>
         <ul className='Nav-links'>
-            <li className='highlighted-link'><Link to='/intro' onClick={()=>closeNavOnClick()}>Introduction</Link></li>
-            <li className='highlighted-link'><Link to='/guardian' onClick={()=>closeNavOnClick()}>The Guardian</Link></li>
-            <li className='highlighted-link'><Link to='/mirror' onClick={()=>closeNavOnClick()}>The Mirror</Link></li>
-            <li className='highlighted-link'><Link to='/metro' onClick={()=>closeNavOnClick()}>Metro</Link></li>
-            <li className='highlighted-link'><Link to='/mail' onClick={()=>closeNavOnClick()}>Daily Mail</Link></li>
-            <li className='highlighted-link'><Link to='/telegraph' onClick={()=>closeNavOnClick()}>Telegraph</Link></li>
-            <li className='highlighted-link'><Link to='/sun' onClick={()=>closeNavOnClick()}>Sun</Link></li>
-            <li className='highlighted-link'><Link to='/express' onClick={()=>closeNavOnClick()}>Express</Link></li>
+            <li className='highlighted-link'><Link to='/intro' onClick={()=>closeNavOnClick()}><button className='nav-button'>Introduction</button></Link></li>
+            <li className='highlighted-link'><Link to='/guardian' onClick={()=>closeNavOnClick()}><button className='nav-button'>The Guardian</button></Link></li>
+            <li className='highlighted-link'><Link to='/mirror' onClick={()=>closeNavOnClick()}><button className='nav-button'>The Mirror</button></Link></li>
+            <li className='highlighted-link'><Link to='/metro' onClick={()=>closeNavOnClick()}><button className='nav-button'>Metro</button></Link></li>
+            <li className='highlighted-link'><Link to='/mail' onClick={()=>closeNavOnClick()}><button className='nav-button'>Daily Mail</button></Link></li>
+            <li className='highlighted-link'><Link to='/telegraph' onClick={()=>closeNavOnClick()}><button className='nav-button'>Telegraph</button></Link></li>
+            <li className='highlighted-link'><Link to='/sun' onClick={()=>closeNavOnClick()}><button className='nav-button'>Sun</button></Link></li>
+            <li className='highlighted-link'><Link to='/express' onClick={()=>closeNavOnClick()}><button className='nav-button'>Express</button></Link></li>
         <button class={navOpen ? "burger burger-open" : "burger"} id="burger-toggle" onClick={()=>toggleNavOpen()}>
           <div id="open-button">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" fill="black" stroke-linecap="round" stroke-linejoin="round">
