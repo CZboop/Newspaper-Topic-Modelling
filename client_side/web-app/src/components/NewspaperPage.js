@@ -3,7 +3,7 @@ import Plot from 'react-plotly.js';
 
 function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time, polarity_ratio, subjectivity_box, subjectivity_over_time, extra_info, polarity_comments, subjectivity_comments}) {
   return (
-    <div className='newspaper-container'>
+    <div className='newspaper-container page-content'>
         <h2>{name}</h2>
         <h3>Topics</h3>
         <p>{topic_intro}</p>

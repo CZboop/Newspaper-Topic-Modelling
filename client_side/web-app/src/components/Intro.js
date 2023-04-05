@@ -12,7 +12,7 @@ import articlesOverTimeCombined from './graph_data/combined/articles_over_time_C
 
 function Intro() {
   return (
-    <div className='Intro'>
+    <div className='Intro page-content'>
         <h2>Introduction</h2>
         <h3>The Shape of the Data</h3>
         <p>Headline data was gathered from seven of the top newspapers in the UK:</p>

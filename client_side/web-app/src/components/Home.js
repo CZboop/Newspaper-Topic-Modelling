@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Home() {
   return (
-    <div>
+    <div className='page-content'>
         <h2>Welcome!</h2>
         <p>This web page serves to present the results of a data collection and analysis project, looking at the topics that different newspapers cover, as well as their subjectivity and sentiment polarity.</p>
         <p>All of the newspapers are based in the UK and are among the most popular with readers in the United Kingdom.</p>

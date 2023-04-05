@@ -29,69 +29,78 @@ nav {
     }
     .Navbar-title {
         width: 100%;
+        padding: 0.5em;
+        display: flex;
+        align-content: center;
     }
     .Navbar li {
-    display: none;
-
+        display: none;
+        width: 100%;
+    }
+    .Navbar ul {
+        width: 100%;
+        margin-left: 0;
+    }
+    .highlighted-link a {
+        width: 100%;
+        font-size: 1.2em;
     }
     .Navbar li:hover {
-    width: 100%;
-    background-color: rgb(144, 49, 165)
+        width: 100%;
+        background-color: rgb(144, 49, 165)
     }
     .Nav-links {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        padding: 0;
+        margin-left: 0;
     }
     .content {
-    padding: none;
+        padding: none;
     }
     .Navbar-open {
-    display: block;
-    width: 100%;
-    padding: none;
+        display: block;
+        width: 100%;
+        padding: none;
     }
-    /* .Navbar-title{
-    display: block;
-    width: 100%;
-    padding: none;
-    } */
-    
     .Navbar-open li {
-    display: block;
-    font-size: 1em;
-    width: 100%;
-    background-color: rgb(121, 30, 142)
+        display: block;
+        font-size: 1em;
+        width: 100%;
+        background-color: rgb(121, 30, 142);
+        padding: 0.25em;
     }
     
     .Navbar-open .burger-toggle {
-    display: block;
+        display: block;
     }
     .Navbar-open {
-    display: block;
+        display: block;
     }
     .Navbar .burger {
-    position: absolute;
-    display: block;
-    top: 0;
-    bottom: auto;
-    right: 0;
-    cursor: pointer;
-    background: unset;
+        position: absolute;
+        display: block;
+        top: 0;
+        bottom: auto;
+        right: 0;
+        cursor: pointer;
+        background: unset;
+        padding: 1em;
     }
     .Navbar .burger svg {
-    stroke: white;
+        stroke: white;
     }
     .Navbar button {
-    border: none;
+        border: none;
     }
     #close-button {
-    display: none;
+        display: none;
     }
     .burger-open #open-button {
-    display: none;
+        display: none;
     }
     .burger-open #close-button {
-    display: block;
+        display: block;
     }
 }
