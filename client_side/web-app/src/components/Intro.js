@@ -32,15 +32,31 @@ function Intro() {
         </ul>
         <p>The links above will take you to their respective websites, where you can read their reporting and support their work if you are interested.</p>
         <p>The percentages of articles from each news source can be seen below. You can click on the sources in the legend to remove or add them from the chart, for example to better compare document numbers between certain sources.</p>
+        {
+        // different legend position so chart more vertical if small screen as can squeeze the chart too small otherwise on smaller screens
+        width <= 600 ?
         <div ref={ref} class="graph-container">
-        <Plot data={pieChart.data} layout={{...pieChart.layout, ...{width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
+        <Plot data={pieChart.data} layout={{...pieChart.layout, ...{width: width, height: height, legend:{x: -0.4, y:-0.5, xanchor:"left", yanchor:"bottom", font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
+        :
+        <div ref={ref} class="graph-container">
+        <Plot data={pieChart.data} layout={{...pieChart.layout, ...{width: width, height: height, legend:{font:{color: "white"}}}}} config = {{responsive: true}}/>
+        </div>
+        }
         <p>The total number of headlines analysed was around 3.05 million.</p>
         <p>Ratios by source differed greatly, as can be seen above. The number of headlines for the biggest dataset (The Daily Mail) was around 1.89 million, and for the smallest dataset (The Guardian) was around 43,000.</p>
         <p>Headlines that form the data were published between November 2019 and early January 2023. The number of articles over time can be seen below. The dip in the last month is most likely due to the fact that data was incomplete for this month - only from the start of the month not the whole of it.</p>
+        {
+        // different legend position for small screens more vertical
+        width <= 600 ?
+        <div ref={ref} class="graph-container">
+        <Plot data={articlesOverTimeAll.data} layout={{...articlesOverTimeAll.layout, ...{width: width, height: height, legend:{tracegroupgap: 1 ,x: -0.4, y:-1.5, xanchor:"left", yanchor:"bottom", font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
+        </div>
+        :
         <div ref={ref} class="graph-container">
         <Plot data={articlesOverTimeAll.data} layout={{...articlesOverTimeAll.layout, ...{width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
+        }
         <p>Click on a source name from the key to show or hide the line for that newspaper. Double-click to isolate one news source.</p>
         <p>The Daily Mail had quite similar numbers of articles over time. The Sun and the Metro showed a trend of generally less articles over time. The Telegraph also had less articles over time, but this seemed to be in two stages rather than an overall trend - in mid-2021 there was a dip in article numbers and they stayed similarly low since then. The Guardian showed a slight increase in average article numbers over time, as did the Express. The Mirror showed the biggest change in articles each month, with a very clear trend of increasing articles over time, especially since 2021. For the Mirror, average articles were around 3000 per month, rising to over double this at the end of 2022.</p>
         <div ref={ref} class="graph-container">
@@ -52,9 +68,17 @@ function Intro() {
         </div>
         <p>Polarity is a measure of how positive or negative the language used in a text or set of texts is. Above is a graph showing the average polarity across all headlines from all news sources for each month. Polarity in this case goes from a maximum of 1 (very positive) to -1 (very negative).</p>
         <p>Headlines tended to be neutral to slightly positive on average across large samples. Considering the possible range, polarity was fairly stable across the years in the data. However, there are two notable dips where headlines became more negative - the end of 2020 into the start of 2021, and the end of 2022 into the start of 2023.</p>
+        {
+        // different legend position for small screens more vertical
+        width <= 600 ?
+        <div ref={ref} class="graph-container">
+        <Plot data={polarityRatio.data} layout={{...polarityRatio.layout, ...{width: width, height: height, legend:{x: -0.3, y:-0.2, xanchor:"left", yanchor:"bottom", font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
+        </div>
+        :
         <div ref={ref} class="graph-container">
         <Plot data={polarityRatio.data} layout={{...polarityRatio.layout, ...{width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
+        }
         <p>The graph above shows the ratio of all headlines that were mostly positive, mostly negative or neutral. Here, a headline is only neutral if it scored 0 on polarity. The plurality of headlines were still neutral (43%), positive headlines were next most common at 34%, and the remaining 23% of headline were negative.</p>
         <div ref={ref} class="graph-container">
         <Plot data={subjectivityPlot.data} layout={{...subjectivityPlot.layout, ...{width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
