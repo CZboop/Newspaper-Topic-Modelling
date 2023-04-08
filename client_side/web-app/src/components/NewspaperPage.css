@@ -1,0 +1,8 @@
+.js-plotly-plot{
+    display: flex;
+    width: 90%;
+}
+.graph-container {
+    width: 95%;
+    display: flex;
+}
