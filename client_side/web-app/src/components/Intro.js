@@ -2,6 +2,7 @@ import React from 'react';
 import pieChart from './graph_data/news_source_ratios.json';
 import Plot from 'react-plotly.js';
 import { useResizeDetector } from 'react-resize-detector';
+import { useState, useCallback, useEffect } from "react";
 
 // importing combined plots
 import polarityOverTime from './graph_data/combined/all_polarity_over_time.json';
@@ -16,6 +17,30 @@ function Intro() {
     refreshMode: 'debounce', 
     refreshRate: 1000
   })
+  // getting array of plot names to use in dynamic adding of line breaks in graph titles based on window size
+  const plotArray = [pieChart, polarityOverTime, polarityRatio, subjectivityPlot, subjectivityOverTime, articlesOverTimeAll, articlesOverTimeCombined];
+  const [titles, setTitles] = useState({})
+
+  const handleTitles = useCallback(() => {
+    let plotKeyArray = ["pieChart", "polarityOverTime", "polarityRatio", "subjectivityPlot", "subjectivityOverTime", "articlesOverTimeAll", "articlesOverTimeCombined"];
+    let titlesArray = plotArray.map(name => name.layout.title.text);
+    if ( width <= 600 ) {
+      titlesArray = titlesArray.map(title => title.match(/[\w:-]+(?:[^\w\n]+[\w:-]+){0,2}\b/g).join("<br>"))
+    }
+    else if ( width <= 800 ) {
+      titlesArray = titlesArray.map(title => title.match(/[\w:-]+(?:[^\w\n]+[\w:-]+){0,5}\b/g).join("<br>"))
+    }
+    let titlesObj = {};
+    for (let i = 0 ; i < titlesArray.length; i++) {
+      titlesObj[plotKeyArray[i]] = titlesArray[i];
+    }
+    setTitles(titlesObj);
+  }, [plotArray, width])
+
+  // setting width as dependency is key to make sure titles change when width changes
+  useEffect(() => {handleTitles();
+  }, [setTitles, width]);
+
   return (
     <div className='Intro page-content'>
         <h2>Introduction</h2>
@@ -36,11 +61,11 @@ function Intro() {
         // different legend position so chart more vertical if small screen as can squeeze the chart too small otherwise on smaller screens
         width <= 600 ?
         <div ref={ref} class="graph-container">
-        <Plot data={pieChart.data} layout={{...pieChart.layout, ...{width: width, height: height, legend:{x: -0.4, y:-0.5, xanchor:"left", yanchor:"bottom", font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
+        <Plot data={pieChart.data} layout={{...pieChart.layout, ...{title: {text: titles["pieChart"], font: {color: "white"}}, width: width, height: height, legend:{x: -0.4, y:-0.5, xanchor:"left", yanchor:"bottom", font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
         :
         <div ref={ref} class="graph-container">
-        <Plot data={pieChart.data} layout={{...pieChart.layout, ...{width: width, height: height, legend:{font:{color: "white"}}}}} config = {{responsive: true}}/>
+        <Plot data={pieChart.data} layout={{...pieChart.layout, ...{title: {text: titles["pieChart"], font: {color: "white"}}, width: width, height: height, legend:{font:{color: "white"}}}}} config = {{responsive: true}}/>
         </div>
         }
         <p>The total number of headlines analysed was around 3.05 million.</p>
@@ -50,21 +75,21 @@ function Intro() {
         // different legend position for small screens more vertical
         width <= 600 ?
         <div ref={ref} class="graph-container">
-        <Plot data={articlesOverTimeAll.data} layout={{...articlesOverTimeAll.layout, ...{width: width, height: height, legend:{tracegroupgap: 1 ,x: -0.4, y:-1.5, xanchor:"left", yanchor:"bottom", font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
+        <Plot data={articlesOverTimeAll.data} layout={{...articlesOverTimeAll.layout, ...{title: {text: titles["articlesOverTimeAll"], font: {color: "white"}}, width: width, height: height, legend:{tracegroupgap: 1 ,x: -0.4, y:-1.5, xanchor:"left", yanchor:"bottom", font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
         :
         <div ref={ref} class="graph-container">
-        <Plot data={articlesOverTimeAll.data} layout={{...articlesOverTimeAll.layout, ...{width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
+        <Plot data={articlesOverTimeAll.data} layout={{...articlesOverTimeAll.layout, ...{title: {text: titles["articlesOverTimeAll"], font: {color: "white"}}, width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
         }
         <p>Click on a source name from the key to show or hide the line for that newspaper. Double-click to isolate one news source.</p>
         <p>The Daily Mail had quite similar numbers of articles over time. The Sun and the Metro showed a trend of generally less articles over time. The Telegraph also had less articles over time, but this seemed to be in two stages rather than an overall trend - in mid-2021 there was a dip in article numbers and they stayed similarly low since then. The Guardian showed a slight increase in average article numbers over time, as did the Express. The Mirror showed the biggest change in articles each month, with a very clear trend of increasing articles over time, especially since 2021. For the Mirror, average articles were around 3000 per month, rising to over double this at the end of 2022.</p>
         <div ref={ref} class="graph-container">
-        <Plot data={articlesOverTimeCombined.data} layout={{...articlesOverTimeCombined.layout, ...{width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
+        <Plot data={articlesOverTimeCombined.data} layout={{...articlesOverTimeCombined.layout, ...{title: {text: titles["articlesOverTimeCombined"], font: {color: "white"}}, width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
         <p>As the graph above shows, the number of articles over time was relatively stable overall, with a significant dip at the end due to only part of the month being in the dataset. However, this is likely due to the disproportionate influence of the larger Daily Mail dataset, which ends up being very similar in shape to the combined data.</p>
         <div ref={ref} class="graph-container">
-        <Plot data={polarityOverTime.data} layout={{...polarityOverTime.layout, ...{width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
+        <Plot data={polarityOverTime.data} layout={{...polarityOverTime.layout, ...{title: {text: titles["polarityOverTime"], font: {color: "white"}}, width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
         <p>Polarity is a measure of how positive or negative the language used in a text or set of texts is. Above is a graph showing the average polarity across all headlines from all news sources for each month. Polarity in this case goes from a maximum of 1 (very positive) to -1 (very negative).</p>
         <p>Headlines tended to be neutral to slightly positive on average across large samples. Considering the possible range, polarity was fairly stable across the years in the data. However, there are two notable dips where headlines became more negative - the end of 2020 into the start of 2021, and the end of 2022 into the start of 2023.</p>
@@ -72,22 +97,22 @@ function Intro() {
         // different legend position for small screens more vertical
         width <= 600 ?
         <div ref={ref} class="graph-container">
-        <Plot data={polarityRatio.data} layout={{...polarityRatio.layout, ...{width: width, height: height, legend:{x: -0.3, y:-0.2, xanchor:"left", yanchor:"bottom", font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
+        <Plot data={polarityRatio.data} layout={{...polarityRatio.layout, ...{title: {text: titles["polarityRatio"], font: {color: "white"}}, width: width, height: height, legend:{x: -0.3, y:-0.2, xanchor:"left", yanchor:"bottom", font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
         :
         <div ref={ref} class="graph-container">
-        <Plot data={polarityRatio.data} layout={{...polarityRatio.layout, ...{width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
+        <Plot data={polarityRatio.data} layout={{...polarityRatio.layout, ...{title: {text: titles["polarityRatio"], font: {color: "white"}},width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
         }
         <p>The graph above shows the ratio of all headlines that were mostly positive, mostly negative or neutral. Here, a headline is only neutral if it scored 0 on polarity. The plurality of headlines were still neutral (43%), positive headlines were next most common at 34%, and the remaining 23% of headline were negative.</p>
         <div ref={ref} class="graph-container">
-        <Plot data={subjectivityPlot.data} layout={{...subjectivityPlot.layout, ...{width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
+        <Plot data={subjectivityPlot.data} layout={{...subjectivityPlot.layout, ...{title: {text: titles["subjectivityPlot"], font: {color: "white"}}, width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
         <p>Subjectivity represents how objective or subjective language used is, ranging from 0 (maximally objective) to 1 (maximally subjective).</p>
         <p>The box plot above shows that the data included headlines that were at both limits of subjectivity, but most headlines were more objective, including a significant number (at least a quarter) that were completely objective based on this way of measuring linguistic objectivity.</p>
         <p>Median subjectivity was around 0.29, and around a quarter of all headlines were more subjective than objective.</p>
         <div ref={ref} class="graph-container">
-        <Plot data={subjectivityOverTime.data} layout={{...subjectivityOverTime.layout, ...{width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
+        <Plot data={subjectivityOverTime.data} layout={{...subjectivityOverTime.layout, ...{title: {text: titles["subjectivityOverTime"], font: {color: "white"}},width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
         <p>The line graph above shows the average (mean) subjectivity for each month across all news sources.</p>
         <p>We see that across the months, headlines averaged around 0.32 - more objective than not, but with a fair amount of subjectivity.</p>

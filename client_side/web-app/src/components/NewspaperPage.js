@@ -18,11 +18,11 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
   const handleTitles = useCallback(() => {
     let plotKeyArray = ["topic_plot", "time_plot", "polarity_time", "polarity_ratio", "subjectivity_box", "subjectivity_over_time"]
     let titlesArray = plotArray.map(name => name.layout.title.text);
-    if ( width <= 800 ) {
-      titlesArray = titlesArray.map(title => title.match(/[\w:-]+(?:[^\w\n]+[\w:-]+){0,5}\b/g).join("<br>"))
-    }
-    else if ( width <= 600 ) {
+    if ( width <= 600 ) {
       titlesArray = titlesArray.map(title => title.match(/[\w:-]+(?:[^\w\n]+[\w:-]+){0,2}\b/g).join("<br>"))
+    }
+    else if ( width <= 800 ) {
+      titlesArray = titlesArray.map(title => title.match(/[\w:-]+(?:[^\w\n]+[\w:-]+){0,5}\b/g).join("<br>"))
     }
     let titlesObj = {};
     // quick fix for regex missing starting < in <b> for bold titles, 
