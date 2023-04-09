@@ -7,6 +7,7 @@
 
 .Navbar {
     display: flex;
+    background-color: blueviolet;
 }
 
 .Navbar-title {

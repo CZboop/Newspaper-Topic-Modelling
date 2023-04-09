@@ -46,7 +46,17 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
 
   return (
     <div className='newspaper-container page-content'>
-        <h2>{name}</h2>
+      <div className="page-title">
+      <div className="window-title">
+        <h2>
+          
+            {name}
+            <button className="module-button">-</button>
+            <button className="module-button">X</button>
+            </h2>
+          </div>
+        
+        </div>
         <div className="comment text-module">
         <h3>Topics</h3>
         <p>{topic_intro}</p>

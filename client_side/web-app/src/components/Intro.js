@@ -46,7 +46,17 @@ function Intro() {
 
   return (
     <div className='Intro page-content'>
-        <h2>Introduction</h2>
+      <div className="page-title">
+      <div className="window-title">
+        <h2>
+          Introduction
+            <button className="module-button">-</button>
+            <button className="module-button">X</button>
+            </h2>
+          </div>
+        
+        </div>
+        
         <div className="comment text-module">
         <h3>The Shape of the Data</h3>
         <p>Headline data was gathered from seven of the top newspapers in the UK:</p>
