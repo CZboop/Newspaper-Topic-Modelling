@@ -6,3 +6,6 @@
     width: 95%;
     display: flex;
 }
+p {
+    white-space: pre-wrap;
+}

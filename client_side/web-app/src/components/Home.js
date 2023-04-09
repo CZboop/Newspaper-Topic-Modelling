@@ -7,6 +7,7 @@ function Home() {
         <h2>Welcome!</h2>
         <p>This web page serves to present the results of a data collection and analysis project, looking at the topics that different newspapers cover, as well as their subjectivity and sentiment polarity.</p>
         <p>All of the newspapers are based in the UK and are among the most popular with readers in the United Kingdom.</p>
+        <p>This site is designed to work on both desktop and mobile, but some of the data visualisations will be clearer on larger screens.</p>
 
         <h2>The Data 📈</h2>
         <p>The data used for the analysis consisted of headlines, collected using web scraping with a limited number of requests per minute. Data was collected using Python, primarily using Beautiful Soup and httplib.</p>

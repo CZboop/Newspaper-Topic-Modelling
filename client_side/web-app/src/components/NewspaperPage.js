@@ -13,7 +13,7 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
   })
   // getting array of plot names to use in dynamic adding of line breaks in graph titles based on window size
   const plotArray = [topic_plot, time_plot, polarity_time, polarity_ratio, subjectivity_box, subjectivity_over_time];
-  const [titles, setTitles] = useState({})
+  const [titles, setTitles] = useState({});
   
   const handleTitles = useCallback(() => {
     let plotKeyArray = ["topic_plot", "time_plot", "polarity_time", "polarity_ratio", "subjectivity_box", "subjectivity_over_time"]
@@ -40,6 +40,7 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
   // setting width as dependency is key to make sure titles change when width changes
   useEffect(() => {handleTitles();
   }, [setTitles, width]);
+
   return (
     <div className='newspaper-container page-content'>
         <h2>{name}</h2>
