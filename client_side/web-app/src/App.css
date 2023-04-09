@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
 body {
-  background-color: rgb(85, 17, 100);
+  background-color: rgb(97, 39, 159);
   font-family: 'Ubuntu', sans-serif;
   color: white;
   padding: 4em;
@@ -20,6 +20,21 @@ button {
 
 .highlighted-link a:hover {
   color:rgb(195, 155, 233);
+}
+
+.text-module {
+  background-color: rgb(75, 0, 125);
+  padding: 0.5em;
+  margin-top: 0.3em;
+  border-radius: 10px;
+  border: 2px solid rgb(218, 202, 253);
+}
+
+.text-module .boilerplate p{
+  float: right;
+}
+.text-module .boilerplate{
+  display: flex;
 }
 
 @media screen and (max-width: 650px) {
