@@ -5,7 +5,7 @@
 }
 
 body {
-  animation: 60s linear infinite backgroundDrift;
+  animation: 120s linear infinite backgroundDrift;
   /* background-color: rgb(0, 128, 128); */
   /* background-color: rgb(13, 87, 87); */
   background-color: rgb(38, 56, 56);
@@ -133,6 +133,14 @@ h2, h3, h4 {
   width: 50%;
   background-color: rgb(75, 0, 125);
 } */
+
+hr {
+  width: 60%;
+}
+
+.no-border {
+  box-shadow: none;
+}
 
 @media screen and (max-width: 1000px) {
   body {

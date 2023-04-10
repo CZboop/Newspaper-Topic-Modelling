@@ -56,7 +56,6 @@ function Home() {
         <p>The resulting topic cluster graphs are visible on the web page for each newspaper, in their entirety. There is also a line graph of the top 10 topics over time for each newspaper.</p>
         <p>Some thoughts were added on these top topics and anything that seemed interesting such as groups of topics, individuals who appear in the topics or comparisons to other papers.</p>
         <p>The topic cluster graph also shows a representative example of the headlines that make up each cluster when hovered over, which was added by me combining built in methods from BERTopic to get these examples and visualise the topics, by manipulation the resulting json plot from the visualisation.</p>
-        <br/>
         <p>Polarity and subjectivity was calculated using built in methods from the spaCy TextBlob pipeline.</p>
         <p>Pandas and Plotly within Python were then used to process the data and extract key information into visualisations. This included the ratios of positive, negative and neutral headlines, as well as how these metrics changed over time.</p>
         <p>Some comments were also added to explain and provide comment on the subjectivity and polarity.</p>
