@@ -1,24 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+// importing main text component
+import TextWindow from './TextWindow.js';
+
 function Home() {
   return (
     <div className='page-content'>
-        <div className="comment text-module">
-      <div className="window-title">
-        <h2>Welcome!</h2>
-          <div>
-            <button className="module-button">-</button>
-            <button className="module-button">X</button>
-            </div>
-          
-        </div>
-        {/* <div className="comment text-module"> */}
-        <p>This web page serves to present the results of a data collection and analysis project, looking at the topics that different newspapers cover, as well as their subjectivity and sentiment polarity.</p>
-        <p>All of the newspapers are based in the UK and are among the most popular with readers in the United Kingdom.</p>
-        <p>This site is designed to work on both desktop and mobile, but some of the data visualisations will be clearer on larger screens.</p>
-        </div>
-        {/* </div> */}
+        <TextWindow title={"Welcome!"} textArray={["This web page serves to present the results of a data collection and analysis project, looking at the topics that different newspapers cover, as well as their subjectivity and sentiment polarity.","All of the newspapers are based in the UK and are among the most popular with readers in the United Kingdom.","This site is designed to work on both desktop and mobile, but some of the data visualisations will be clearer on larger screens."]} pageTitle={true}/>
         <div className="comment text-module">
         <div className="window-title">
         <h3>The Data 📈</h3>
