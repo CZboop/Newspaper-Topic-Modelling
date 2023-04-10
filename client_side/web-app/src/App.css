@@ -58,7 +58,7 @@ button {
   float: right;
   color: black;
   background-color: rgb(168, 170, 173);
-  border-color:#FFFFFF #808080 #808080 #FFFFFF;
+  border-color: #8562ee #f8c5fa #f8c5fa #8562ee ;
   text-align: center;
   border-width: 3px;
   border-radius: 5px;
@@ -114,6 +114,8 @@ h2, h3, h4 {
   padding-top: 1em;
   padding-bottom: 1em;
   overflow: visible;
+  margin-left: auto;
+  margin-right: auto;
   /* margin-top: 1.5em; */
 }
 /* TODO: wip thing was thinking to do but may removeor come back to */
