@@ -4,22 +4,30 @@ import { Link } from 'react-router-dom';
 function Home() {
   return (
     <div className='page-content'>
-        <div className="page-title">
+        <div className="comment text-module">
       <div className="window-title">
-        <h2>
-          Welcome!
+        <h2>Welcome!</h2>
+          <div>
             <button className="module-button">-</button>
             <button className="module-button">X</button>
-            </h2>
-          </div>
+            </div>
+          
         </div>
-        <div className="comment text-module">
+        {/* <div className="comment text-module"> */}
         <p>This web page serves to present the results of a data collection and analysis project, looking at the topics that different newspapers cover, as well as their subjectivity and sentiment polarity.</p>
         <p>All of the newspapers are based in the UK and are among the most popular with readers in the United Kingdom.</p>
         <p>This site is designed to work on both desktop and mobile, but some of the data visualisations will be clearer on larger screens.</p>
         </div>
+        {/* </div> */}
         <div className="comment text-module">
-        <h2>The Data 📈</h2>
+        <div className="window-title">
+        <h3>The Data 📈</h3>
+          <div>
+            <button className="module-button">-</button>
+            <button className="module-button">X</button>
+            </div>
+          </div>
+        
         <p>The data used for the analysis consisted of headlines, collected using web scraping with a limited number of requests per minute. Data was collected using Python, primarily using Beautiful Soup and httplib.</p>
         <p>Headlines were from articles that were all published online between late November 2019 and early January 2023.</p>
         <p>The <Link to='/intro'>[Introduction]</Link> page provides more details on the data, including the relative number from each newspaper and the number of articles over time.</p>
@@ -36,7 +44,14 @@ function Home() {
         </ul>
         </div>
         <div className="comment text-module">
-        <h2>The Analysis 🔎</h2>
+        <div className="window-title">
+        <h3>The Analysis 🔎</h3>
+          <div>
+            <button className="module-button">-</button>
+            <button className="module-button">X</button>
+            </div>
+          </div>
+        
         <p>Analysis was performed using BERTopic for topic modelling, and TextBlob via spaCy for sentiment analysis in the form of polarity and subjectivity analysis.</p>
         <p>The resulting topic cluster graphs are visible on the web page for each newspaper, in their entirety. There is also a line graph of the top 10 topics over time for each newspaper.</p>
         <p>Some thoughts were added on these top topics and anything that seemed interesting such as groups of topics, individuals who appear in the topics or comparisons to other papers.</p>
@@ -47,8 +62,15 @@ function Home() {
         <p>Some comments were also added to explain and provide comment on the subjectivity and polarity.</p>
         </div>
         <div className="comment text-module">
-        <h2>The Tech 💻</h2>
-        <h3>Data Side</h3>
+            <div className="window-title">
+            <h3>The Tech 💻</h3>
+            <div>
+            <button className="module-button">-</button>
+            <button className="module-button">X</button>
+            </div>
+          </div>
+        
+        <h4>Data Side</h4>
         <p>The scraping and data analysis was done using Python. Libraries used included:</p> 
         <ul>
             <li>BERTopic (including UMAP, HDBSCAN and sci-kit learn) - for topic modelling</li>
@@ -61,7 +83,7 @@ function Home() {
             <li>Datetime and Dateutil - for selecting data from different ranges and iterating over time deltas</li>
         </ul>
 
-        <h3>Web Side</h3>
+        <h4>Web Side</h4>
         <p>This website was made with JavaScript, using React.</p>
         </div>
     </div>
