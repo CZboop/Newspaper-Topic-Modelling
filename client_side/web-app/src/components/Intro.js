@@ -46,19 +46,25 @@ function Intro() {
 
   return (
     <div className='Intro page-content'>
-      <div className="page-title">
+      <div className="page-title text-module">
       <div className="window-title">
-        <h2>
-          Introduction
+        <h2>Introduction</h2>
+          <div>
             <button className="module-button">-</button>
             <button className="module-button">X</button>
-            </h2>
+            </div>
           </div>
-        
         </div>
         
         <div className="comment text-module">
+        <div className="window-title">
         <h3>The Shape of the Data</h3>
+          <div>
+            <button className="module-button">-</button>
+            <button className="module-button">X</button>
+            </div>
+          </div>
+        
         <p>Headline data was gathered from seven of the top newspapers in the UK:</p>
         <ul>
             <li className='highlighted-link'><a href='https://www.theguardian.com/'>The Guardian</a></li>
@@ -72,6 +78,13 @@ function Intro() {
         <p>The links above will take you to their respective websites, where you can read their reporting and support their work if you are interested.</p>
         </div>
         <div className="comment text-module">
+        <div className="window-title">
+        <h3>Documents by Source</h3>
+          <div>
+            <button className="module-button">-</button>
+            <button className="module-button">X</button>
+            </div>
+          </div>
         <p>The percentages of articles from each news source can be seen below. You can click on the sources in the legend to remove or add them from the chart, for example to better compare document numbers between certain sources.</p>
         {
         // different legend position so chart more vertical if small screen as can squeeze the chart too small otherwise on smaller screens
@@ -88,7 +101,28 @@ function Intro() {
         <p>Ratios by source differed greatly, as can be seen above. The number of headlines for the biggest dataset (The Daily Mail) was around 1.89 million, and for the smallest dataset (The Guardian) was around 43,000.</p>
         </div>
         <div className="comment text-module">
+        <div className="window-title">
+        <h3>Articles Over Time</h3>
+          <div>
+            <button className="module-button">-</button>
+            <button className="module-button">X</button>
+            </div>
+          </div>
         <p>Headlines that form the data were published between November 2019 and early January 2023. The number of articles over time can be seen below. The dip in the last month is most likely due to the fact that data was incomplete for this month - only from the start of the month not the whole of it.</p>
+        <p>As the graph below shows, the number of articles over time was relatively stable overall, with a significant dip at the end due to only part of the month being in the dataset. However, this is likely due to the disproportionate influence of the larger Daily Mail dataset, which ends up being very similar in shape to the combined data.</p>
+        </div>
+        <div ref={ref} class="graph-container">
+        <Plot data={articlesOverTimeCombined.data} layout={{...articlesOverTimeCombined.layout, ...{title: {text: titles["articlesOverTimeCombined"], font: {color: "white"}}, width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
+        </div>
+        <div className="comment text-module">
+        <div className="window-title">
+        <h3>Articles Over Time by Source</h3>
+          <div>
+            <button className="module-button">-</button>
+            <button className="module-button">X</button>
+            </div>
+          </div>
+        <p>The Daily Mail had quite similar numbers of articles over time. The Sun and the Metro showed a trend of generally less articles over time. The Telegraph also had less articles over time, but this seemed to be in two stages rather than an overall trend - in mid-2021 there was a dip in article numbers and they stayed similarly low since then. The Guardian showed a slight increase in average article numbers over time, as did the Express. The Mirror showed the biggest change in articles each month, with a very clear trend of increasing articles over time, especially since 2021. For the Mirror, average articles were around 3000 per month, rising to over double this at the end of 2022.</p>
         </div>
         {
         // different legend position for small screens more vertical
@@ -105,15 +139,6 @@ function Intro() {
         <InfoIcon />
         <p>Click on a source name from the key to show or hide the line for that newspaper. Double-click to isolate one news source.</p>
         </div>
-        <div className="comment text-module">
-        <p>The Daily Mail had quite similar numbers of articles over time. The Sun and the Metro showed a trend of generally less articles over time. The Telegraph also had less articles over time, but this seemed to be in two stages rather than an overall trend - in mid-2021 there was a dip in article numbers and they stayed similarly low since then. The Guardian showed a slight increase in average article numbers over time, as did the Express. The Mirror showed the biggest change in articles each month, with a very clear trend of increasing articles over time, especially since 2021. For the Mirror, average articles were around 3000 per month, rising to over double this at the end of 2022.</p>
-        </div>
-        <div ref={ref} class="graph-container">
-        <Plot data={articlesOverTimeCombined.data} layout={{...articlesOverTimeCombined.layout, ...{title: {text: titles["articlesOverTimeCombined"], font: {color: "white"}}, width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
-        </div>
-        <div className="comment text-module">
-        <p>As the graph above shows, the number of articles over time was relatively stable overall, with a significant dip at the end due to only part of the month being in the dataset. However, this is likely due to the disproportionate influence of the larger Daily Mail dataset, which ends up being very similar in shape to the combined data.</p>
-        </div>
         <div ref={ref} class="graph-container">
         <Plot data={polarityOverTime.data} layout={{...polarityOverTime.layout, ...{title: {text: titles["polarityOverTime"], font: {color: "white"}}, width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
@@ -122,6 +147,13 @@ function Intro() {
         <p>Polarity is a measure of how positive or negative the language used in a text or set of texts is. Above is a graph showing the average polarity across all headlines from all news sources for each month. Polarity in this case goes from a maximum of 1 (very positive) to -1 (very negative).</p>
         </div>
         <div className="comment text-module">
+        <div className="window-title">
+        <h3>Headline Polarity</h3>
+          <div>
+            <button className="module-button">-</button>
+            <button className="module-button">X</button>
+            </div>
+          </div>
         <p>Headlines tended to be neutral to slightly positive on average across large samples. Considering the possible range, polarity was fairly stable across the years in the data. However, there are two notable dips where headlines became more negative - the end of 2020 into the start of 2021, and the end of 2022 into the start of 2023.</p>
         </div>
         {
@@ -136,6 +168,13 @@ function Intro() {
         </div>
         }
         <div className="comment text-module">
+        <div className="window-title">
+        <h3>Headline Polarity - Ratio</h3>
+          <div>
+            <button className="module-button">-</button>
+            <button className="module-button">X</button>
+            </div>
+          </div>
         <p>The graph above shows the ratio of all headlines that were mostly positive, mostly negative or neutral. Here, a headline is only neutral if it scored 0 on polarity. The plurality of headlines were still neutral (43%), positive headlines were next most common at 34%, and the remaining 23% of headline were negative.</p>
         </div>
         <div ref={ref} class="graph-container">
@@ -146,6 +185,13 @@ function Intro() {
         <p>Subjectivity represents how objective or subjective language used is, ranging from 0 (maximally objective) to 1 (maximally subjective).</p>
         </div>
         <div className="comment text-module">
+        <div className="window-title">
+        <h3>Headline Subjectivity Distribution</h3>
+          <div>
+            <button className="module-button">-</button>
+            <button className="module-button">X</button>
+            </div>
+          </div>
         <p>The box plot above shows that the data included headlines that were at both limits of subjectivity, but most headlines were more objective, including a significant number (at least a quarter) that were completely objective based on this way of measuring linguistic objectivity.</p>
         <p>Median subjectivity was around 0.29, and around a quarter of all headlines were more subjective than objective.</p>
         </div>
@@ -153,6 +199,13 @@ function Intro() {
         <Plot data={subjectivityOverTime.data} layout={{...subjectivityOverTime.layout, ...{title: {text: titles["subjectivityOverTime"], font: {color: "white"}},width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
         <div className="comment text-module">
+        <div className="window-title">
+        <h3>Headline Subjectivity Over Time</h3>
+          <div>
+            <button className="module-button">-</button>
+            <button className="module-button">X</button>
+            </div>
+          </div>
         <p>The line graph above shows the average (mean) subjectivity for each month across all news sources.</p>
         <p>We see that across the months, headlines averaged around 0.32 - more objective than not, but with a fair amount of subjectivity.</p>
         <p>Subjectivity was decreasing slightly over time until April 2021 when it began to increase over time slightly. However, the most notable trend was a sharp decline in subjectivity around November 2022.</p>

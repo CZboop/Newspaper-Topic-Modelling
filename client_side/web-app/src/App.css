@@ -1,10 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
 body {
-  background-color: rgb(0, 128, 128);
+  /* background-color: rgb(0, 128, 128); */
+  background-color: rgb(13, 87, 87);
 
-  background-size: 35px 35px;
-  background-image:
+  /* background-size: 35px 35px; */
+  background-size: 15px 15px, 45px 45px;
+  /* background-image:
     linear-gradient(to right, white 1px, transparent 1px),
+    linear-gradient(to bottom, white 1px, transparent 1px); */
+    background-image:
+    linear-gradient(to bottom, transparent 3px, rgb(13, 87, 87) 3px),
+    linear-gradient(to right, white 1px, transparent 1px),
+    linear-gradient(to right, transparent 3px, rgb(13, 87, 87) 3px),
     linear-gradient(to bottom, white 1px, transparent 1px);
     
   font-family: 'Ubuntu', sans-serif;
@@ -30,17 +37,21 @@ button {
 
 .text-module {
   background-color: rgb(75, 0, 125);
-  padding: 0.5em;
-  margin-top: 0.3em;
+  /* padding: 0.5em; */
+  margin-top: 1.5em;
   border-radius: 10px;
-  border: 2px solid rgb(218, 202, 253);
+  box-shadow: inset 0 0 20px #00f8aa;
+  border-bottom: 2px solid white;
+  border-left: 1px solid white;
 }
 
-.text-module .boilerplate p{
-  float: right;
+.text-module p {
+  padding: 0.5em;
 }
-.text-module .boilerplate{
-  display: flex;
+
+.text-module.boilerplate{
+  /* display: flex; */
+  padding-top: 0.5em;
 }
 
 .module-button {
@@ -53,16 +64,22 @@ button {
   border-radius: 5px;
   font-size: medium;
   font-weight: bold;
-  height: 2vw;
-  width: 2vw;
+  height: 28px;
+  width: 28px;
   margin-right: 0.2em;
 }
 
 .page-title {
+  display: flex;
+  width:100%;
+  height: 30px;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
   background-color: rgb(61, 11, 107);
   border-radius: 5px;
   /* padding-top: 0.2em; */
-  padding-bottom: 1em;
+  padding-bottom: 2em;
   color: black;
   box-shadow: inset 0 0 20px #00f8aa;
   /* border-color: white; */
@@ -70,13 +87,23 @@ button {
   border-left: 1px solid white;
 }
 
-h2 {
+h2, h3 {
   padding-left: 1em;
 }
 
 .window-title {
+  display: flex;
+  height: 30px;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  /* height: fit-content; */
   background-color: rgb(202, 203, 243);
   width: 100%;
+  color: black;
+  border-radius: 5px 5px 0 0;
+  /* border-left: 1px solid white; */
+  box-shadow: inset 0px 5px 10px 0px #686dfa;
 }
 
 .graph-container {

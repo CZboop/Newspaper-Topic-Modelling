@@ -46,19 +46,28 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
 
   return (
     <div className='newspaper-container page-content'>
-      <div className="page-title">
+      <div className="page-title text-module">
       <div className="window-title">
         <h2>
-          
             {name}
+            </h2>
+            <div>
             <button className="module-button">-</button>
             <button className="module-button">X</button>
-            </h2>
+            </div>
+            
           </div>
-        
         </div>
         <div className="comment text-module">
-        <h3>Topics</h3>
+        {/* <div className="page-title"> */}
+      <div className="window-title">
+        <h3 className="subheading">Topics</h3>
+          <div>
+            <button className="module-button">-</button>
+            <button className="module-button">X</button>
+            </div>
+            
+      </div>
         <p>{topic_intro}</p>
         </div>
         <div className="boilerplate text-module">
@@ -113,6 +122,15 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
         <Plot data={polarity_time.data} layout={{...polarity_time.layout, ...{width: width, height: height, title: {text: titles["polarity_time"]}}}}/>
         </div>
         <div className="comment text-module">
+        <div className="window-title">
+        <h3>{name} - Polarity</h3>
+            <div>
+            <button className="module-button">-</button>
+            <button className="module-button">X</button>
+            </div>
+            
+          </div>
+          
         <p>{polarity_comments}</p>
         </div>
         <div className="boilerplate text-module">
@@ -131,8 +149,15 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
         <div ref={ref} class="graph-container">
         <Plot data={subjectivity_over_time.data} layout={{...subjectivity_over_time.layout, ...{width: width, height: height, title: {text: titles["subjectivity_over_time"]}}}}/>
         </div>
-        <div className="boilerplate text-module">
-        <InfoIcon />
+        <div className="comment text-module">
+        <div className="window-title">
+        <h3>{name} - Subjectivity</h3>
+            <div>
+            <button className="module-button">-</button>
+            <button className="module-button">X</button>
+            </div>
+            
+          </div>
         <p>{subjectivity_comments}</p>
         </div>
         <p className='extra-info'>{extra_info}</p>
