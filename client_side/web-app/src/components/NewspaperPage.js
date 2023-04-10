@@ -9,8 +9,9 @@ import InfoIcon from './InfoIcon.js';
 
 // importing text components
 import TextInfo from './TextInfo.js';
+import TextWindow from './TextWindow.js';
 
-function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time, polarity_ratio, subjectivity_box, subjectivity_over_time, extra_info, polarity_comments, subjectivity_comments}) {
+function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time, polarity_ratio, subjectivity_box, subjectivity_over_time, polarity_comments, subjectivity_comments}) {
   // using resize detector npm module to get height and width to resize graphs with window size
   // using debounce so updates once per second at most, no glitching
   const { width, height, ref } = useResizeDetector({ 
@@ -49,36 +50,14 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
 
   return (
     <div className='newspaper-container page-content'>
-      <div className="page-title text-module">
-      <div className="window-title">
-        <h2>
-            {name}
-            </h2>
-            <div>
-            <button className="module-button">-</button>
-            <button className="module-button">X</button>
-            </div>
-            
-          </div>
-        </div>
-        <div className="comment text-module">
-        {/* <div className="page-title"> */}
-      <div className="window-title">
-        <h3 className="subheading">Topics</h3>
-          <div>
-            <button className="module-button">-</button>
-            <button className="module-button">X</button>
-            </div>
-            
+      <TextWindow title={name} textArray={[""]} pageTitle={true}/>
+      <TextWindow title={"Topics"} textArray={[topic_intro]} pageTitle={false}/>
+      <TextInfo title={null} textArray= {["An interactive plot of the topics can be seen below.,You can mouse over each topic to see the summary of the words that define it, as well as its number which corresponds to how many headlines form the cluster. Topic 0 will be the biggest group with most articles.","Hovering over each topic will also show a representative example of a headline from the group. These differ from the original headline in that stopwords and capitalisation have been removed.","There are pan and zoom options available from the top right of the plot, and the slider along the bottom cycles through the topics one by one, highlighting each one on the graph."]}/>
+      <div ref={ref} className="graph-container">
+      {/* using spread operator so adding to layout with resonsive height width in one line keeping it as single object */}
+      <Plot data={topic_plot.data} layout={{...topic_plot.layout, ...{width: width, height: height, legend:{font:{size: '2%'}}}, title: {text: titles["topic_plot"]}}} config = {{responsive: true}}/>
       </div>
-        <p>{topic_intro}</p>
-        </div>
-        <TextInfo title={null} textArray= {["An interactive plot of the topics can be seen below.,You can mouse over each topic to see the summary of the words that define it, as well as its number which corresponds to how many headlines form the cluster. Topic 0 will be the biggest group with most articles.","Hovering over each topic will also show a representative example of a headline from the group. These differ from the original headline in that stopwords and capitalisation have been removed.","There are pan and zoom options available from the top right of the plot, and the slider along the bottom cycles through the topics one by one, highlighting each one on the graph."]}/>
-        <div ref={ref} className="graph-container">
-        {/* using spread operator so adding to layout with resonsive height width in one line keeping it as single object */}
-        <Plot data={topic_plot.data} layout={{...topic_plot.layout, ...{width: width, height: height, legend:{font:{size: '2%'}}}, title: {text: titles["topic_plot"]}}} config = {{responsive: true}}/>
-        </div>
-        <TextInfo title={null} textArray={["An interactive plot of topics over time can be found below.", "You can select or deselect different topics to show, hide or isolate them for clarity."]} />
+      <TextInfo title={null} textArray={["An interactive plot of topics over time can be found below.", "You can select or deselect different topics to show, hide or isolate them for clarity."]} />
         {
         // some of the graphs have legend overlap or hard to read on smaller screens, using legend settings below to prevent this if width less than 800
         width <= 800 ?
@@ -106,18 +85,7 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
         <div ref={ref} className="graph-container">
         <Plot data={polarity_time.data} layout={{...polarity_time.layout, ...{width: width, height: height, title: {text: titles["polarity_time"]}}}}/>
         </div>
-        <div className="comment text-module">
-        <div className="window-title">
-        <h3>{name} - Polarity</h3>
-            <div>
-            <button className="module-button">-</button>
-            <button className="module-button">X</button>
-            </div>
-            
-          </div>
-          
-        <p>{polarity_comments}</p>
-        </div>
+        <TextWindow title={`${name} - Polarity`} textArray={[polarity_comments]} pageTitle={false}/>
         <TextInfo title={"Subjectivity"} textArray={["Subjectivity is a measure of subjective (opinionated) or objective (factual) language is. In this instance, this goes from 0 which is the most objective, to 1 which is the most subjective. We could think of 0.5 as an equal mix of fact and opinion.", "The box plot below shows the minimum and maximum subjectivity for this news source, as well as the quartiles."]}/>
         <div ref={ref} className="graph-container">
         <Plot data={subjectivity_box.data} layout={{...subjectivity_box.layout, ...{width: width, height: height, title: {text: titles["subjectivity_box"]}}}}/>
@@ -126,20 +94,7 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
         <div ref={ref} className="graph-container">
         <Plot data={subjectivity_over_time.data} layout={{...subjectivity_over_time.layout, ...{width: width, height: height, title: {text: titles["subjectivity_over_time"]}}}}/>
         </div>
-        <div className="comment text-module">
-        <div className="window-title">
-        <h3>{name} - Subjectivity</h3>
-            <div>
-            <button className="module-button">-</button>
-            <button className="module-button">X</button>
-            </div>
-            
-          </div>
-        <p>{subjectivity_comments}</p>
-        </div>
-        <p className='extra-info'>{extra_info}</p>
-        {/* TODO: potentially hide the extra info if it's falsy or remove if not used in any anyway*/}
-
+        <TextWindow title={`${name} - Subjectivity`} textArray={[subjectivity_comments]} pageTitle={false}/>
     </div>
   )
 }
