@@ -1,7 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+@keyframes backgroundDrift {
+  0%   { background-position-y:  100%; }
+  100% { background-position-y: -100%; }
+}
+
 body {
+  animation: 60s linear infinite backgroundDrift;
   /* background-color: rgb(0, 128, 128); */
-  background-color: rgb(13, 87, 87);
+  /* background-color: rgb(13, 87, 87); */
+  background-color: rgb(38, 56, 56);
 
   /* background-size: 35px 35px; */
   background-size: 15px 15px, 45px 45px;
@@ -9,10 +16,10 @@ body {
     linear-gradient(to right, white 1px, transparent 1px),
     linear-gradient(to bottom, white 1px, transparent 1px); */
     background-image:
-    linear-gradient(to bottom, transparent 5px, rgb(13, 87, 87) 5px),
-    linear-gradient(to right, white 1px, transparent 1px),
-    linear-gradient(to right, transparent 5px, rgb(13, 87, 87) 5px),
-    linear-gradient(to bottom, white 1px, transparent 1px);
+    linear-gradient(to bottom, transparent 5px, rgb(38, 56, 56) 5px),
+    linear-gradient(to right, rgb(149, 241, 253) 1px, transparent 1px),
+    linear-gradient(to right, transparent 5px, rgb(38, 56, 56) 5px),
+    linear-gradient(to bottom, rgb(149, 241, 253)1px, transparent 1px);
     
   font-family: 'Ubuntu', sans-serif;
   color: white;
@@ -32,7 +39,7 @@ button {
 }
 
 .highlighted-link a:hover {
-  color:rgb(195, 155, 233);
+  color:rgb(202, 203, 243);
 }
 
 .text-module {

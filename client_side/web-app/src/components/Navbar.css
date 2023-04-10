@@ -45,7 +45,7 @@
 }
 
 .nav-button:hover {
-    color: rgb(195, 155, 233);
+    color: rgb(202, 203, 243);
 }
 /* todo: style better in general for smaller/midsize screens e.g. under around 1200 px nav links start to overlap or go over multiple lines */
 
@@ -73,7 +73,7 @@
         box-shadow:inset 2px 0 35px 1px rgb(151, 74, 223);
     }
 
-    .highlighted-link a {
+    .highlighted-link.nav-button a {
         width: 100%;
         font-size: 1.2em;
     }
