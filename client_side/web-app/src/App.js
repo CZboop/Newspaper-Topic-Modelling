@@ -92,7 +92,8 @@ function App() {
           {/* above redirecting to home if invalid path, could always add a dedicated error page and route there instead */}
           </Routes>
         </BrowserRouter>
-      
+      <div className="background">
+      </div>
     </div>
   );
 }

@@ -77,7 +77,7 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
         <p>Hovering over each topic will also show a representative example of a headline from the group. These differ from the original headline in that stopwords and capitalisation have been removed.</p>
         <p>There are pan and zoom options available from the top right of the plot, and the slider along the bottom cycles through the topics one by one, highlighting each one on the graph.</p>
         </div>
-        <div ref={ref} class="graph-container">
+        <div ref={ref} className="graph-container">
         {/* using spread operator so adding to layout with resonsive height width in one line keeping it as single object */}
         <Plot data={topic_plot.data} layout={{...topic_plot.layout, ...{width: width, height: height, legend:{font:{size: '2%'}}}, title: {text: titles["topic_plot"]}}} config = {{responsive: true}}/>
         </div>
@@ -89,11 +89,11 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
         {
         // some of the graphs have legend overlap or hard to read on smaller screens, using legend settings below to prevent this if width less than 800
         width <= 800 ?
-        <div ref={ref} class="graph-container">
+        <div ref={ref} className="graph-container">
         <Plot data={time_plot.data} layout={{...time_plot.layout, ...{width: width, showlegend: true, legend: {x: 0, y:-1.8, xanchor:"left", yanchor:"bottom"}, title: {text: titles["time_plot"]}}}}/>
         </div>
         :
-        <div ref={ref} class="graph-container">
+        <div ref={ref} className="graph-container">
         <Plot data={time_plot.data} layout={{...time_plot.layout, ...{width: width}, title: {text: titles["time_plot"]}}}/>
         </div>
         }
@@ -106,11 +106,11 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
         {
         // again setting legend position based on screen size when the graph looks off because of legend
         width <= 600 ?
-        <div ref={ref} class="graph-container">
+        <div ref={ref} className="graph-container">
         <Plot data={polarity_ratio.data} layout={{...polarity_ratio.layout, ...{width: width, showlegend: true, legend: {x: 0, y:-0.5, xanchor:"left", yanchor:"bottom"}, title: {text: titles["polarity_ratio"]}}}}/>
         </div>
         :
-        <div ref={ref} class="graph-container">
+        <div ref={ref} className="graph-container">
         <Plot data={polarity_ratio.data} layout={{...polarity_ratio.layout, ...{width: width, height: height, title: {text: titles["polarity_ratio"]}}}}/>
         </div>
         }
@@ -118,7 +118,7 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
         <InfoIcon />
         <p>The line graph below shows the polarity over time, where the polarity was averaged for each month.</p>    
         </div>    
-        <div ref={ref} class="graph-container">
+        <div ref={ref} className="graph-container">
         <Plot data={polarity_time.data} layout={{...polarity_time.layout, ...{width: width, height: height, title: {text: titles["polarity_time"]}}}}/>
         </div>
         <div className="comment text-module">
@@ -139,14 +139,14 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
         <p>Subjectivity is a measure of subjective (opinionated) or objective (factual) language is. In this instance, this goes from 0 which is the most objective, to 1 which is the most subjective. We could think of 0.5 as an equal mix of fact and opinion.</p>
         <p>The box plot below shows the minimum and maximum subjectivity for this news source, as well as the quartiles.</p>
         </div>
-        <div ref={ref} class="graph-container">
+        <div ref={ref} className="graph-container">
         <Plot data={subjectivity_box.data} layout={{...subjectivity_box.layout, ...{width: width, height: height, title: {text: titles["subjectivity_box"]}}}}/>
         </div>
         <div className="boilerplate text-module">
         <InfoIcon />
         <p>The line graph below shows the subjectivity over time, where the subjectivity was averaged for each month.</p>
         </div>
-        <div ref={ref} class="graph-container">
+        <div ref={ref} className="graph-container">
         <Plot data={subjectivity_over_time.data} layout={{...subjectivity_over_time.layout, ...{width: width, height: height, title: {text: titles["subjectivity_over_time"]}}}}/>
         </div>
         <div className="comment text-module">

@@ -1,26 +1,37 @@
 .Nav-links {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     list-style: none;
-    width: 60%;
+    padding: 1em;
+    float: right;
+    width: 65%;
+    /* width: 60%; */
 }
 
 .Navbar {
     display: flex;
-    background-color: blueviolet;
+    justify-content: space-between;
+    background-color: rgb(75, 0, 125);
+    /* padding: 0.5em; */
+    border-radius: 10px;
+    box-shadow: inset 0 0 20px #00f8aa;
+    border-bottom: 2px solid white;
+    padding: 0.5em;
+    width:100%
+    /* border-left: 1px solid white; */
 }
 
 .Navbar-title {
-    font-size: xx-large;
+    font-size: 2em;
     font-weight: bolder;
+    /* width: 30%; */
+    float: left;
+    padding-left: 0.25em;
 }
 
 .burger {
     display: none;
-}
-
-nav {
-    width: 90%;
 }
 
 .nav-button {
@@ -30,6 +41,7 @@ nav {
     cursor: pointer;
     overflow: hidden;
     outline: none;
+    margin-left: 0;
 }
 
 .nav-button:hover {
@@ -40,6 +52,9 @@ nav {
 @media screen and (max-width: 650px) {
     .Navbar {
         width: 100%;
+        border-radius: 0 0 10px 10px;
+        height: fit-content;
+        overflow: hidden;
     }
     .Navbar-title {
         width: 100%;
@@ -47,34 +62,34 @@ nav {
         display: flex;
         align-content: center;
     }
-    .Navbar li {
+    .Navbar button {
         display: none;
         width: 100%;
+        margin: 0;
     }
     .nav-button {
         width: 100%;
     }
-    .Navbar ul {
-        width: 100%;
-        margin-left: 0;
-    }
+
     .highlighted-link a {
         width: 100%;
         font-size: 1.2em;
     }
-    .Navbar li:hover {
+    .Navbar .highlighted-link:hover {
         width: 100%;
-        background-color: rgb(100, 20, 118)
+        background-color: rgb(75, 0, 125);
     }
     .nav-button:hover {
         color: aliceblue;
     }
     .Nav-links {
+        width: 100%;
         display: flex;
         flex-direction: column;
         text-align: center;
         padding: 0;
         margin-left: 0;
+        padding-bottom: 1.5em;
     }
     .content {
         padding: none;
@@ -84,12 +99,14 @@ nav {
         width: 100%;
         padding: none;
     }
-    .Navbar-open li {
+    .Navbar-open button {
         display: block;
         font-size: 1em;
         width: 100%;
-        background-color: rgb(121, 30, 142);
-        padding: 0.25em;
+        background-color: rgb(202, 203, 243);
+        color: black;
+        padding-top: 0.25em;
+        padding-bottom: 0.25em;
     }
     
     .Navbar-open .burger-toggle {
@@ -106,7 +123,7 @@ nav {
         right: 0;
         cursor: pointer;
         background: unset;
-        padding: 1em;
+        /* padding: 1em; */
     }
     .Navbar .burger svg {
         stroke: white;
@@ -122,5 +139,11 @@ nav {
     }
     .burger-open #close-button {
         display: block;
+    }
+    .icon {
+        float: right;
+    }
+    nav {
+        height: fit-content;
     }
 }
