@@ -6,7 +6,7 @@ function TextWindow({title, textArray, pageTitle}) {
     <div className="comment text-module">
       <div className="window-title">
         {
-          pageTitle == true ?
+          pageTitle === true ?
           <h2>{title}</h2>
           :
           <h3>{title}</h3>

@@ -12,9 +12,6 @@ import subjectivityOverTime from './graph_data/combined/all_subjectivity_over_ti
 import articlesOverTimeAll from './graph_data/combined/articles_over_time_All Sources.json';
 import articlesOverTimeCombined from './graph_data/combined/articles_over_time_Combined Sources.json';
 
-// importing image
-import InfoIcon from './InfoIcon.js';
-
 // importing text components
 import TextInfo from './TextInfo.js';
 import TextWindow from './TextWindow';
@@ -59,7 +56,7 @@ function Intro() {
       <TextWindow title={"Introduction"} textArray={[""]} pageTitle={true}/>
         <div className="comment text-module">
         <div className="window-title">
-        <h3>The Shape of the Data</h3>
+        <h3>Data Summary</h3>
           <div>
             <button className="module-button">-</button>
             <button className="module-button">X</button>
@@ -105,7 +102,7 @@ function Intro() {
         <div ref={ref} className="graph-container">
         <Plot data={articlesOverTimeCombined.data} layout={{...articlesOverTimeCombined.layout, ...{title: {text: titles["articlesOverTimeCombined"], font: {color: "white"}}, width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
-      <TextWindow title={"Articles Over Time by Source"} textArray={["The Daily Mail had quite similar numbers of articles over time. The Sun and the Metro showed a trend of generally less articles over time. The Telegraph also had less articles over time, but this seemed to be in two stages rather than an overall trend - in mid-2021 there was a dip in article numbers and they stayed similarly low since then. The Guardian showed a slight increase in average article numbers over time, as did the Express. The Mirror showed the biggest change in articles each month, with a very clear trend of increasing articles over time, especially since 2021. For the Mirror, average articles were around 3000 per month, rising to over double this at the end of 2022."]} pageTitle={false}/>
+      <TextWindow title={"Over Time by Source"} textArray={["The Daily Mail had quite similar numbers of articles over time. The Sun and the Metro showed a trend of generally less articles over time.", "The Telegraph also had less articles over time, but this seemed to be in two stages rather than an overall trend - in mid-2021 there was a dip in article numbers and they stayed similarly low since then.", "The Guardian showed a slight increase in average article numbers over time, as did the Express.", "The Mirror showed the biggest change in articles each month, with a very clear trend of increasing articles over time, especially since 2021.", "For the Mirror, average articles were around 3000 per month, rising to over double this at the end of 2022."]} pageTitle={false}/>
         {
         // different legend position for small screens more vertical
         width <= 600 ?
@@ -122,7 +119,7 @@ function Intro() {
         <Plot data={polarityOverTime.data} layout={{...polarityOverTime.layout, ...{title: {text: titles["polarityOverTime"], font: {color: "white"}}, width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
         <TextInfo title={null} textArray={["Polarity is a measure of how positive or negative the language used in a text or set of texts is. Above is a graph showing the average polarity across all headlines from all news sources for each month. Polarity in this case goes from a maximum of 1 (very positive) to -1 (very negative)."]}/>
-        <TextWindow title={"Headline Polarity"} textArray={["Headlines tended to be neutral to slightly positive on average across large samples. Considering the possible range, polarity was fairly stable across the years in the data. However, there are two notable dips where headlines became more negative - the end of 2020 into the start of 2021, and the end of 2022 into the start of 2023."]} pageTitle={false}/>
+        <TextWindow title={"Polarity"} textArray={["Headlines tended to be neutral to slightly positive on average across large samples. Considering the possible range, polarity was fairly stable across the years in the data. However, there are two notable dips where headlines became more negative - the end of 2020 into the start of 2021, and the end of 2022 into the start of 2023."]} pageTitle={false}/>
         {
         // different legend position for small screens more vertical
         width <= 600 ?
@@ -134,13 +131,16 @@ function Intro() {
         <Plot data={polarityRatio.data} layout={{...polarityRatio.layout, ...{title: {text: titles["polarityRatio"], font: {color: "white"}},width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
         }
-        <TextWindow title={"Headline Polarity - Ratio"} textArray={["The graph above shows the ratio of all headlines that were mostly positive, mostly negative or neutral. Here, a headline is only neutral if it scored 0 on polarity. The plurality of headlines were still neutral (43%), positive headlines were next most common at 34%, and the remaining 23% of headline were negative."]} pageTitle={false}/>
+        <TextWindow title={"Polarity Ratio"} textArray={["The graph above shows the ratio of all headlines that were mostly positive, mostly negative or neutral. Here, a headline is only neutral if it scored 0 on polarity. The plurality of headlines were still neutral (43%), positive headlines were next most common at 34%, and the remaining 23% of headline were negative."]} pageTitle={false}/>
       <TextInfo title={null} textArray={["Subjectivity represents how objective or subjective language used is, ranging from 0 (maximally objective) to 1 (maximally subjective)."]}/>
-      <TextWindow title={"Headline Subjectivity Distribution"} textArray={["The box plot above shows that the data included headlines that were at both limits of subjectivity, but most headlines were more objective, including a significant number (at least a quarter) that were completely objective based on this way of measuring linguistic objectivity.","Median subjectivity was around 0.29, and around a quarter of all headlines were more subjective than objective."]} pageTitle={false}/>
+      <div ref={ref} className="graph-container">
+        <Plot data={subjectivityPlot.data} layout={{...subjectivityPlot.layout, ...{title: {text: titles["subjectivityPlot"], font: {color: "white"}},width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
+        </div>
+      <TextWindow title={"Overall Subjectivity"} textArray={["The box plot above shows that the data included headlines that were at both limits of subjectivity, but most headlines were more objective, including a significant number (at least a quarter) that were completely objective based on this way of measuring linguistic objectivity.","Median subjectivity was around 0.29, and around a quarter of all headlines were more subjective than objective."]} pageTitle={false}/>
         <div ref={ref} className="graph-container">
         <Plot data={subjectivityOverTime.data} layout={{...subjectivityOverTime.layout, ...{title: {text: titles["subjectivityOverTime"], font: {color: "white"}},width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
-      <TextWindow title={"Headline Subjectivity Over Time"} textArray={["The line graph above shows the average (mean) subjectivity for each month across all news sources.","We see that across the months, headlines averaged around 0.32 - more objective than not, but with a fair amount of subjectivity.","Subjectivity was decreasing slightly over time until April 2021 when it began to increase over time slightly. However, the most notable trend was a sharp decline in subjectivity around November 2022."]} pageTitle={false}/>
+      <TextWindow title={"Subjectivity Over Time"} textArray={["The line graph above shows the average (mean) subjectivity for each month across all news sources.","We see that across the months, headlines averaged around 0.32 - more objective than not, but with a fair amount of subjectivity.","Subjectivity was decreasing slightly over time until April 2021 when it began to increase over time slightly. However, the most notable trend was a sharp decline in subjectivity around November 2022."]} pageTitle={false}/>
       <TextInfo title={"Data Limitations"} textArray={["The data is not completely comparable across sources. One key difference is that for the Daily Mail, the Daily Express and the Metro, a complete or near-complete dataset of all article headlines was initially collected. For the Daily Mail, due to the very high number of articles, several topics were actively filtered out before analysis - 'wires' (these were republications of articles from other sources such as Reuters and AP), as well as sport, showbiz and 'femail' (lifestyle articles targeted at women). This was done based on the topics as classified by the newspaper itself, and had the effect of removing around 800,000 headlines.","The number and ratio of headlines above is after filtering, so reflects the headlines that were analysed rather than the starting dataset.","On the other hand, for the other sources, headlines were collected from major news topics such as UK politics, world news, and health. These remaining sources should have a near-complete collection of those news topics but would exclude most coverage of areas such as showbiz, TV news, sports and other miscellaneous topics."]}/>
     </div>
   )

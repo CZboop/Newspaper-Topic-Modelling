@@ -4,9 +4,6 @@ import { useResizeDetector } from 'react-resize-detector';
 import './NewspaperPage.css';
 import { useState, useCallback, useEffect } from "react";
 
-// importing image - svg icon as component
-import InfoIcon from './InfoIcon.js';
-
 // importing text components
 import TextInfo from './TextInfo.js';
 import TextWindow from './TextWindow.js';
