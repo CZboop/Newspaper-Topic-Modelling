@@ -3,7 +3,6 @@ import InfoIcon from './InfoIcon.js';
 
 function TextInfo({textArray, title}) {
     const textElements = textArray.map(text => {return <p>{text}</p>})
-    console.log(textElements)
   return (
     <div className="boilerplate text-module">
         <InfoIcon />
