@@ -134,10 +134,6 @@ h2, h3, h4 {
   background-color: rgb(75, 0, 125);
 } */
 
-hr {
-  width: 60%;
-}
-
 .no-border {
   box-shadow: none;
 }

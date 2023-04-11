@@ -30,12 +30,12 @@ function Intro() {
 
   const handleTitles = useCallback(() => {
     let plotKeyArray = ["pieChart", "polarityOverTime", "polarityRatio", "subjectivityPlot", "subjectivityOverTime", "articlesOverTimeAll", "articlesOverTimeCombined"];
-    let titlesArray = plotArray.map(name => name.layout.title.text);
+    let titlesArray = plotArray.map(name => "<b>" + name.layout.title.text);
     if ( width <= 600 ) {
-      titlesArray = titlesArray.map(title => title.match(/[\w:-]+(?:[^\w\n]+[\w:-]+){0,2}\b/g).join("<br>"))
+      titlesArray = titlesArray.map(title => "<b>" + title.match(/[\w:-]+(?:[^\w\n]+[\w:-]+){0,2}\b/g).join("<br>"))
     }
     else if ( width <= 800 ) {
-      titlesArray = titlesArray.map(title => title.match(/[\w:-]+(?:[^\w\n]+[\w:-]+){0,5}\b/g).join("<br>"))
+      titlesArray = titlesArray.map(title => "<b>" + title.match(/[\w:-]+(?:[^\w\n]+[\w:-]+){0,5}\b/g).join("<br>"))
     }
     let titlesObj = {};
     for (let i = 0 ; i < titlesArray.length; i++) {

@@ -19,7 +19,7 @@ function Home() {
         
         <p>The data used for the analysis consisted of headlines, collected using web scraping with a limited number of requests per minute. Data was collected using Python, primarily using Beautiful Soup and httplib.</p>
         <p>Headlines were from articles that were all published online between late November 2019 and early January 2023.</p>
-        <p>The <Link to='/intro'>[Introduction]</Link> page provides more details on the data, including the relative number from each newspaper and the number of articles over time.</p>
+        <p>The <Link to='/intro'>"Introduction"</Link> page provides more details on the data, including the relative number from each newspaper and the number of articles over time.</p>
         <p>The dataset that the analysis was based on is not public.</p>
         <p>Below are links to the newspapers that were analysed. This web page's navigation menu (above) can be used to to go the data analysis for each newspaper.</p>
         <ul>

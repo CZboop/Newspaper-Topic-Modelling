@@ -56,6 +56,8 @@
         height: fit-content;
         overflow: hidden;
         box-sizing: border-box;
+        box-shadow: inset 0px 8px 10px #00f8aa, 
+        inset 0px 8px 15px #00f8aa, inset 0px 8px 15px #00f8aa;
     }
     .Navbar-title {
         width: 80%;
