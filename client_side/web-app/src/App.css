@@ -54,6 +54,8 @@ button {
 
 .text-module p {
   padding: 0.5em;
+  padding-left: 0.75em;
+  padding-right: 0.75em;
 }
 
 .text-module.boilerplate{

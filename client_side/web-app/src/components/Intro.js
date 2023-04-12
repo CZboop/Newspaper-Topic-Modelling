@@ -1,10 +1,10 @@
 import React from 'react';
-import pieChart from './graph_data/news_source_ratios.json';
 import Plot from 'react-plotly.js';
 import { useResizeDetector } from 'react-resize-detector';
 import { useState, useCallback, useEffect } from "react";
 
 // importing combined plots
+import pieChart from './graph_data/combined/news_source_ratios.json';
 import polarityOverTime from './graph_data/combined/all_polarity_over_time.json';
 import polarityRatio from './graph_data/combined/all_polarity_ratio.json';
 import subjectivityPlot from './graph_data/combined/all_subjectivity_box_plot.json';
