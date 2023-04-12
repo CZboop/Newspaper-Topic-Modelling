@@ -119,7 +119,7 @@ function Intro() {
         <Plot data={polarityOverTime.data} layout={{...polarityOverTime.layout, ...{title: {text: titles["polarityOverTime"], font: {color: "white"}}, width: width, height: height, legend:{font:{size: '2%', color: "white"}}}}} config = {{responsive: true}}/>
         </div>
         <TextInfo title={null} textArray={["Polarity is a measure of how positive or negative the language used in a text or set of texts is. Above is a graph showing the average polarity across all headlines from all news sources for each month. Polarity in this case goes from a maximum of 1 (very positive) to -1 (very negative)."]}/>
-        <TextWindow title={"Polarity"} textArray={["Headlines tended to be neutral to slightly positive on average across large samples. Considering the possible range, polarity was fairly stable across the years in the data. However, there are two notable dips where headlines became more negative - the end of 2020 into the start of 2021, and the end of 2022 into the start of 2023."]} pageTitle={false}/>
+        <TextWindow title={"Polarity Over Time"} textArray={["Headlines tended to be neutral to slightly positive on average across large samples. Considering the possible range, polarity was fairly stable across the years in the data. However, there are two notable dips where headlines became more negative - the end of 2020 into the start of 2021, and the end of 2022 into the start of 2023."]} pageTitle={false}/>
         {
         // different legend position for small screens more vertical
         width <= 600 ?

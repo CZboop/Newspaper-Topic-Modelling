@@ -9,6 +9,8 @@ import TextInfo from './TextInfo.js';
 import TextWindow from './TextWindow.js';
 
 function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time, polarity_ratio, subjectivity_box, subjectivity_over_time, polarity_comments, subjectivity_comments}) {
+  // name without leading 'the' if applicable
+  const shortName = name.toLowerCase().startsWith("the") ? name.split(" ").slice(1).join(" ") : name;
   // using resize detector npm module to get height and width to resize graphs with window size
   // using debounce so updates once per second at most, no glitching
   const { width, height, ref } = useResizeDetector({ 
@@ -84,7 +86,7 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
         <div ref={ref} className="graph-container">
         <Plot data={polarity_time.data} layout={{...polarity_time.layout, ...{width: width, height: height, title: {text: titles["polarity_time"]}}}}/>
         </div>
-        <TextWindow title={`${name} - Polarity`} textArray={[polarity_comments]} pageTitle={false}/>
+        <TextWindow title={`${shortName} - Polarity`} textArray={[polarity_comments]} pageTitle={false}/>
         <TextInfo title={"Subjectivity"} textArray={["Subjectivity is a measure of subjective (opinionated) or objective (factual) language is. In this instance, this goes from 0 which is the most objective, to 1 which is the most subjective. We could think of 0.5 as an equal mix of fact and opinion.", "The box plot below shows the minimum and maximum subjectivity for this news source, as well as the quartiles."]}/>
         <div ref={ref} className="graph-container">
         <Plot data={subjectivity_box.data} layout={{...subjectivity_box.layout, ...{width: width, height: height, title: {text: titles["subjectivity_box"]}}}}/>
@@ -93,7 +95,7 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
         <div ref={ref} className="graph-container">
         <Plot data={subjectivity_over_time.data} layout={{...subjectivity_over_time.layout, ...{width: width, height: height, title: {text: titles["subjectivity_over_time"]}}}}/>
         </div>
-        <TextWindow title={`${name} - Subjectivity`} textArray={[subjectivity_comments]} pageTitle={false}/>
+        <TextWindow title={`${shortName} - Subjectivity`} textArray={[subjectivity_comments]} pageTitle={false}/>
     </div>
   )
 }

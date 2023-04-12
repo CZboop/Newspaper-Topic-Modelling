@@ -153,3 +153,13 @@ h2, h3, h4 {
     padding: 2em
   }
 }
+
+@media screen and (max-width: 450px) {
+  body {
+    padding: 0;
+    margin: 0;
+  }
+  .page-content {
+    padding: 1em
+  }
+}
