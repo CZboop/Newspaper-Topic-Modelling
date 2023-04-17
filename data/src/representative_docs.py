@@ -10,23 +10,24 @@ class RepresentativeDocsRepresenter:
         self.path_to_plot = path_to_plot
         self.path_to_repr_docs = path_to_repr_docs
         self.sources = sources
-        self.current_path = Path(__file__).parent
+        # changed to relative path so not using below, commented out as may revert
+        # self.current_path = Path(__file__).parent
 
     def _read_data(self, source):
-        with open(f'{self.current_path}/{self.path_to_plot}/{source}_topics.json', 'r') as file_:
+        with open(f'./{self.path_to_plot}/{source}_topics.json', 'r') as file_:
             self.plot = json.load(file_)
-        with open(f'{self.current_path}/{self.path_to_repr_docs}/{source}.json', 'r') as file_:
+        with open(f'./{self.path_to_repr_docs}/{source}.json', 'r') as file_:
             self.repr_docs = json.load(file_)
 
     def add_repr_docs(self, source):
         # add into the custom data definition new field for examples
         self.new_plot = self.plot
         self.new_plot["data"][0].update({"hovertemplate":"<b>Topic %{customdata[0]}</b><br>Words: %{customdata[1]}<br>Size: %{customdata[2]}<br>Example: %{customdata[3]}"})
-        print(self.new_plot["data"][0].get("hovertemplate"))
+
         # add for each in the right format
         # append to custom data array within array based on filtering by first element which has the topic number
         max_topic_num = max([int(x) for x in self.repr_docs.keys()])
-        for i in range(max_topic_num):
+        for i in range(max_topic_num + 1):
             # update each topic custom data array within the plot json
             # they are all in order in the plot already, but not in the representative examples json
             current_data = self.new_plot["data"][0].get("customdata")[i]
@@ -41,7 +42,8 @@ class RepresentativeDocsRepresenter:
             current_data.append(doc_for_current_topic)
             self.new_plot["data"][0].get("customdata")[i] = current_data
 
-        self.save_new_plot(f'{self.current_path}/plots/plots_with_examples/{source}.json')
+        self.save_new_plot(f'./plots/plots_with_examples/{source}.json')
+        return self.new_plot
 
     def save_new_plot(self, path_to_save):
         with open(path_to_save, 'w') as file_:

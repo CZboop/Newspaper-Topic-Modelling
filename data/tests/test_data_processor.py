@@ -22,13 +22,9 @@ class TestDataProcessor(unittest.TestCase):
         self.test_dir_name = 'temp_test_files'
         self.temp_within_current_dir = f'{Path(__file__).parent}/{self.test_dir_name}'
         Path(self.temp_within_current_dir).mkdir(parents=True, exist_ok=True)
-        # pass
 
     def setup_write_test_csv_file(self, dataframe, name):
         dataframe.to_csv(f'{self.temp_within_current_dir}/{name}')
-
-    # def test_tests_running(self):
-    #     self.assertEqual(1, 0)
 
     def test_select_data_files(self):
         # given - a data processor object with selector for csv files starting with test, path pointing to the temp test files directory
@@ -47,7 +43,7 @@ class TestDataProcessor(unittest.TestCase):
         self.assertEqual(actual, expected)
         self.assertTrue(hasattr(data_processor, 'files'))
 
-# TODO: test with and without files there already?
+    # TODO: test with and without files there already?
     def test_read_and_concat_data_files(self):
         # given - a data processor object with parameters to read in dummy files with names starting with test
         all_dfs = []
@@ -168,6 +164,7 @@ class TestDataProcessor(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     # teardown to undo temp changes after the test suite run - removing temporary test files and directory
+    # TODO: change these setup and tear down classes to run before all rather than individual test files?
     @classmethod
     def tearDownClass(self):
         try:
