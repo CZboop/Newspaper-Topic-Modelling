@@ -9,6 +9,7 @@ from pathlib import Path
 import pandas as pd
 import pandas.testing as pd_testing
 import datetime
+import shutil
 
 class TestDataProcessor(unittest.TestCase):
 
@@ -166,11 +167,13 @@ class TestDataProcessor(unittest.TestCase):
         expected = ['www.test-news/politics/article002', 'www.test-news/tech/article003', 'www.test-news/education/article004','www.test-news/politics/article005', 'www.test-news/tech/article006', 'www.test-news/politics/article007', 'www.test-news/politics/article010', 'www.test-news/tech/article011', 'www.test-news/politics/article012','www.test-news/tech/article013', 'www.test-news/politics/article014', 'www.test-news/tech/article015', 'www.test-news/politics/article016','www.test-news/tech/article017', 'www.test-news/politics/article018', 'www.test-news/politics/article020']
         self.assertEqual(actual, expected)
 
-    # teardown to undo temp changes after the test suite run
-    # @classmethod
-    # def tearDownClass(cls):
-    #     pass
-        # TODO: remove file and contents with appropriate exception handling
+    # teardown to undo temp changes after the test suite run - removing temporary test files and directory
+    @classmethod
+    def tearDownClass(self):
+        try:
+            shutil.rmtree(self.temp_within_current_dir)
+        except OSError as error:
+            print(f'An error occured while trying to delete directory: {error.filename} - {error.strerror}.')
 
 if __name__ == "__main__":
     unittest.main()
