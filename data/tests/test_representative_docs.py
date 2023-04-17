@@ -26,6 +26,7 @@ class TestRepresentativeDocs(unittest.TestCase):
         Path(self.temp_within_current_dir).mkdir(parents=True, exist_ok=True)
 
         # also for this class, writing to existing relative path for plots so will create that too
+        self.temp_plot_path_parent = f'{Path(__file__).parent}/plots'
         self.temp_plot_path_full = f'{Path(__file__).parent}/plots/plots_with_examples'
         Path(self.temp_plot_path_full).mkdir(parents=True, exist_ok=True)
 
@@ -78,6 +79,10 @@ class TestRepresentativeDocs(unittest.TestCase):
     def tearDownClass(self):
         try:
             shutil.rmtree(self.temp_within_current_dir)
+        except OSError as error:
+            print(f'An error occured while trying to delete directory: {error.filename} - {error.strerror}.')
+        try:
+            shutil.rmtree(self.temp_plot_path_parent)
         except OSError as error:
             print(f'An error occured while trying to delete directory: {error.filename} - {error.strerror}.')
 
