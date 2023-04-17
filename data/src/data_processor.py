@@ -51,6 +51,8 @@ class DataProcessor:
         return self.combined_data
         
     def filter_dates(self):
+        if not hasattr(self, 'files'):
+            self.read_and_concat_data_files()
         # where start date is further back in time
         self.combined_data['date'] = pd.to_datetime(self.combined_data['date'], errors='coerce')
         self.combined_data = self.combined_data.loc[(self.combined_data['date'].dt.date >= self.start_date) & (self.combined_data['date'].dt.date <= self.end_date)]
@@ -66,3 +68,4 @@ class DataProcessor:
             raise Exception('Filter topic method relies on having the url as column within the dataset. Try running again with url as one of the items in the \'cols\' parameter')
         for topic in self.topics_to_remove:
             self.combined_data = self.combined_data[~self.combined_data['url'].str.contains(topic)]
+        return self.combined_data
