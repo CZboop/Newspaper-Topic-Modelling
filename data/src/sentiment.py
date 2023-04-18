@@ -1,7 +1,7 @@
 # running some basic positive/negative sentiment analysis on the different news sources
 # and subjectivity analyis
 # comparing over time
-from data_processor import DataProcessor
+from src.data_processor import DataProcessor
 import spacy
 from spacytextblob.spacytextblob import SpacyTextBlob
 import pandas as pd

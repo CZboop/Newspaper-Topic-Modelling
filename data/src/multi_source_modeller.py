@@ -1,7 +1,7 @@
 # modelling all the different news sources
 from bertopic import BERTopic
 import datetime
-from topic_modeller import TopicModeller
+from src.topic_modeller import TopicModeller
 
 class MultiSourceModeller:
     def __init__(self, data_selectors = {'guardian' : {'selector': 'guardian_*.csv'}, 'mirror' : {'selector': 'mirror_*.csv'}, 'telegraph': {'selector':'telegraph_*.csv'}, 

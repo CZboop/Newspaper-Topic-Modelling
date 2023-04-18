@@ -35,7 +35,13 @@ class DataProcessor:
             # below to get and add source from file name hard coded to the existing data files and how they're formatted
             df['source'] = file_.split("\\")[-1].split("_")[0]
             df_list.append(df)
-        combined_df = pd.concat(df_list, axis=0, ignore_index=True)
+        if len(df_list) > 1:
+            combined_df = pd.concat(df_list, axis=0, ignore_index=True)
+        elif len(df_list) == 1:
+            combined_df = df_list[0]
+        else:
+            raise Exception(f'Something went wrong while trying to read data in from the {self.path_to_dir} directory using the {self.selector} selector - try checking these are correct')
+
         self.combined_data = combined_df
         return combined_df
 

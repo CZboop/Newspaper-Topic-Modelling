@@ -1,5 +1,5 @@
 # getting a basic idea of the data from the different sources
-from data_processor import DataProcessor
+from src.data_processor import DataProcessor
 import plotly.express as px
 import pandas as pd
 from pathlib import Path
@@ -10,9 +10,9 @@ from dateutil.relativedelta import relativedelta
 class GeneralAnalyser:
     def __init__(self, data_selectors = {'guardian' : {'selector': 'guardian_*.csv'}, 'mirror' : {'selector': 'mirror_*.csv'}, 
     'telegraph': {'selector':'telegraph_*.csv'}, 'sun' : {'selector': 'sun_*.csv'}, 'metro' : {'selector': 'metro_*.csv'}, 
-    'express' : {'selector': 'express_*.csv'}, 'mail' : {'selector': 'mail_*.csv', 'cols': ['headline', 'date', 'url'], 'topics_to_remove': ['wires','femail', 'sport', 'showbiz']}
-    }):
+    'express' : {'selector': 'express_*.csv'}, 'mail' : {'selector': 'mail_*.csv', 'cols': ['headline', 'date', 'url'], 'topics_to_remove': ['wires','femail', 'sport', 'showbiz']}}, path_to_dir='../../uk_news_scraping/data'):
         self.data_selectors = data_selectors
+        self.path_to_dir = path_to_dir
 
     def compare_ratio_of_docs(self):
         # total number of records all
@@ -20,7 +20,7 @@ class GeneralAnalyser:
         # number per each source
         record_numbers = {}
         for paper in self.data_selectors.keys():
-            record_nums = DataProcessor(selector = self.data_selectors.get(paper).get('selector'), path_to_dir = '../../uk_news_scraping/data', cols = self.data_selectors.get(paper).get('cols'), topics_to_remove = self.data_selectors.get(paper).get('topics_to_remove', None)).read_and_concat_data_files().shape[0]
+            record_nums = DataProcessor(selector = self.data_selectors.get(paper).get('selector'), path_to_dir = self.path_to_dir, cols = self.data_selectors.get(paper).get('cols'), topics_to_remove = self.data_selectors.get(paper).get('topics_to_remove', None)).read_and_concat_data_files().shape[0]
             record_numbers[paper.title()] = record_nums
             all_records += record_nums
         # percentage of each
@@ -28,6 +28,7 @@ class GeneralAnalyser:
         for paper in record_numbers.keys():
             percentage = round(record_numbers.get(paper) / all_records * 100, 2)
             record_percentages[paper] = percentage
+        print(record_percentages)
         return all_records, record_numbers, record_percentages
 
     def visualise_percentages(self, percentages): # percentages as dict e.g. coming from compare_ratio_of_docs method

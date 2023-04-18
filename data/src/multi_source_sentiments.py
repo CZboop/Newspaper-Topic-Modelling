@@ -1,6 +1,6 @@
 # a wee class to get all sentiment (polarity and subjectivity) info and graphs for sources
-from sentiment import SentimentAnalyser
-from data_processor import DataProcessor
+from src.sentiment import SentimentAnalyser
+from src.data_processor import DataProcessor
 
 class SentimentGetter:
     def __init__(self, selectors = {'guardian' : {'selector': 'guardian_*.csv'}, 'mirror' : {'selector': 'mirror_*.csv'}, 
