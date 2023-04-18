@@ -50,9 +50,12 @@ class RepresentativeDocsRepresenter:
             json.dump(self.new_plot, file_)
 
     def run_for_all_sources(self):
+        all_plots = []
         for source in self.sources:
             self._read_data(source)
-            self.add_repr_docs(source)
+            all_plots.append(self.add_repr_docs(source))
+        self.all_plots = all_plots
+        return all_plots
 
 if __name__ == "__main__":
     repr_docs = RepresentativeDocsRepresenter()
