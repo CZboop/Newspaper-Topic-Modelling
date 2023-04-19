@@ -28,7 +28,7 @@ class GeneralAnalyser:
         for paper in record_numbers.keys():
             percentage = round(record_numbers.get(paper) / all_records * 100, 2)
             record_percentages[paper] = percentage
-        print(record_percentages)
+
         return all_records, record_numbers, record_percentages
 
     def visualise_percentages(self, percentages): # percentages as dict e.g. coming from compare_ratio_of_docs method
@@ -36,19 +36,17 @@ class GeneralAnalyser:
         percent_df = pd.DataFrame(percentages.items(), columns=['Source', 'Percentage'])
         # df into plotly pie chart
         fig = px.pie(percent_df, values='Percentage', names='Source', title='Ratio of Articles by News Source')
-        # save as html
+        # save as json
         self.save_as_json(fig, 'news_source_ratios')
-
-    def save_as_html(self, figure, name):
-        path = Path(__file__).parent
-        figure.write_html(f'{path}/plots/{name}.html')
+        return fig
     
     def save_as_json(self, figure, name):
         # setting to have transparent background
         figure.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", legend_font_color="rgba(255,255,255,1)", title_font_color="rgba(255,255,255,1)", font=dict(color="rgba(255,255,255,1)"))
         # saving by getting relative path as absolute path
-        path = Path(__file__).parent
-        figure.write_json(f'{path}/plots/{name}.json')
+        # path = Path(__file__).parent
+        # note the above gets the path of this script, so if running this script from elsewhere could cause issues and not save relative to where running from which is what goal is
+        figure.write_json(f'{self.path_to_dir}/plots/{name}.json')
     
     def compare_num_of_docs_over_time(self, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5)):
         # iterate over each month and get number of articles in that month for each source and total
@@ -62,7 +60,7 @@ class GeneralAnalyser:
             doc_num_list = [month_year]
             combined_total_by_month = 0
             for source in self.data_selectors.keys():
-                article_df = DataProcessor(selector = self.data_selectors.get(source).get('selector'), path_to_dir = '../../uk_news_scraping/data', cols = self.data_selectors.get(source).get('cols'), topics_to_remove = self.data_selectors.get(source).get('topics_to_remove', None)).read_and_concat_data_files()
+                article_df = DataProcessor(selector = self.data_selectors.get(source).get('selector'), path_to_dir = self.path_to_dir, cols = self.data_selectors.get(source).get('cols'), topics_to_remove = self.data_selectors.get(source).get('topics_to_remove', None)).read_and_concat_data_files()
                 articles_in_range = article_df['date'].loc[lambda x: (pd.DatetimeIndex(x).month == month_year.month) & (pd.DatetimeIndex(x).year == month_year.year)]
                 num_articles_in_range = len(list(articles_in_range))
                 # doc_num_list[source] = num_articles_in_range
