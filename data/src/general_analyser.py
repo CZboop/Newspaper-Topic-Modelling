@@ -69,7 +69,7 @@ class GeneralAnalyser:
             docs_by_month_source.append(doc_num_list)
             docs_by_month_total[month_year] = combined_total_by_month
             month_year += relativedelta(months = 1)
-        print(docs_by_month_source)
+
         return docs_by_month_source, docs_by_month_total
     
     def visualise_number_over_time(self, data, single = False, source_name= None): # single kwarg is for whether it's one data source per graph or not
@@ -78,11 +78,13 @@ class GeneralAnalyser:
             data_df = pd.DataFrame(data.items(), columns=['Month', 'Articles'])
             fig = px.line(data_df, x= 'Month', y= 'Articles', title=f'{source_name} - Article Number Over Time')
             self.save_as_json(fig, filename)
+            return fig
         else:
             sources_list = list(self.data_selectors.keys()) # dict keys data type needs to be cast to list to concat later, not enough to be iterable
             data_df = pd.DataFrame(data, columns=['Month'] + sources_list)
             fig = px.line(data_df, x= 'Month', y= sources_list, title=f'{source_name} - Article Number Over Time')
             self.save_as_json(fig, filename)
+            return fig
 
     def run(self):
         self.visualise_percentages(self.compare_ratio_of_docs()[2])
