@@ -6,6 +6,7 @@ import src
 from src.general_analyser import GeneralAnalyser
 from src.data_processor import DataProcessor
 import os
+import glob
 from pathlib import Path
 import pandas as pd
 import pandas.testing as pd_testing
@@ -114,8 +115,10 @@ class TestGeneralAnalyser(unittest.TestCase):
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
         'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+
         # when - we call the compare number of docs over time method
         actual_per_source , actual_total = undertest_class.compare_num_of_docs_over_time()
+
         # then - two collections are returned with the docs over time for each source and overall
         # total will be object with keys of datetime start of month with value of int how many docs in that month
         expected_total = {datetime.date(2019, 12, 1): 4, datetime.date(2020, 1, 1): 0, datetime.date(2020, 2, 1): 0, datetime.date(2020, 3, 1): 1, datetime.date(2020, 4, 1) : 2, datetime.date(2020, 5, 1) : 1, datetime.date(2020, 6, 1) : 1, datetime.date(2020, 7, 1) : 0, datetime.date(2020, 8, 1) : 1, datetime.date(2020, 9, 1) : 1, datetime.date(2020, 10, 1) : 0, datetime.date(2020, 11, 1) : 0, datetime.date(2020, 12, 1): 0, datetime.date(2021, 1, 1): 0, datetime.date(2021, 2, 1): 0, datetime.date(2021, 3, 1): 1, datetime.date(2021, 4, 1) : 1, datetime.date(2021, 5, 1) : 1, datetime.date(2021, 6, 1) : 0, datetime.date(2021, 7, 1) : 0, datetime.date(2021, 8, 1) : 0, datetime.date(2021, 9, 1) : 0, datetime.date(2021, 10, 1) : 1, datetime.date(2021, 11, 1) : 1, datetime.date(2021, 12, 1): 0, datetime.date(2022, 1, 1): 0, datetime.date(2022, 2, 1): 0, datetime.date(2022, 3, 1): 0, datetime.date(2022, 4, 1) : 0, datetime.date(2022, 5, 1) : 0, datetime.date(2022, 6, 1) : 0, datetime.date(2022, 7, 1) : 1, datetime.date(2022, 8, 1) : 0, datetime.date(2022, 9, 1) : 2, datetime.date(2022, 10, 1) : 0, datetime.date(2022, 11, 1) : 0, datetime.date(2022, 12, 1) : 0, datetime.date(2023, 1, 1) : 1}
@@ -177,7 +180,9 @@ class TestGeneralAnalyser(unittest.TestCase):
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
         'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
 
-        # when - pass the number of docs over time for all sources combined into the visualise number over time method with 'single' flag set to true
+        # when - delete any existing plots, pass the number of docs over time for all sources combined into the visualise number over time method with 'single' flag set to true
+        self.delete_temp_dir_contents()
+
         _ , number_of_docs_over_time_total = undertest_class.compare_num_of_docs_over_time()
         actual_fig = undertest_class.visualise_number_over_time(number_of_docs_over_time_total, single= True, source_name= "test")
         actual_fig_data = list(actual_fig["data"][0]["y"])
@@ -204,7 +209,9 @@ class TestGeneralAnalyser(unittest.TestCase):
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
         'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
 
-        # when - pass the number of docs over time for all sources combined into the visualise number over time method with 'single' flag set to false
+        # when - delete any existing plots, then pass the number of docs over time for all sources combined into the visualise number over time method with 'single' flag set to false
+        self.delete_temp_dir_contents()
+
         number_of_docs_over_time_sources , _ = undertest_class.compare_num_of_docs_over_time()
         actual_fig = undertest_class.visualise_number_over_time(number_of_docs_over_time_sources, single= False)
         
@@ -233,7 +240,37 @@ class TestGeneralAnalyser(unittest.TestCase):
         assert test_file_path.is_file()
 
     def test_run(self):
-        pass
+        # given - headline style data and an instance of the undertest general analyser class
+        headline_list_of_lists = [['testingtesting'], ['this is a test headline', 'final test'], ['testing test', 'test of the other test', 'testing testing 123', 'final test but different', 'a test headline', 'another test', 'headline for purpose of test'], ['testing 123', 'test check 12', 'a different test', 'another test but not the other test'], ['testing', 'this is an example of a test headline', 'example of a test', 'final test the final one', 'test of the test', 'another version of a test']]
+
+        date_list_of_lists = [[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2020, 3, 10)]]
+
+        for i in range(5):
+            test_dataframe = pd.DataFrame(data= {'headline' : headline_list_of_lists[i], 'date' : date_list_of_lists[i], 'url' : ['www.test-url.com/123'] * len(headline_list_of_lists[i]), 'source' : [f'test{i}'] * len(headline_list_of_lists[i])})
+            self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
+        
+        undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+
+        # when - we delete any existing plot files and then call the run method
+        self.delete_temp_dir_contents()
+        undertest_class.run()
+
+        # then - three plots are created, one with the same percentages of docs from each source, the other two with number of docs over time, one total and one with a line for each source
+        test_file_path_over_time_all = Path(f'{Path(__file__).parent}/{self.test_dir_name}/plots/articles_over_time_All Sources.json')
+        assert test_file_path_over_time_all.is_file()
+
+        test_file_path_over_time_combined = Path(f'{Path(__file__).parent}/{self.test_dir_name}/plots/articles_over_time_Combined Sources.json')
+        assert test_file_path_over_time_combined.is_file()
+
+        test_file_path_ratios = Path(f'{Path(__file__).parent}/{self.test_dir_name}/plots/news_source_ratios.json')
+        assert test_file_path_ratios.is_file()
+
+    # not deleting directory itself here, for between tests rather than fully in teardown
+    def delete_temp_dir_contents(self):
+        files_to_delete = glob.glob(f'{self.temp_plot_path_parent}/*')
+        for file_ in files_to_delete:
+            os.remove(file_)
 
     @classmethod
     def tearDownClass(self):
