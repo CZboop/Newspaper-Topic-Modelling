@@ -118,7 +118,7 @@ class TestDataProcessor(unittest.TestCase):
         # then - the returned data is the original minus the missing data
         self.assertEqual(actual, expected)
 
-    def test_filter_dates(self):
+    def test_filter_dates_removes_dates_before_start_date(self):
         # given - a data processor with start/end date parameters passed in, and data containing dates with some dates outside the start/end range
         headline_list_of_lists = [['testingtesting', 'a test of the test', 'another test', 'test headline'], ['one of the tests', 'test of the test', 'a headline', 'final test'], ['testing test', 'test of the other test', 'a headline with a value', 'final test but different'], ['testing 123', 'here is a test', 'a different test', 'there is another test'], ['testing', 'it is a test', 'it is not a test', 'final test the final one']]
 
@@ -138,10 +138,32 @@ class TestDataProcessor(unittest.TestCase):
 
         # then - there are no dates before the start date
         actual_before_start_date = list(filter(lambda x: x < start_date, actual))
-        actual_after_end_date = list(filter(lambda x: x > end_date, actual))
 
         # and there are no dates after the end date
         self.assertEqual(len(actual_before_start_date), 0)
+    
+    def test_filter_dates_removes_dates_after_end_date(self):
+        # given - a data processor with start/end date parameters passed in, and data containing dates with some dates outside the start/end range
+        headline_list_of_lists = [['testingtesting', 'a test of the test', 'another test', 'test headline'], ['one of the tests', 'test of the test', 'a headline', 'final test'], ['testing test', 'test of the other test', 'a headline with a value', 'final test but different'], ['testing 123', 'here is a test', 'a different test', 'there is another test'], ['testing', 'it is a test', 'it is not a test', 'final test the final one']]
+
+        date_list_of_lists = [[ datetime.date(2019, 12, 1), datetime.date(2019, 11, 1), datetime.date(2029, 12, 1), datetime.date(2019, 12, 21)], [ datetime.date(2022, 12, 1), datetime.date(2022, 10, 1), datetime.date(2020, 5, 12), datetime.date(2021, 3, 9)], [ datetime.date(2032, 12, 1), datetime.date(2025, 8, 14), datetime.date(2122, 9, 14), datetime.date(2022, 2, 11)], [ datetime.date(2021, 7, 12), datetime.date(2021, 8, 14), datetime.date(1999, 12, 1), datetime.date(2009, 7, 12)], [ datetime.date(2020, 9, 8), datetime.date(2020, 5, 29), datetime.date(2029, 7, 23), datetime.date(2020, 1, 18)]]
+
+        for i in range(5):
+            test_dataframe = pd.DataFrame(data= {'headline' : headline_list_of_lists[i], 'url' : ['www.test-news.co.uk/123', 'www.test-news.co.uk/321', 'www.test-news.co.uk/3141', 'www.test-news.co.uk/897'], 'date': date_list_of_lists[i]})
+            self.setup_write_test_csv_file(test_dataframe, f'test_{i}.csv')
+
+        start_date = datetime.date(2019, 12, 1)
+        end_date = datetime.date(2022, 12, 1)
+
+        data_processor = DataProcessor(f'./{self.test_dir_name}', ['headline', 'url', 'date'], selector= 'test*.csv', start_date= start_date, end_date= end_date)
+
+        # when - the filter dates method is called and the date column is extracted
+        actual = list(data_processor.filter_dates()['date'])
+
+        # then - there are no dates before the start date
+        actual_after_end_date = list(filter(lambda x: x > end_date, actual))
+
+        # and there are no dates after the end date
         self.assertEqual(len(actual_after_end_date), 0)
     
     def test_filter_topics(self):

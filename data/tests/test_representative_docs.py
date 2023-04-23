@@ -35,7 +35,7 @@ class TestRepresentativeDocs(unittest.TestCase):
         with open(f'{self.test_dir_name}/{filename}', 'w') as file_:
             json.dump(data, file_)
 
-    def test_reading_in_data(self):
+    def test_reading_in_data_adds_plot_as_class_property(self):
         # given - a fresh instance of the representative docs class and json files with a simplified topic plotly plot and a list of representative docs for the topics on that plot
         test_data_plot = {"data" : [{"customdata" : [[0, "cluster | title | but | fake", 100], [1, "a | different | test | topic", 100], [2, "cluster | title | once | again", 100], [3, "the | words | of | cluster", 100], [4, "topic | definition | but | testing", 100], [5, "a | topic | in | test", 100], [6, "name | of | the | group", 100], [7, "a | bag | of | docs", 100], [8, "chunks | of | data | here", 100], [9, "some | words | in | group", 100]],"hovertemplate":"<b>Topic %{customdata[0]}</b><br>Words: %{customdata[1]}<br>Size: %{customdata[2]}"}]}
         self.setup_write_test_json_file(test_data_plot, 'test_topics.json')
@@ -48,8 +48,23 @@ class TestRepresentativeDocs(unittest.TestCase):
         # when - the read data method is called for the given source
         undertest_class._read_data(source='test')
 
-        # then - the two json plots are added as new class properties
+        # then - the json plot of the topic clusters is added as a class property to the undertest class
         self.assertTrue(hasattr(undertest_class, "plot"))
+
+    def test_reading_in_data_adds_representative_docs_as_class_property(self):
+        # given - a fresh instance of the representative docs class and json files with a simplified topic plotly plot and a list of representative docs for the topics on that plot
+        test_data_plot = {"data" : [{"customdata" : [[0, "cluster | title | but | fake", 100], [1, "a | different | test | topic", 100], [2, "cluster | title | once | again", 100], [3, "the | words | of | cluster", 100], [4, "topic | definition | but | testing", 100], [5, "a | topic | in | test", 100], [6, "name | of | the | group", 100], [7, "a | bag | of | docs", 100], [8, "chunks | of | data | here", 100], [9, "some | words | in | group", 100]],"hovertemplate":"<b>Topic %{customdata[0]}</b><br>Words: %{customdata[1]}<br>Size: %{customdata[2]}"}]}
+        self.setup_write_test_json_file(test_data_plot, 'test_topics.json')
+
+        test_data_docs = {"2" : ["example 1 group 2", "example 2 group 2"], "4" : ["example 1 group 4", "example 2 group 4", "example 3 group 4"], "6" : ["example 1 group 6"], "8" : ["example 1 group 8", "example 2 group 8"], "1" : ["example 1 group 1", "example 2 group 1"], "3" : ["example 1 group 3", "example 1 group 3"], "5" : ["example 1 group 5"], "7" : ["example 1 group 7", "example 2 group 7"], "9" : ["example 1 group 9", "example 2 group 9", "example 3 group 9"]}
+        self.setup_write_test_json_file(test_data_docs, 'test.json')
+
+        undertest_class = RepresentativeDocsRepresenter(path_to_plot = 'temp_test_files', path_to_repr_docs = 'temp_test_files', sources=['test'])
+
+        # when - the read data method is called for the given source
+        undertest_class._read_data(source='test')
+
+        # then - the json data of the representative docs is added as a class property to the undertest class
         self.assertTrue(hasattr(undertest_class, "repr_docs"))
 
     def test_adding_representative_docs_to_plot(self):
