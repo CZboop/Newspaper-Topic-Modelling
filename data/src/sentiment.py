@@ -14,9 +14,13 @@ import os
 
 class SentimentAnalyser:
     # note, the data processor is passed in as an object already but lots can be controlled depending on what the data processor is given e.g. filtering
-    def __init__(self, data_processor, source_name = None):
+    def __init__(self, data_processor, source_name = None, save_path = None):
         self.data_processor = data_processor
         self.data_processor.read_and_concat_data_files()
+        if save_path == None:
+            self.save_path = '.'
+        else:
+            self.save_path = save_path
         if source_name != None:
             self.source_name = source_name
         else:
@@ -63,6 +67,7 @@ class SentimentAnalyser:
         percentage_df = pd.DataFrame(ratios.items(), columns=['Polarity', 'Percentage'])
         fig = px.pie(percentage_df, values='Percentage', names='Polarity', title=f'{self.source_name} - Percentages of Positive, Negative and Neutral Headlines')
         self.save_as_json(fig, f'{self.source_name}_polarity_ratio')
+        return fig
 
     def get_polarity_over_time(self, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5)):
         if not hasattr(self, 'data_df'):
@@ -76,11 +81,9 @@ class SentimentAnalyser:
             # slice df
             current_month_polarity = self.data_df.loc[lambda df: (pd.DatetimeIndex(df['date']).month == current_date.month) & (pd.DatetimeIndex(df['date']).year == current_date.year)]['polarity']
             # get avg 
-            print(current_month_polarity)
             avg_polarity = current_month_polarity.mean()
             # assign to dict
             month_polarity[current_date] = avg_polarity
-            print(current_date, avg_polarity)
             # decrement current month
             current_date -= relativedelta(months=1)
         return month_polarity
@@ -89,6 +92,7 @@ class SentimentAnalyser:
         overtime_polarity_df = pd.DataFrame(overtime_data.items(), columns=['Date', 'Polarity'])
         fig = px.line(overtime_polarity_df, x="Date", y="Polarity", title=f'{self.source_name} - Polarity of Headlines Over Time')
         self.save_as_json(fig, f'{self.source_name}_polarity_over_time')
+        return fig
 
     def get_subjectivity_info(self):
         # get median, mean, but mostly will pass in to plotly to do a box plot 
@@ -101,6 +105,7 @@ class SentimentAnalyser:
     def plot_subjectivity(self):
         box_plot = px.box(self.data_df, y= 'subjectivity', title= f'{self.source_name} - Subjectivity of Headlines')
         self.save_as_json(box_plot, f'{self.source_name}_subjectivity_box_plot')
+        return box_plot
 
     def get_subjectivity_over_time(self, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5)):
         if not hasattr(self, 'data_df'):
@@ -124,12 +129,13 @@ class SentimentAnalyser:
         overtime_subjectivity_df = pd.DataFrame(overtime_data.items(), columns=['Date', 'Subjectivity'])
         fig = px.line(overtime_subjectivity_df, x="Date", y="Subjectivity", title=f'{self.source_name} - Subjectivity of Headlines Over Time')
         self.save_as_json(fig, f'{self.source_name}_subjectivity_over_time')
+        return fig
 
     def save_as_json(self, fig, name):
+        # creating plots directory if it doesn't exist
+        Path(f'{self.save_path}/plots').mkdir(parents=True, exist_ok=True)
         fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", legend_font_color="rgba(255,255,255,1)", title_font_color="rgba(255,255,255,1)", font=dict(color="rgba(255,255,255,1)"))
-        # saving by getting relative path as absolute path
-        path = Path(__file__).parent
-        fig.write_json(f'{path}/plots/{name}.json')
+        fig.write_json(f'{self.save_path}/plots/{name}.json')
 
 if __name__ == "__main__":
     sentiment_analyser = SentimentAnalyser(DataProcessor('../../uk_news_scraping/data', ['headline', 'date', 'url'], '*.csv', topics_to_remove = ['wires','femail', 'sport', 'showbiz']), source_name='all')

@@ -161,7 +161,7 @@ class TestGeneralAnalyser(unittest.TestCase):
 
         # then - a json file containing the data of the figure is save in the expected place with expected name
         test_file_path = Path(f'{Path(__file__).parent}/{self.test_dir_name}/plots/{test_file_name}.json')
-        assert test_file_path.is_file()
+        self.assertTrue(test_file_path.is_file())
 
     def test_compare_number_of_docs_over_time_gives_correct_total_over_time(self):
         # given - data with dates passed into an instance of general analyser class
@@ -320,7 +320,7 @@ class TestGeneralAnalyser(unittest.TestCase):
         expected_fig_data = [4, 0, 0, 1, 2, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 0, 0, 0, 1]
 
         test_file_path = Path(f'{Path(__file__).parent}/{self.test_dir_name}/plots/articles_over_time_test.json')
-        assert test_file_path.is_file()
+        self.assertTrue(test_file_path.is_file())
 
     def test_visualise_number_over_time_multi_source_has_correct_data_for_each_source(self):
         # given - data for multiple sources passed into an instance of the undertest class
@@ -403,7 +403,7 @@ class TestGeneralAnalyser(unittest.TestCase):
 
         # then - a json file is created with the expected path and name
         test_file_path = Path(f'{Path(__file__).parent}/{self.test_dir_name}/plots/articles_over_time.json')
-        assert test_file_path.is_file()
+        self.assertTrue(test_file_path.is_file())
 
     def test_run_creates_all_expected_files(self):
         # given - headline style data and an instance of the undertest general analyser class
@@ -424,13 +424,13 @@ class TestGeneralAnalyser(unittest.TestCase):
 
         # then - three json files are created with the expected path and name
         test_file_path_over_time_all = Path(f'{Path(__file__).parent}/{self.test_dir_name}/plots/articles_over_time_All Sources.json')
-        assert test_file_path_over_time_all.is_file()
+        self.assertTrue(test_file_path_over_time_all.is_file())
 
         test_file_path_over_time_combined = Path(f'{Path(__file__).parent}/{self.test_dir_name}/plots/articles_over_time_Combined Sources.json')
-        assert test_file_path_over_time_combined.is_file()
+        self.assertTrue(test_file_path_over_time_combined.is_file())
 
         test_file_path_ratios = Path(f'{Path(__file__).parent}/{self.test_dir_name}/plots/news_source_ratios.json')
-        assert test_file_path_ratios.is_file()
+        self.assertTrue(test_file_path_ratios.is_file())
 
     def test_run_creates_file_with_expected_data_for_individual_sources(self):
         # given - headline style data and an instance of the undertest general analyser class

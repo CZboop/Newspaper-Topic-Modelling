@@ -34,7 +34,7 @@ class TestSentiment(unittest.TestCase):
         # given - unprocessed headline data and an instance of the undertest sentiment class
         headline_list_of_lists = [['testingtesting'], ['this is a test headline', 'final test'], ['testing test', 'test of the other test', 'testing testing 123', 'final test but different', 'a test headline', 'another test', 'headline for purpose of test'], ['testing 123', 'test check 12', 'a different test', 'another test but not the other test'], ['testing', 'this is an example of a test headline', 'example of a test', 'final test the final one', 'test of the test', 'another version of a test']]
 
-        date_list_of_lists = [[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2025, 3, 10)]]
+        date_list_of_lists = [[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2021, 3, 10)]]
 
         for i in range(5):
             test_dataframe = pd.DataFrame(data= {'headline' : headline_list_of_lists[i], 'date' : date_list_of_lists[i], 'url' : ['www.test-url.com/123'] * len(headline_list_of_lists[i]), 'source' : [f'test{i}'] * len(headline_list_of_lists[i])})
@@ -49,25 +49,222 @@ class TestSentiment(unittest.TestCase):
         # then - the data processor inside the undertest class is storing the data, which has been preprocessed
         self.assertTrue(hasattr(undertest_class.data_processor, 'combined_data'))
 
-    def test_get_polarity_and_subjectivity(self):
-        pass
+    def test_get_polarity_and_subjectivity_adds_polarity_column_to_main_dataframe(self):
+        # given - headline data passed into a data processor in an instance of the sentiment analyser class
+        headline_list_of_lists = [['testingtesting'], ['this is a test headline', 'final test'], ['testing test', 'test of the other test', 'testing testing 123', 'final test but different', 'a test headline', 'another test', 'headline for purpose of test'], ['testing 123', 'test check 12', 'a different test', 'another test but not the other test'], ['testing', 'this is an example of a test headline', 'example of a test', 'final test the final one', 'test of the test', 'another version of a test']]
 
-    def test_get_polarity_ratio(self):
-        pass
+        date_list_of_lists = [[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2021, 3, 10)]]
 
-    def test_plot_polarity_ratio(self):
-        pass
+        for i in range(5):
+            test_dataframe = pd.DataFrame(data= {'headline' : headline_list_of_lists[i], 'date' : date_list_of_lists[i], 'url' : ['www.test-url.com/123'] * len(headline_list_of_lists[i]), 'source' : [f'test{i}'] * len(headline_list_of_lists[i])})
+            self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
 
-    def test_get_polarity_over_time(self):
-        pass
+        test_data_processor = DataProcessor(path_to_dir=f'{self.temp_within_current_dir}', cols=['headline', 'date', 'url', 'source'], selector= "*.csv")
+        undertest_class = SentimentAnalyser(test_data_processor)
 
-    def test_plot_polarity_over_time(self):
-        pass
+        # when - we call the get polarity and subjectivity method
+        undertest_class._get_polarity_subjectivity()
+
+        # then - the undertest sentiment analyser class has a new column called polarity
+        self.assertTrue('polarity' in undertest_class.data_df.columns)
+
+    def test_get_polarity_and_subjectivity_adds_subjectivity_column_to_main_dataframe(self):
+        # given - headline data passed into a data processor in an instance of the sentiment analyser class
+        headline_list_of_lists = [['testingtesting'], ['this is a test headline', 'final test'], ['testing test', 'test of the other test', 'testing testing 123', 'final test but different', 'a test headline', 'another test', 'headline for purpose of test'], ['testing 123', 'test check 12', 'a different test', 'another test but not the other test'], ['testing', 'this is an example of a test headline', 'example of a test', 'final test the final one', 'test of the test', 'another version of a test']]
+
+        date_list_of_lists = [[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2021, 3, 10)]]
+
+        for i in range(5):
+            test_dataframe = pd.DataFrame(data= {'headline' : headline_list_of_lists[i], 'date' : date_list_of_lists[i], 'url' : ['www.test-url.com/123'] * len(headline_list_of_lists[i]), 'source' : [f'test{i}'] * len(headline_list_of_lists[i])})
+            self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
+
+        test_data_processor = DataProcessor(path_to_dir=f'{self.temp_within_current_dir}', cols=['headline', 'date', 'url', 'source'], selector= "*.csv")
+        undertest_class = SentimentAnalyser(test_data_processor)
+
+        # when - we call the get polarity and subjectivity method
+        undertest_class._get_polarity_subjectivity()
+
+        # then - the undertest sentiment analyser class has a new column called subjectivity
+        self.assertTrue('subjectivity' in undertest_class.data_df.columns)
+
+    def test_get_polarity_and_subjectivity_added_subjectivity_column_is_all_within_expected_range(self):
+        # given - headline data with mixed subjectivity and polarity passed into a data processor in an instance of the sentiment analyser class
+        headline_list_of_lists = [['in my opinion this is a bit like something that happened to me where i wrote a headline'], ['this is a test headline', 'final test'], ['a terrible disgusting testing test', 'i hate it', 'i love it', 'final test but different', 'a test headline', 'another test', 'headline for purpose of test'], ['testing 123', 'test check 12', 'i dont know but in my opinion this might be a fake headline', 'another test but not the other test'], ['this is a great fake headline', 'this is an example of a test headline', 'example of a test', 'final test the final one', 'test of the test', 'this fake headline is really bad']]
+
+        date_list_of_lists = [[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2021, 3, 10)]]
+
+        for i in range(5):
+            test_dataframe = pd.DataFrame(data= {'headline' : headline_list_of_lists[i], 'date' : date_list_of_lists[i], 'url' : ['www.test-url.com/123'] * len(headline_list_of_lists[i]), 'source' : [f'test{i}'] * len(headline_list_of_lists[i])})
+            self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
+
+        test_data_processor = DataProcessor(path_to_dir=f'{self.temp_within_current_dir}', cols=['headline', 'date', 'url', 'source'], selector= "*.csv")
+        undertest_class = SentimentAnalyser(test_data_processor)
+
+        # when - we call the get polarity and subjectivity method
+        undertest_class._get_polarity_subjectivity()
+
+        # then - the created subjectivity column is all floats between 0 and 1
+        actual_subjectivity_col = undertest_class.data_df['subjectivity']
+
+        self.assertTrue(all(actual_subjectivity_col.between(0,1)))
+
+    def test_get_polarity_and_subjectivity_added_polarity_column_is_all_within_expected_range(self):
+        # given - headline data with mixed subjectivity and polarity passed into a data processor in an instance of the sentiment analyser class
+        headline_list_of_lists = [['in my opinion this is a bit like something that happened to me where i wrote a headline'], ['this is a test headline', 'final test'], ['a terrible disgusting testing test', 'i hate it', 'i love it', 'final test but different', 'a test headline', 'another test', 'headline for purpose of test'], ['testing 123', 'test check 12', 'i dont know but in my opinion this might be a fake headline', 'another test but not the other test'], ['this is a great fake headline', 'this is an example of a test headline', 'example of a test', 'final test the final one', 'test of the test', 'this fake headline is really bad']]
+
+        date_list_of_lists = [[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2021, 3, 10)]]
+
+        for i in range(5):
+            test_dataframe = pd.DataFrame(data= {'headline' : headline_list_of_lists[i], 'date' : date_list_of_lists[i], 'url' : ['www.test-url.com/123'] * len(headline_list_of_lists[i]), 'source' : [f'test{i}'] * len(headline_list_of_lists[i])})
+            self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
+
+        test_data_processor = DataProcessor(path_to_dir=f'{self.temp_within_current_dir}', cols=['headline', 'date', 'url', 'source'], selector= "*.csv")
+        undertest_class = SentimentAnalyser(test_data_processor)
+
+        # when - we call the get polarity and subjectivity method
+        undertest_class._get_polarity_subjectivity()
+
+        # then - the created polarity column is all floats between -1 and 1
+        actual_polarity_col = undertest_class.data_df['polarity']
+
+        self.assertTrue(all(actual_polarity_col.between(-1,1)))
+
+    def test_get_polarity_ratio_gives_correct_ratio(self):
+        # given - - headline data with mixed subjectivity and polarity passed into a data processor in an instance of the sentiment analyser class
+        headline_list_of_lists = [['in my opinion this is a bit like something that happened to me where i wrote a headline'], ['this is a test headline', 'final test'], ['a terrible disgusting testing test', 'i hate it', 'i love it', 'final test but different', 'a test headline', 'another test', 'headline for purpose of test'], ['testing 123', 'test check 12', 'i dont know but in my opinion this might be a fake headline', 'another test but not the other test'], ['this is a great fake headline', 'this is an example of a test headline', 'example of a test', 'final test the final one', 'test of the test', 'this fake headline is really bad i think']]
+
+        date_list_of_lists = [[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2021, 3, 10)]]
+
+        for i in range(5):
+            test_dataframe = pd.DataFrame(data= {'headline' : headline_list_of_lists[i], 'date' : date_list_of_lists[i], 'url' : ['www.test-url.com/123'] * len(headline_list_of_lists[i]), 'source' : [f'test{i}'] * len(headline_list_of_lists[i])})
+            self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
+
+        test_data_processor = DataProcessor(path_to_dir=f'{self.temp_within_current_dir}', cols=['headline', 'date', 'url', 'source'], selector= "*.csv")
+        undertest_class = SentimentAnalyser(test_data_processor)
+
+        # when - we call the get polarity subjectivity method and overwrite polarity column to set values
+        undertest_class._get_polarity_subjectivity()
+        polarity_col = [ 0, 0, 0, 0, 0, 0, 0, -0.5, -0.1, -0.4, -0.3, -0.2, 0.2, 0.7, 1, 0.1, 0.5, 0.88, 0.32, 0.1 ]
+        undertest_class.data_df['polarity'] = polarity_col
+        
+        actual_ratios = undertest_class.get_polarity_ratio()
+
+        # then - the expected percentages for each of the three categories is returned (%age will be count x 5 as there are 20 headlines)
+        expected_ratios = {'positive': 40.0, 'negative': 25.0, 'neutral' : 35.0}
+        self.assertDictEqual(actual_ratios, expected_ratios)
+
+    def test_plot_polarity_ratio_saves_expected_json_file(self):
+        # given - headline data with mixed subjectivity and polarity passed into a data processor in an instance of the sentiment analyser class
+        headline_list_of_lists = [['in my opinion this is a bit like something that happened to me where i wrote a headline'], ['this is a test headline', 'final test'], ['a terrible disgusting testing test', 'i hate it', 'i love it', 'final test but different', 'a test headline', 'another test', 'headline for purpose of test'], ['testing 123', 'test check 12', 'i dont know but in my opinion this might be a fake headline', 'another test but not the other test'], ['this is a great fake headline', 'this is an example of a test headline', 'example of a test', 'final test the final one', 'test of the test', 'this fake headline is really bad i think']]
+
+        date_list_of_lists = [[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2021, 3, 10)]]
+
+        for i in range(5):
+            test_dataframe = pd.DataFrame(data= {'headline' : headline_list_of_lists[i], 'date' : date_list_of_lists[i], 'url' : ['www.test-url.com/123'] * len(headline_list_of_lists[i]), 'source' : [f'test{i}'] * len(headline_list_of_lists[i])})
+            self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
+
+        test_data_processor = DataProcessor(path_to_dir=f'{self.temp_within_current_dir}', cols=['headline', 'date', 'url', 'source'], selector= "*.csv")
+        undertest_class = SentimentAnalyser(test_data_processor, source_name="test", save_path=f'{self.temp_within_current_dir}')
+
+        # when - we call the undertest plot polarity method, passing in set ratios in dict format
+        expected_polarity_ratios = {'positive': 40.0, 'negative': 25.0, 'neutral' : 35.0}
+        undertest_class.plot_polarity_ratio(expected_polarity_ratios)
+
+        # then - a json file with the expected path and name is created
+        test_file_path = Path(f'{Path(__file__).parent}/{self.test_dir_name}/plots/test_polarity_ratio.json')
+        self.assertTrue(test_file_path.is_file())
+
+    def test_plot_polarity_ratio_creates_plot_with_expected_data(self):
+        # given - headline data with mixed subjectivity and polarity passed into a data processor in an instance of the sentiment analyser class
+        headline_list_of_lists = [['in my opinion this is a bit like something that happened to me where i wrote a headline'], ['this is a test headline', 'final test'], ['a terrible disgusting testing test', 'i hate it', 'i love it', 'final test but different', 'a test headline', 'another test', 'headline for purpose of test'], ['testing 123', 'test check 12', 'i dont know but in my opinion this might be a fake headline', 'another test but not the other test'], ['this is a great fake headline', 'this is an example of a test headline', 'example of a test', 'final test the final one', 'test of the test', 'this fake headline is really bad i think']]
+
+        date_list_of_lists = [[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2021, 3, 10)]]
+
+        for i in range(5):
+            test_dataframe = pd.DataFrame(data= {'headline' : headline_list_of_lists[i], 'date' : date_list_of_lists[i], 'url' : ['www.test-url.com/123'] * len(headline_list_of_lists[i]), 'source' : [f'test{i}'] * len(headline_list_of_lists[i])})
+            self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
+
+        test_data_processor = DataProcessor(path_to_dir=f'{self.temp_within_current_dir}', cols=['headline', 'date', 'url', 'source'], selector= "*.csv")
+        undertest_class = SentimentAnalyser(test_data_processor, source_name="test", save_path=f'{self.temp_within_current_dir}')
+
+        # when - we call the undertest plot polarity method, passing in set ratios in dict format
+        expected_polarity_ratios_dict = {'positive': 40.0, 'negative': 25.0, 'neutral' : 35.0}
+        actual_fig = undertest_class.plot_polarity_ratio(expected_polarity_ratios_dict)
+
+        # then - the data in the figure generated matches the expected data
+        expected_polarity_ratios = list(expected_polarity_ratios_dict.values())
+        actual_polarity_ratios = list(actual_fig["data"][0]["values"])
+        self.assertListEqual(actual_polarity_ratios, expected_polarity_ratios)
+
+    def test_get_polarity_over_time_returns_polarity_for_each_month(self):
+        # given - headline data with mixed subjectivity and polarity passed into a data processor in an instance of the sentiment analyser class
+        headline_list_of_lists = [['in my opinion this is a bit like something that happened to me where i wrote a headline'], ['this is a test headline', 'final test'], ['a terrible disgusting testing test', 'i hate it', 'i love it', 'final test but different', 'a test headline', 'another test', 'headline for purpose of test'], ['testing 123', 'test check 12', 'i dont know but in my opinion this might be a fake headline', 'another test but not the other test'], ['this is a great fake headline', 'this is an example of a test headline', 'example of a test', 'final test the final one', 'test of the test', 'this fake headline is really bad i think']]
+
+        date_list_of_lists = [[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2021, 3, 10)]]
+
+        for i in range(5):
+            test_dataframe = pd.DataFrame(data= {'headline' : headline_list_of_lists[i], 'date' : date_list_of_lists[i], 'url' : ['www.test-url.com/123'] * len(headline_list_of_lists[i]), 'source' : [f'test{i}'] * len(headline_list_of_lists[i])})
+            self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
+
+        test_data_processor = DataProcessor(path_to_dir=f'{self.temp_within_current_dir}', cols=['headline', 'date', 'url', 'source'], selector= "*.csv")
+        undertest_class = SentimentAnalyser(test_data_processor, source_name="test", save_path=f'{self.temp_within_current_dir}')
+
+        # when - we call the get polarity over time method on the undertest class
+        actual_polarity_over_time = undertest_class.get_polarity_over_time()
+        expected_polarity_over_time_keys = [datetime.date(2023, 1, 5), datetime.date(2022, 12, 5), datetime.date(2022, 11, 5), datetime.date(2022, 10, 5), datetime.date(2022, 9, 5), datetime.date(2022, 8, 5), datetime.date(2022, 7, 5), datetime.date(2022, 6, 5), datetime.date(2022, 5, 5), datetime.date(2022, 4, 5), datetime.date(2022, 3, 5), datetime.date(2022, 2, 5), datetime.date(2022, 1, 5), datetime.date(2021, 12, 5), datetime.date(2021, 11, 5), datetime.date(2021, 10, 5), datetime.date(2021, 9, 5), datetime.date(2021, 8, 5), datetime.date(2021, 7, 5), datetime.date(2021, 6, 5), datetime.date(2021, 5, 5), datetime.date(2021, 4, 5), datetime.date(2021, 3, 5), datetime.date(2021, 2, 5), datetime.date(2021, 1, 5), datetime.date(2020, 12, 5), datetime.date(2020, 11, 5), datetime.date(2020, 10, 5), datetime.date(2020, 9, 5), datetime.date(2020, 8, 5), datetime.date(2020, 7, 5), datetime.date(2020, 6, 5), datetime.date(2020, 5, 5), datetime.date(2020, 4, 5), datetime.date(2020, 3, 5), datetime.date(2020, 2, 5), datetime.date(2020, 1, 5), datetime.date(2019, 12, 5)]
+
+        # then - the polarity over time is returned with a polarity value for each month
+        self.assertListEqual(list(actual_polarity_over_time.keys()), expected_polarity_over_time_keys)
+
+    def test_plot_polarity_over_time_creates_expected_json_file(self):
+        # given - headline data with mixed subjectivity and polarity passed into a data processor in an instance of the sentiment analyser class
+        headline_list_of_lists = [['in my opinion this is a bit like something that happened to me where i wrote a headline'], ['this is a test headline', 'final test'], ['a terrible disgusting testing test', 'i hate it', 'i love it', 'final test but different', 'a test headline', 'another test', 'headline for purpose of test'], ['testing 123', 'test check 12', 'i dont know but in my opinion this might be a fake headline', 'another test but not the other test'], ['this is a great fake headline', 'this is an example of a test headline', 'example of a test', 'final test the final one', 'test of the test', 'this fake headline is really bad i think']]
+
+        date_list_of_lists = [[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2021, 3, 10)]]
+
+        for i in range(5):
+            test_dataframe = pd.DataFrame(data= {'headline' : headline_list_of_lists[i], 'date' : date_list_of_lists[i], 'url' : ['www.test-url.com/123'] * len(headline_list_of_lists[i]), 'source' : [f'test{i}'] * len(headline_list_of_lists[i])})
+            self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
+
+        test_data_processor = DataProcessor(path_to_dir=f'{self.temp_within_current_dir}', cols=['headline', 'date', 'url', 'source'], selector= "*.csv")
+        undertest_class = SentimentAnalyser(test_data_processor, source_name="test", save_path=f'{self.temp_within_current_dir}')
+
+        # when - we call the plot polarity over time method passing in data from get polarity over time
+        polarity_over_time = undertest_class.get_polarity_over_time()
+        undertest_class.plot_polarity_over_time(polarity_over_time)
+
+        # then - a json file is created with the expected path and name
+        test_file_path = Path(f'{Path(__file__).parent}/{self.test_dir_name}/plots/test_polarity_over_time.json')
+        self.assertTrue(test_file_path.is_file())        
+
+    def test_plot_polarity_over_time_creates_plot_with_expected_data(self):
+        # given - headline data with mixed subjectivity and polarity passed into a data processor in an instance of the sentiment analyser class
+        headline_list_of_lists = [['in my opinion this is a bit like something that happened to me where i wrote a headline'], ['this is a test headline', 'final test'], ['a terrible disgusting testing test', 'i hate it', 'i love it', 'final test but different', 'a test headline', 'another test', 'headline for purpose of test'], ['testing 123', 'test check 12', 'i dont know but in my opinion this might be a fake headline', 'another test but not the other test'], ['this is a great fake headline', 'this is an example of a test headline', 'example of a test', 'final test the final one', 'test of the test', 'this fake headline is really bad i think']]
+
+        date_list_of_lists = [[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2021, 3, 10)]]
+
+        for i in range(5):
+            test_dataframe = pd.DataFrame(data= {'headline' : headline_list_of_lists[i], 'date' : date_list_of_lists[i], 'url' : ['www.test-url.com/123'] * len(headline_list_of_lists[i]), 'source' : [f'test{i}'] * len(headline_list_of_lists[i])})
+            self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
+
+        test_data_processor = DataProcessor(path_to_dir=f'{self.temp_within_current_dir}', cols=['headline', 'date', 'url', 'source'], selector= "*.csv")
+        undertest_class = SentimentAnalyser(test_data_processor, source_name="test", save_path=f'{self.temp_within_current_dir}')
+
+        # when - we call the plot polarity over time method passing in data from get polarity over time
+        polarity_over_time = undertest_class.get_polarity_over_time()
+        actual_fig = undertest_class.plot_polarity_over_time(polarity_over_time)
+
+        # then - the plot returned has months as x axis
+        actual_fig_months = [i.strftime('%Y-%m-%d') for i in list(actual_fig["data"][0]["x"])]
+        # .strftime('%m/%d/%Y')
+        expected_fig_months = ["2023-01-05","2022-12-05","2022-11-05","2022-10-05","2022-09-05","2022-08-05","2022-07-05","2022-06-05","2022-05-05","2022-04-05","2022-03-05","2022-02-05","2022-01-05","2021-12-05","2021-11-05","2021-10-05","2021-09-05","2021-08-05","2021-07-05","2021-06-05","2021-05-05","2021-04-05","2021-03-05","2021-02-05","2021-01-05","2020-12-05","2020-11-05","2020-10-05","2020-09-05","2020-08-05","2020-07-05","2020-06-05","2020-05-05","2020-04-05","2020-03-05","2020-02-05","2020-01-05","2019-12-05"]
+
+        self.assertListEqual(actual_fig_months, expected_fig_months)
 
     def test_get_subjectivity_averages(self):
         pass 
 
-    def test_plot_subejctivity(self):
+    def test_plot_subjectivity(self):
         pass
 
     def test_get_subjectivity_over_time(self):
