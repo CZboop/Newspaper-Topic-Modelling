@@ -41,6 +41,8 @@ class GeneralAnalyser:
         return fig
     
     def save_as_json(self, figure, name):
+        # creating plots directory if it doesn't exist
+        Path(f'{self.path_to_dir}/plots').mkdir(parents=True, exist_ok=True)
         # setting to have transparent background
         figure.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", legend_font_color="rgba(255,255,255,1)", title_font_color="rgba(255,255,255,1)", font=dict(color="rgba(255,255,255,1)"))
         # saving by getting relative path as absolute path

@@ -103,6 +103,8 @@ class SentimentAnalyser:
         return {'median': median_subjectivity, 'mean': mean_subjectivity}
 
     def plot_subjectivity(self):
+        if not hasattr(self, 'data_df'):
+            self._get_polarity_subjectivity()
         box_plot = px.box(self.data_df, y= 'subjectivity', title= f'{self.source_name} - Subjectivity of Headlines')
         self.save_as_json(box_plot, f'{self.source_name}_subjectivity_box_plot')
         return box_plot
@@ -120,7 +122,6 @@ class SentimentAnalyser:
             avg_subjectivity = current_month_subjectivity.mean()
             # assign to dict
             month_subjectivity[current_date] = avg_subjectivity
-            print(current_date, avg_subjectivity)
             # decrement current month
             current_date -= relativedelta(months= 1)
         return month_subjectivity
