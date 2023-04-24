@@ -9,4 +9,4 @@ function InfoIcon() {
   )
 }
 
-export default InfoIcon
+export default InfoIcon;
