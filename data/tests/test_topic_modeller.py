@@ -13,6 +13,7 @@ import datetime
 import shutil
 from bertopic import BERTopic
 import plotly
+import json
 
 class TestTopicModeller(unittest.TestCase):
 
@@ -203,6 +204,7 @@ class TestTopicModeller(unittest.TestCase):
         self.assertTrue(test_file_path.is_file())
 
     def test_save_as_json_saves_topics_over_time_graph(self):
+        # given - some headline data passed into an instance of the topic modeller class
         headline_list_of_lists = [['testing software'], ['writing fake headlines', 'headlines produced'], ['journalism involves writing headlines as well as articles', 'unit testing', 'integration testing', 'spies are a part of software testing', 'headlines are often written by people', 'there are several popular code editors', 'code editors often have optional extensions'], ['an example of a code editor is the one being used now', 'colour schemes can help convey information', 'colour wheels are a tool used in producing colour schemes', 'some color schemes are more universal than others'], ['questions often end with a question mark in english', 'the combination of a question mark and an exclamation mark is a way of indicating shocked confusion', 'heavy use of question marks can make text seem more informal', 'musical scales can be minor or major', 'arpeggios are a musical device that produce effects similar to a chord', 'chord progressions are a central part of producing music'],['Shakespeare died on his birthday'], ['Shakespeare had seven siblings', 'Shakespeare had his own family coat of arms'], ['Shakespeare put a curse on his grave', 'Space is completely silent', 'Nobody knows how many stars are in space', 'Halleys Comet won’t orbit past Earth again until 2061', 'If two pieces of the same type of metal touch in space they will permanently bond', 'The Moon was once a piece of the Earth', 'Alan Turing is the father of modern computer science'], ['Alan Turing played a key role in winning World War II', 'Alan Turing tried out for the Olympics', 'In the UK, there is now a law named after Alan Turing', 'Alan Turing created the first computer chess program'], ['Alan Turing cracked the Enigma code that made Britain win World War II', 'Half the world is bilingual', 'Sumerian is the oldest written language dating back to 3500 BC', 'Almost all languages in the world have been influenced by another language', 'A language dies out if there is no one to speak it, or record using written variations', 'There is no official language in the US']]
 
         date_list_of_lists = [[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2021, 3, 10)],[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2021, 3, 10)]]
@@ -212,7 +214,7 @@ class TestTopicModeller(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
 
         undertest_class = TopicModeller(data_selector="test*.csv", data_dir = f'./{self.test_dir_name}', data_cols = ['headline', 'date'], min_topic_size= 3, save_path=self.temp_within_current_dir, n_neighbours=2)
-        
+
         # when - we call the save as json method of the undertest class
         undertest_class.save_as_json('test')
 
@@ -221,10 +223,50 @@ class TestTopicModeller(unittest.TestCase):
         self.assertTrue(test_file_path.is_file())
 
     def test_cluster_examples_saves_expected_json_file(self):
-        pass
+        # given - some headline data passed into an instance of the topic modeller class
+        headline_list_of_lists = [['testing software'], ['writing fake headlines', 'headlines produced'], ['journalism involves writing headlines as well as articles', 'unit testing', 'integration testing', 'spies are a part of software testing', 'headlines are often written by people', 'there are several popular code editors', 'code editors often have optional extensions'], ['an example of a code editor is the one being used now', 'colour schemes can help convey information', 'colour wheels are a tool used in producing colour schemes', 'some color schemes are more universal than others'], ['questions often end with a question mark in english', 'the combination of a question mark and an exclamation mark is a way of indicating shocked confusion', 'heavy use of question marks can make text seem more informal', 'musical scales can be minor or major', 'arpeggios are a musical device that produce effects similar to a chord', 'chord progressions are a central part of producing music'],['Shakespeare died on his birthday'], ['Shakespeare had seven siblings', 'Shakespeare had his own family coat of arms'], ['Shakespeare put a curse on his grave', 'Space is completely silent', 'Nobody knows how many stars are in space', 'Halleys Comet won’t orbit past Earth again until 2061', 'If two pieces of the same type of metal touch in space they will permanently bond', 'The Moon was once a piece of the Earth', 'Alan Turing is the father of modern computer science'], ['Alan Turing played a key role in winning World War II', 'Alan Turing tried out for the Olympics', 'In the UK, there is now a law named after Alan Turing', 'Alan Turing created the first computer chess program'], ['Alan Turing cracked the Enigma code that made Britain win World War II', 'Half the world is bilingual', 'Sumerian is the oldest written language dating back to 3500 BC', 'Almost all languages in the world have been influenced by another language', 'A language dies out if there is no one to speak it, or record using written variations', 'There is no official language in the US']]
+
+        date_list_of_lists = [[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2021, 3, 10)],[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2021, 3, 10)]]
+
+        for i in range(10):
+            test_dataframe = pd.DataFrame(data= {'headline' : headline_list_of_lists[i], 'date' : date_list_of_lists[i], 'url' : ['www.test-url.com/123'] * len(headline_list_of_lists[i]), 'source' : [f'test{i}'] * len(headline_list_of_lists[i])})
+            self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
+
+        undertest_class = TopicModeller(data_selector="test*.csv", data_dir = f'./{self.test_dir_name}', data_cols = ['headline', 'date'], min_topic_size= 3, save_path=self.temp_within_current_dir, n_neighbours=2)
+
+        # when - we call the model topics method where the internal method to cluster topics is run from
+        undertest_class.model_topics()
+
+        # then - a json file with the cluster examples is created with a name based on the selector
+        test_file_path = Path(f'{Path(__file__).parent}/{self.test_dir_name}/plots/topic_doc_examples/test.json')
+        self.assertTrue(test_file_path.is_file())
     
     def test_cluster_examples_creates_same_length_obj_as_topics(self):
         pass
+        headline_list_of_lists = [['testing software'], ['writing fake headlines', 'headlines produced'], ['journalism involves writing headlines as well as articles', 'unit testing', 'integration testing', 'spies are a part of software testing', 'headlines are often written by people', 'there are several popular code editors', 'code editors often have optional extensions'], ['an example of a code editor is the one being used now', 'colour schemes can help convey information', 'colour wheels are a tool used in producing colour schemes', 'some color schemes are more universal than others'], ['questions often end with a question mark in english', 'the combination of a question mark and an exclamation mark is a way of indicating shocked confusion', 'heavy use of question marks can make text seem more informal', 'musical scales can be minor or major', 'arpeggios are a musical device that produce effects similar to a chord', 'chord progressions are a central part of producing music'],['Shakespeare died on his birthday'], ['Shakespeare had seven siblings', 'Shakespeare had his own family coat of arms'], ['Shakespeare put a curse on his grave', 'Space is completely silent', 'Nobody knows how many stars are in space', 'Halleys Comet won’t orbit past Earth again until 2061', 'If two pieces of the same type of metal touch in space they will permanently bond', 'The Moon was once a piece of the Earth', 'Alan Turing is the father of modern computer science'], ['Alan Turing played a key role in winning World War II', 'Alan Turing tried out for the Olympics', 'In the UK, there is now a law named after Alan Turing', 'Alan Turing created the first computer chess program'], ['Alan Turing cracked the Enigma code that made Britain win World War II', 'Half the world is bilingual', 'Sumerian is the oldest written language dating back to 3500 BC', 'Almost all languages in the world have been influenced by another language', 'A language dies out if there is no one to speak it, or record using written variations', 'There is no official language in the US']]
+
+        date_list_of_lists = [[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2021, 3, 10)],[datetime.date(2019, 12, 1)], [datetime.date(2021, 10, 1), datetime.date(2019, 12, 3)], [datetime.date(2022, 9, 17), datetime.date(2021, 5, 26), datetime.date(2023, 1, 3), datetime.date(2020, 4, 8), datetime.date(2020, 6, 17), datetime.date(2021, 3, 20), datetime.date(2019, 12, 1)], [datetime.date(2021, 4, 8), datetime.date(2022, 7, 9), datetime.date(2020, 4, 18), datetime.date(2021, 11, 30)], [datetime.date(2019, 12, 30), datetime.date(2020, 5, 25), datetime.date(2020, 9, 8), datetime.date(2022, 9, 25), datetime.date(2020, 8, 15), datetime.date(2021, 3, 10)]]
+
+        for i in range(10):
+            test_dataframe = pd.DataFrame(data= {'headline' : headline_list_of_lists[i], 'date' : date_list_of_lists[i], 'url' : ['www.test-url.com/123'] * len(headline_list_of_lists[i]), 'source' : [f'test{i}'] * len(headline_list_of_lists[i])})
+            self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
+
+        undertest_class = TopicModeller(data_selector="test*.csv", data_dir = f'./{self.test_dir_name}', data_cols = ['headline', 'date'], min_topic_size= 3, save_path=self.temp_within_current_dir, n_neighbours=2)
+
+        # when - we call the model topics method where the internal method to cluster topics is run from, and load in the resulting file
+        undertest_class.model_topics()
+        topic_list = undertest_class.topic_model.get_topic_info() 
+
+        test_file_path = Path(f'{Path(__file__).parent}/{self.test_dir_name}/plots/topic_doc_examples/test.json')
+        with open(test_file_path) as f:
+            file_data = json.load(f)
+        
+        # note, -1 because topic list includes the category for everything that didnt fit into clusters, which representative docs file doesn't
+        num_topics_from_topic_list = len(topic_list) - 1 
+        num_topics_from_file = len(list(file_data.keys()))
+
+        # then - the number of topics in the representative docs file matches total topics for the model
+        self.assertEqual(num_topics_from_file, num_topics_from_topic_list)
 
     # teardown after all tests run to delete temporary files used in tests
     @classmethod
