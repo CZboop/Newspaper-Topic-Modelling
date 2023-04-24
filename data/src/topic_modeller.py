@@ -15,7 +15,8 @@ class TopicModeller:
     def __init__(self, data_selector, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5), 
     data_dir = '../../uk_news_scraping/data', data_cols = ['headline', 'date'], min_topic_size = 70, topics_to_remove = None,
     n_neighbours = 15, n_components = 5, min_dist = 0.0, metric = 'cosine', random_state = 42, diversity = 0.75, top_n_words = 4,
-    language = 'english', calculate_probabilities = True, global_tuning = True, evolution_tuning = True, nr_bins = 10
+    language = 'english', calculate_probabilities = True, global_tuning = True, evolution_tuning = True, nr_bins = 10, 
+    save_path = Path(__file__).parent
     ):
         # properties for data selection and processing/preprocessing
         self.data_processor = DataProcessor(data_dir, data_cols, data_selector, topics_to_remove = topics_to_remove)
@@ -40,6 +41,8 @@ class TopicModeller:
         self.global_tuning = global_tuning
         self.evolution_tuning = evolution_tuning 
         self.nr_bins = nr_bins
+        # default save path will be based on the parent of this file, but can pass in another path
+        self.save_path = save_path
 
         # getting the data source name based on selector, in most cases this can be overridden but need to be automatically passed in to get examples of each topic
         self.source_name = ''.join(letter for letter in self.data_selector.split('.')[0] if letter.isalnum())
@@ -85,7 +88,7 @@ class TopicModeller:
             calculate_probabilities = self.calculate_probabilities
         )
 
-        self.topics = self.topic_model.fit_transform(list(self.data['headline'].apply(lambda x: str(x))))
+        self.topics, probs = self.topic_model.fit_transform(list(self.data['headline'].apply(lambda x: str(x))))
         self._cluster_examples(self.source_name)
         self.topic_model.get_topic_info()
         print(self.topic_model.get_topic_info())
@@ -93,6 +96,8 @@ class TopicModeller:
 
     # prob want couple of these methods and above to do for different data e.g. headlines subheadings and article text
     def get_topics_over_time(self):
+        if not hasattr(self, 'topic_model'):
+            self.model_topics()
         self.data.reset_index(inplace = True,drop = True)
         self.topics_over_time = self.topic_model.topics_over_time(
             self.data['headline'].apply(lambda x: str(x)), # documents, may need to actively cast to str again
@@ -111,20 +116,20 @@ class TopicModeller:
         self.visualised_over_time = self.topic_model.visualize_topics_over_time(self.topics_over_time, top_n_topics = 10) # shows if run in a notebook
         return self.visualised_over_time
 
-    def html_plot(self, name):
-        plot = self.topic_model.visualize_topics()
-        path = Path(__file__).parent
-        plot.write_html(f'{path}/plots/{name}.html')
-
     def save_as_json(self, name):
+        if not hasattr(self, 'topic_model'):
+            self.model_topics()
+        if not hasattr(self, 'topics_over_time'):
+            self.get_topics_over_time()
         topic_figure = self.topic_model.visualize_topics()
         time_figure = self.visualise_over_time_builtin()
         # setting to have transparent background
         topic_figure.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", legend_font_color="rgba(255,255,255,1)", title_font_color="rgba(255,255,255,1)", font=dict(color="rgba(255,255,255,1)"))
         time_figure.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", legend_font_color="rgba(255,255,255,1)", title_font_color="rgba(255,255,255,1)", font=dict(color="rgba(255,255,255,1)"))
-        
-        # saving by getting relative path as absolute path
-        path = Path(__file__).parent
+        # creating plots directory if it doesn't exist
+        Path(f'{self.save_path}/plots').mkdir(parents=True, exist_ok=True)
+        # saving based on path passed in to constructor
+        path = self.save_path
         topic_figure.write_json(f'{path}/plots/{name}_topics.json')
         time_figure.write_json(f'{path}/plots/{name}_over_time.json')
 
@@ -133,7 +138,10 @@ class TopicModeller:
         if hasattr(self, 'topic_model'):
             num_topics = max(self.topic_model.topics_)
             example_docs = self.topic_model.get_representative_docs()
-            path = Path(__file__).parent
+            path = self.save_path
+            # creating plots and topic examples directory if it doesn't exist
+            Path(f'{self.save_path}/plots').mkdir(parents=True, exist_ok=True)
+            Path(f'{self.save_path}/plots/topic_doc_examples').mkdir(parents=True, exist_ok=True)
             # have to explicitly cast to int, otherwise type is int32 (presumably numpy) and causes issues dumping into json file
             example_docs_cast = {int(x):example_docs[x] for x in example_docs.keys()}
             with open(f'{path}/plots/topic_doc_examples/{name}.json', 'w') as file_:
