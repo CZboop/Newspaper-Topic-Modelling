@@ -1,8 +1,9 @@
-import { render, screen } from '@testing-library/react';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import App from '../App';
 
-// test('', () => {
-//   render(<App />);
-//   const element = screen.getByText(/ /i);
-//   expect().toBeInTheDocument();
-// });
+// smoke test checking renders without throwing/crashing 
+it('App component renders without crashing', () => {
+  const div = document.createElement('div');
+  ReactDOM.render(<App/>, div);
+});
