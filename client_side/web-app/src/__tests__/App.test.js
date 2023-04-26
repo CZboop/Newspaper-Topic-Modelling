@@ -120,7 +120,7 @@ test('Able to navigate to back to home page', async () => {
   // verify not already on home page - query instead of get to prevent error when not found
   expect(screen.queryByText(/This web page serves to present the results/i)).not.toBeInTheDocument();
 
-  // verify express page content appears on clicking its nav link
+  // verify home page content appears on clicking its nav link
   await user.click(screen.getByRole('link', { name: '📰 UK News Topic Modelling' }));
   expect(screen.getByText(/This web page serves to present the results/i)).toBeInTheDocument();
 })
