@@ -1,7 +1,7 @@
 import React from 'react';
 
 function TextWindow({title, textArray, pageTitle}) {
-  const textElements = textArray.map(text => {return <p>{text}</p>});
+  const textElements = textArray.map((text, index) => {return <p key={index.toString()}>{text}</p>});
   return (
     <div className="comment text-module">
       <div className="window-title">

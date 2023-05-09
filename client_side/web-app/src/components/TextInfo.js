@@ -2,7 +2,7 @@ import React from 'react';
 import InfoIcon from './InfoIcon.js';
 
 function TextInfo({textArray, title}) {
-    const textElements = textArray.map(text => {return <p>{text}</p>})
+    const textElements = textArray.map((text, index) => {return <p key={index.toString()}>{text}</p>})
   return (
     <div className="boilerplate text-module">
         <InfoIcon />
