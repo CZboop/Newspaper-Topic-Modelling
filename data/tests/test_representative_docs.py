@@ -7,7 +7,6 @@ from src.representative_docs import RepresentativeDocsRepresenter
 import os
 from pathlib import Path
 import pandas as pd
-import pandas.testing as pd_testing
 import shutil
 import json
 

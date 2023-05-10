@@ -9,7 +9,6 @@ import os
 import glob
 from pathlib import Path
 import pandas as pd
-import pandas.testing as pd_testing
 import datetime
 import shutil
 import plotly
