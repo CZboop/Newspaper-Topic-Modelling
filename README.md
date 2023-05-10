@@ -3,6 +3,59 @@
 NLP topic modelling of UK newspapers, with analysis of topics over time, as well as sentiment analysis of polarity and subjectivity of language used.
 
 ## Project Summary
+This project uses several techniques within natural language processing to explore seven of the top newspapers in the UK. Data analysed for all sources covered the period from just before the start of the COVID-19 pandemic (late November 2019), until the start of 2023 (early January). The newspapers analysed were:
+* The Express
+* The Dail Mail
+* The Sun
+* The Mirror
+* The Telegraph
+* The Guardian
+* Metro
+
+Headlines were used exclusively, rather than the main body of articles, for all sources and all analysis.
+BERTopic (a Python package using SBERT, UMAP, HDBSCAN, CountVectorizer and c-TF-IDF to cluster text data into topics) was used to create topic clusters, as well as to perform other topic modelling related analysis. 
+SpaCy TextBlob (a SpaCy Universe package implementing TextBlob sentiment analysis with SpaCy) was also used to analyse the subjectivity (level of being factual or opinionated) and polarity (level of being emotionally positive or negative) of different newspapers. 
+Plotly was used to create new plots to represent this, as well as to manipulate the plots that are created by BERTopic.
+
+Alongside the Python data analysis, a React web app was also created to present many of the findings from this analysis, and the graphs that visualise the data.
+
+This repository contains a combination of a Python data directory, and a React web app directory used to present some of the findings in a more visual and user friendly way.
+
+Data was scraped from the internet over a period of time, with a limited number of requests per minute. More information on the dataset can be found below. The dataset used as the basis of this analysis is not public and is not intended to be made public. The scraping scripts are not part of this or any other public repository.
+
+## Dataset Details and Limitations
+The dataset used was collected from the websites of each of the respective newspapers, with slightly different techniques for some newspapers. Different newspapers had very different numbers of total documents, with The Daily Mail having by far the highest number of documents, and The Guardian having the lowest.  
+
+There were also varying levels of completeness in terms of what percentage of all headlines made it into the dataset, depending on source.  
+
+For the Daily Mail, a complete set of all headlines from this time period was collected. However, the extremely high number of documents from The Daily Mail was intially creating a model that was too large (in terms of memory - around 17GB) so the script would error while trying to fit the model. Due to this, some types of articles were removed from before training and analysis. This included a large chunk of documents that were re-published by The Daily Mail, but came from other sources such as Reuters or the Associated Press. Showbiz, Sport and Lifestyle articles were also removed. The Daily Mail still had by far the most documents even after this filtering.  
+
+Some other newspapers had high level categories limited at the point of data collection, but all of these were then analysed. This applied to The Telegraph, The Guardian, The Mirror and The Sun. These categories were largely based on the main news categories that the each newspaper used for their articles.  
+
+The categories collected and analysed for these newspapers can be seen in the table below:
+
+|              |The Sun|The Mirror|The Telegraph|The Guardian|
+|--------------|-------|----------|-------------|------------|
+|Politics      |✔️ |✔️ |✔️ |✔️ |
+|Science       |✔️ |✔️ |✔️ |✔️ |
+|Technology    |❌ |✔️ |❌ |✔️ |
+|UK News       |✔️ |✔️ |✔️ |❌ |
+|World News    |✔️ |✔️ |✔️ |❌ |
+|US News       |❌ |✔️ |❌ |❌ |
+|Health        |❌ |✔️ |✔️ |❌ |
+|Environment   |❌ |❌ |✔️ |✔️ |
+|Education     |❌ |❌ |✔️ |✔️ |
+|Royal Family  |❌ |✔️ |✔️ |❌ |
+|Business      |❌ |❌ |❌ |✔️ |
+|Society       |❌ |❌ |❌ |✔️ |
+|'More Hopeful'|❌ |✔️ |❌ |❌ |
+|Defence       |❌ |❌ |✔️ |❌ |
+|Opinion       |✔️ |❌ |❌ |❌ |
+
+On the other hand, the Metro and Daily Express newspapers had what should be a complete set of their headlines both collected and analysed.
+
+## Repository Contents
+
 
 ## Tools Used
 ### Languages:
@@ -28,7 +81,7 @@ NLP topic modelling of UK newspapers, with analysis of topics over time, as well
     * Getting topics over time
 * [SpaCy](https://spacy.io/) (including [SpaCy TextBlob](https://spacy.io/universe/project/spacy-textblob)) - for stopword removal and polarity/subjectivity analysis
 * [Pandas](https://pandas.pydata.org/) - for creation of dataframes to store and manipulate data
-* [Plotly](https://plotly.com/python/) - for saving and adjusting the plots created by BERTopic
+* [Plotly](https://plotly.com/python/) - for saving and adjusting the plots created by BERTopic, as well as creating new plots based on sentiment analysis
 * [Beautiful Soup](https://beautiful-soup-4.readthedocs.io/en/latest/) - for scraping data to be analysed
 * [httplib2](https://pypi.org/project/httplib2/) - for making requests as part of data scraping
 * [Glob](https://docs.python.org/3/library/glob.html) - for pattern based file and path selection (to read in data stored across multiple files)
@@ -40,8 +93,6 @@ NLP topic modelling of UK newspapers, with analysis of topics over time, as well
 * [Unittest](https://docs.python.org/3/library/unittest.html) - primary unit test framework, with test suites created as class of type unittest.TestCase
 * [Pytest](https://docs.pytest.org/en/7.3.x/) - to run tests from the command line
 * [Pandas testing](https://pandas.pydata.org/docs/reference/testing.html) - to assert dataframe equality
-
-## Dataset
 
 ## How to Install and Run
 
