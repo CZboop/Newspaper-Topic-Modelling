@@ -55,7 +55,27 @@ The categories collected and analysed for these newspapers can be seen in the ta
 On the other hand, the Metro and Daily Express newspapers had what should be a complete set of their headlines both collected and analysed.
 
 ## Repository Contents
+Some of the key repository contents:
 
+* 📁 data: python files for data analysis
+    * 📁 src: main data content
+        * 📁 plots: where data visualisations are saved
+        * 📄 data_processor.py - a class used within other objects to load in and process data files
+        * 📄 general_analyser.py - performs basic analysis on data e.g. ratio of documents by source, number of articles by month
+        * 📄 multi_source_modeller.py - performs topic modelling on multiple sources one after the other
+        * 📄 multi_source_sentiments.py - performs sentiment analysis on multiple sources one after the other
+        * 📄 representative_docs.py - adds representative document to the hover tooltip of json file visualising topics
+        * 📄 sentiment.py - analyses subjectivity and polarity, including over time, and creates visualisations of these
+        * 📄 topic_modeller.py - finds topics from data and save results as plots
+    * 📁 tests: unit tests for the files in the data/src folder
+    
+* 📁 client_side/web-app: react web app to display analysis results
+    * 📁 src: main web app content
+        * 📁 \_\_tests__: smoke tests for components rendering and testing the navigation works
+        * 📁 components: components used within the web app, including stylesheets for them
+            * 📁 graph_data: json files of data visualisations to be imported into components
+            * 📁 text_data: json files containing text content to be used in components
+    * 📁 public: web app html, icon, manifest and robots files
 
 ## Tools Used
 ### Languages:
