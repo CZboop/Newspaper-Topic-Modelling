@@ -3,7 +3,7 @@ name: Deploy React App to GitHub Pages
 on:
   push:
     branches:
-      - "gh-deploy"
+      - "main"
 
 jobs:
   deploy:

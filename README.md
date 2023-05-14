@@ -1,6 +1,6 @@
 # Newspaper Topic Modelling 📰 🔍 
 
-NLP topic modelling of UK newspapers, with analysis of topics over time, as well as sentiment analysis of polarity and subjectivity of language used.
+NLP topic modelling of UK newspapers, with analysis of topics over time, as well as sentiment analysis of polarity and subjectivity of language used. Python data analysis and React JSX website presenting that analysis, which is live here: [https://czboop.github.io/Newspaper-Topic-Modelling/](https://czboop.github.io/Newspaper-Topic-Modelling/)
 
 ## Project Summary
 This project uses several techniques within natural language processing to explore seven of the top newspapers in the UK. Data analysed for all sources covered the period from just before the start of the COVID-19 pandemic (late November 2019), until the start of 2023 (early January). The newspapers analysed were:
@@ -117,3 +117,4 @@ Some of the key repository contents:
 ## How to Install and Run
 
 ## How to Use
+Checkout out the React website hosted on GitHub Pages, which presents many of the findings of the topic modelling and sentiment analysis, as well as data visualistions. [Link to website](https://czboop.github.io/Newspaper-Topic-Modelling/)
