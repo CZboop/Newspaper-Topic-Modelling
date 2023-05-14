@@ -24,14 +24,14 @@ function Intro() {
     refreshRate: 1000
   })
 
-  // getting array of plot names, to use in adjusting/adding line breaks in graph titles based on window size
-  const plotArray = [pieChart, polarityOverTime, polarityRatio, subjectivityPlot, subjectivityOverTime, articlesOverTimeAll, articlesOverTimeCombined];
-
   // setting up state for titles of graphs
   const [titles, setTitles] = useState({})
 
   // function to adjust graph titles based on window size with break points at different window sizes
   const handleTitles = useCallback(() => {
+    // getting array of plot names, to use in adjusting/adding line breaks in graph titles based on window size
+    const plotArray = [pieChart, polarityOverTime, polarityRatio, subjectivityPlot, subjectivityOverTime, articlesOverTimeAll, articlesOverTimeCombined];
+
     // keys to be used in the object to retrieve finalised name
     let plotKeyArray = ["pieChart", "polarityOverTime", "polarityRatio", "subjectivityPlot", "subjectivityOverTime", "articlesOverTimeAll", "articlesOverTimeCombined"];
     // getting original name from within the json plot object
@@ -58,11 +58,11 @@ function Intro() {
     }
     // updating titles state
     setTitles(titlesObj);
-  }, [plotArray, width])
+  }, [width])
 
   // setting up useeffect, setting width as dependency is key to make sure titles change when width changes
   useEffect(() => {handleTitles();
-  }, [setTitles, width]);
+  }, [setTitles, width, handleTitles]);
 
   return (
     <div className='Intro page-content'>

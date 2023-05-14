@@ -19,13 +19,14 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
     refreshRate: 1000
   })
 
-  // getting array of plot names to use in dynamic adding of line breaks in graph titles based on window size
-  const plotArray = [topic_plot, time_plot, polarity_time, polarity_ratio, subjectivity_box, subjectivity_over_time];
   // setting up state for graph titles
   const [titles, setTitles] = useState({});
   
   // function to adjust graph titles based on window size with break points at different window sizes
   const handleTitles = useCallback(() => {
+    // getting array of plot names to use in dynamic adding of line breaks in graph titles based on window size
+    const plotArray = [topic_plot, time_plot, polarity_time, polarity_ratio, subjectivity_box, subjectivity_over_time];
+
     // keys to be used in the object to retrieve finalised name
     let plotKeyArray = ["topic_plot", "time_plot", "polarity_time", "polarity_ratio", "subjectivity_box", "subjectivity_over_time"]
     // getting original name from within the json plot object
@@ -54,11 +55,11 @@ function NewspaperPage({name, topic_intro, topic_plot, time_plot, polarity_time,
     }
     // updating titles state
     setTitles(titlesObj);
-  }, [plotArray, width])
+  }, [width, topic_plot, time_plot, polarity_time, polarity_ratio, subjectivity_box, subjectivity_over_time])
 
   // setting up useeffect, setting width as dependency is key to make sure titles change when width changes
   useEffect(() => {handleTitles();
-  }, [setTitles, width]);
+  }, [setTitles, width, handleTitles]);
 
   return (
     // returning page component made mostly of text components, text passed in to array
