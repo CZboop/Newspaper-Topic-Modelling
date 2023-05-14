@@ -89,7 +89,7 @@ function App() {
           <Route path='sun' element={<NewspaperPage name='The Sun' topic_intro={sunText.topic_intro} topic_plot={sunTopics} time_plot={sunOverTime} polarity_time={sunPolarityTime} polarity_ratio={sunPolarityRatio} subjectivity_box={sunSubjectivityPlot} subjectivity_over_time={sunSubjectivityTime} polarity_comments={sunText.polarity_comments} subjectivity_comments={sunText.subjectivity_comments} />}/>
           <Route path='express' element={<NewspaperPage name='The Express' topic_intro={expressText.topic_intro} topic_plot={expressTopics} time_plot={expressOverTime} polarity_time={expressPolarityTime} polarity_ratio={expressPolarityRatio} subjectivity_box={expressSubjectivityPlot} subjectivity_over_time={expressSubjectivityTime} polarity_comments={expressText.polarity_comments} subjectivity_comments={expressText.subjectivity_comments} />}/>
           <Route path='*' element={<Navigate to="/home" />}/> 
-          {/* above redirecting to home if invalid path, could always add a dedicated error page and route there instead */}
+          {/* above redirecting to home if invalid path */}
           </Routes>
         </BrowserRouter>
       <div className="background">

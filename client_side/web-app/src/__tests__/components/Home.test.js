@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import Home from '../../components/Home';
 
-// smoke test checking renders without throwing/crashing - wrapping in browser router as component contains link from router
+// smoke test checking home component renders without throwing/crashing - wrapping in browser router as component contains link from router
 it('Home component renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(<BrowserRouter><Home /></BrowserRouter>, div);

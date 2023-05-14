@@ -19,7 +19,7 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-// smoke test checking renders without throwing/crashing 
+// smoke test checking intro renders without throwing/crashing 
 it('Introduction component renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(<Intro />, div);

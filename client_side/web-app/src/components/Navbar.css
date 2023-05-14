@@ -6,25 +6,22 @@
     padding: 1em;
     float: right;
     width: 65%;
-    /* width: 60%; */
 }
+
 .Navbar {
     display: flex;
     justify-content: space-between;
     background-color: rgb(75, 0, 125);
-    /* padding: 0.5em; */
     border-radius: 10px;
     box-shadow: inset 0 0 20px #00f8aa;
     border-bottom: 2px solid white;
     padding: 0.5em;
     width:100%
-    /* border-left: 1px solid white; */
 }
 
 .Navbar-title {
     font-size: 2em;
     font-weight: bolder;
-    /* width: 30%; */
     float: left;
     padding-left: 0.25em;
 }
@@ -46,7 +43,6 @@
 .nav-button:hover {
     color: rgb(202, 203, 243);
 }
-/* todo: style better in general for smaller/midsize screens e.g. under around 1200 px nav links start to overlap or go over multiple lines */
 
 @media screen and (max-width: 650px) {
     .Navbar {
@@ -73,11 +69,8 @@
     }
     .nav-button {
         width: 100%;
-        /* box-shadow: inset 0px 0px 10px 0px #686dfa; */
         font-weight: bold;
-        /* box-shadow:inset 2px 0 35px 1px rgb(151, 74, 223); */
     }
-
     .highlighted-link.nav-button a {
         width: 100%;
         font-size: 1.2em;
@@ -85,7 +78,6 @@
     .Navbar .highlighted-link:hover {
         width: 100%;
         background-color: rgb(75, 0, 125);
-        /* box-shadow:inset 0 -4px 25px 1px rgb(195, 155, 233); */
         box-shadow: inset 0px 0px 10px 0px #686dfa;
     }
     .nav-button:hover {
@@ -123,7 +115,6 @@
         padding-top: 0.25em;
         padding-bottom: 0.25em;
     }
-    
     .Navbar-open .burger-toggle {
         display: block;
     }
@@ -139,7 +130,6 @@
         cursor: pointer;
         background: unset;
         width: 15%;
-        /* padding: 1em; */
     }
     .Navbar .burger svg {
         stroke: white;

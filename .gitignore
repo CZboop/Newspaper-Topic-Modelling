@@ -5,6 +5,7 @@ data/models
 data/models/*
 data/temp
 data/temp/*
+data/.pytest_cache
 data/src/__pycache__
 data/src/__pycache__/*
 data/src/.pytest_cache

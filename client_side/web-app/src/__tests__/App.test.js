@@ -22,7 +22,7 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-// smoke test checking renders without throwing/crashing 
+// smoke test checking app renders without throwing/crashing 
 it('App component renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(<App/>, div);

@@ -19,7 +19,7 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-// smoke test checking renders without throwing/crashing 
+// smoke test checking newspaper page renders without throwing/crashing 
 it('Newspaper page component renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(<NewspaperPage name='Test Component' topic_intro='Test Intro' topic_plot='placeholder' time_plot='placeholder' polarity_time='placeholder' polarity_ratio='placeholder' subjectivity_box='placeholder' subjectivity_over_time='placeholder' polarity_comments='Test Comments Polarity' subjectivity_comments='Test Comments Subjectivity'/>, div);
