@@ -42,7 +42,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - the compare ratio of docs method is called
         actual_all_records, actual_record_numbers, actual_record_percentages = undertest_class.compare_ratio_of_docs()
@@ -59,7 +59,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - the compare ratio of docs method is called
         actual_all_records, actual_record_numbers, actual_record_percentages = undertest_class.compare_ratio_of_docs()
@@ -77,7 +77,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - the compare ratio of docs method is called
         actual_all_records, actual_record_numbers, actual_record_percentages = undertest_class.compare_ratio_of_docs()
@@ -96,7 +96,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - the compare ratio of docs method is called
         actual_all_records, actual_record_numbers, actual_record_percentages = undertest_class.compare_ratio_of_docs()
@@ -112,7 +112,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - we pass the resulting percentages into a call to the visualise percentages method (%ages from the compare ratios method)
         actual_all_records, actual_record_numbers, actual_record_percentages = undertest_class.compare_ratio_of_docs()
@@ -129,7 +129,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - we pass the resulting percentages into a call to the visualise percentages method (%ages from the compare ratios method)
         actual_all_records, actual_record_numbers, actual_record_percentages = undertest_class.compare_ratio_of_docs()
@@ -150,7 +150,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - we call the save as json method passing in the figure and a file name
         actual_all_records, actual_record_numbers, actual_record_percentages = undertest_class.compare_ratio_of_docs()
@@ -173,7 +173,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - we call the compare number of docs over time method
         actual_per_source , actual_total = undertest_class.compare_num_of_docs_over_time()
@@ -195,7 +195,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - we call the compare number of docs over time method
         actual_per_source , actual_total = undertest_class.compare_num_of_docs_over_time()
@@ -256,7 +256,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - delete any existing plots, pass the number of docs over time for all sources combined into the visualise number over time method with 'single' flag set to true
         self.delete_temp_dir_contents()
@@ -281,7 +281,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - delete any existing plots, pass the number of docs over time for all sources combined into the visualise number over time method with 'single' flag set to true
         self.delete_temp_dir_contents()
@@ -306,7 +306,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - delete any existing plots, pass the number of docs over time for all sources combined into the visualise number over time method with 'single' flag set to true
         self.delete_temp_dir_contents()
@@ -332,7 +332,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - delete any existing plots, then pass the number of docs over time for all sources combined into the visualise number over time method with 'single' flag set to false
         self.delete_temp_dir_contents()
@@ -370,7 +370,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - delete any existing plots, then pass the number of docs over time for all sources combined into the visualise number over time method with 'single' flag set to false
         self.delete_temp_dir_contents()
@@ -392,7 +392,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - delete any existing plots, then pass the number of docs over time for all sources combined into the visualise number over time method with 'single' flag set to false
         self.delete_temp_dir_contents()
@@ -415,7 +415,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - we delete any existing plot files and then call the run method
         self.delete_temp_dir_contents()
@@ -442,7 +442,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - we delete any existing plot files, call the run method and load the data from the resulting all sources file
         self.delete_temp_dir_contents()
@@ -482,7 +482,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - we delete any existing plot files, call the run method and load the data from the resulting combined sources file
         self.delete_temp_dir_contents()
@@ -509,7 +509,7 @@ class TestGeneralAnalyser(unittest.TestCase):
             self.setup_write_test_csv_file(test_dataframe, f'test{i}_1.csv')
         
         undertest_class = GeneralAnalyser(data_selectors = {'test0' : {'selector': 'test0_*.csv'}, 'test1' : {'selector': 'test1_*.csv'}, 
-        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_dir=f'./{self.test_dir_name}')
+        'test2': {'selector':'test2_*.csv'}, 'test3' : {'selector': 'test3_*.csv'}, 'test4' : {'selector': 'test4_*.csv'}}, path_to_data=f'./{self.test_dir_name}', path_to_save=f'./{self.test_dir_name}')
 
         # when - we delete any existing plot files, call the run method and load the data from the resulting ratios file
         self.delete_temp_dir_contents()
