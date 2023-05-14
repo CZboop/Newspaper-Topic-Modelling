@@ -32,7 +32,7 @@ For the Daily Mail, a complete set of all headlines from this time period was co
 
 Some other newspapers had high level categories limited at the point of data collection, but all of these were then analysed. This applied to The Telegraph, The Guardian, The Mirror and The Sun. These categories were largely based on the main news categories that the each newspaper used for their articles.  
 
-The categories collected and analysed for these newspapers can be seen in the table below:
+The categories collected and analysed (or not) for these newspapers can be seen in the table below. Note, in some cases absence of a category may mean that the newspaper does not flag articles with this label, while in other cases this may be a gap in the dataset. Categories that are not shown in the table (such as sport) can be assumed to be excluded for all of these sources:
 
 |              |The Sun|The Mirror|The Telegraph|The Guardian|
 |--------------|-------|----------|-------------|------------|
