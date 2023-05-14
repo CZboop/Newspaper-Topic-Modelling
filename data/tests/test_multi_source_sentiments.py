@@ -10,7 +10,8 @@ from pathlib import Path
 import pandas as pd
 import shutil
 
-class TestMultiSourceModeller(unittest.TestCase):
+# TODO: 
+class TestMultiSourceSentiments(unittest.TestCase):
 
     maxDiff = None
 

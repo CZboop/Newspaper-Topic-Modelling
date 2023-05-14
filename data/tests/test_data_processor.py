@@ -186,7 +186,6 @@ class TestDataProcessor(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     # teardown to undo temp changes after the test suite run - removing temporary test files and directory
-    # TODO: change these setup and tear down classes to run before all rather than individual test files?
     @classmethod
     def tearDownClass(self):
         try:

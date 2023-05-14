@@ -1,10 +1,11 @@
-# modelling all the different news sources
 from bertopic import BERTopic
 import datetime
 from src.topic_modeller import TopicModeller
 from pathlib import Path
 
+# modelling all the different news sources or multiple at once
 class MultiSourceModeller:
+    # constructor taking in lots of arguments, mostly optional parameters for the bertopic model
     def __init__(self, data_selectors = {'guardian' : {'selector': 'guardian_*.csv'}, 'mirror' : {'selector': 'mirror_*.csv'}, 'telegraph': {'selector':'telegraph_*.csv'}, 'sun' : {'selector': 'sun_*.csv'}, 'mail' : {'selector': 'mail_*.csv', 'cols': ['headline', 'date', 'url'], 
     'topics_to_remove': ['wires','femail', 'sport', 'showbiz']}, 'metro' : {'selector': 'metro_*.csv'}, 
     'express' : {'selector': 'express_*.csv'}}, min_topic_size = 70, n_neighbours = 15, 
@@ -28,7 +29,7 @@ class MultiSourceModeller:
         self.save_path = save_path
         self.data_dir = data_dir
     
-    # run is equivalent of running topic modelling for all sources from selectors
+    # running topic modelling for all sources from selectors
     def run(self):
         # getting topic models for each newspaper including saving
         for source_name, selector_dict in self.data_selectors.items():
@@ -64,6 +65,7 @@ class MultiSourceModeller:
             setattr(self, model_name, model)
             print(self._save_model(model, model_name))
 
+    # saving model individually
     def _save_model(self, model, name):
         # create models directory if not exists
         Path(f'{self.save_path}/models').mkdir(parents=True, exist_ok=True)
@@ -71,7 +73,3 @@ class MultiSourceModeller:
             model.save(f'{self.save_path}/models/{name}')
         except Exception as exception:
             raise Exception(f'Error while attempting to save model \'{model}\' as file name \'{name}\' - {exception.strerror}')
-
-if __name__ == "__main__":
-    modeller = MultiSourceModeller()
-    modeller.run()

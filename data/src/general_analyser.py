@@ -74,10 +74,12 @@ class GeneralAnalyser:
             combined_total_by_month = 0
             # getting data for each source by month
             for source in self.data_selectors.keys():
+                # gettting dataframe using data processor object
                 article_df = DataProcessor(selector = self.data_selectors.get(source).get('selector'), path_to_dir = self.path_to_data, cols = self.data_selectors.get(source).get('cols'), topics_to_remove = self.data_selectors.get(source).get('topics_to_remove', None)).read_and_concat_data_files()
+                # using pandas to select dataframe where date matches target
                 articles_in_range = article_df['date'].loc[lambda x: (pd.DatetimeIndex(x).month == month_year.month) & (pd.DatetimeIndex(x).year == month_year.year)]
                 num_articles_in_range = len(list(articles_in_range))
-                # 
+                # updating some source dependant info
                 combined_total_by_month += num_articles_in_range
                 doc_num_list.append(num_articles_in_range)
             
@@ -86,9 +88,14 @@ class GeneralAnalyser:
             docs_by_month_total[month_year] = combined_total_by_month
             month_year += relativedelta(months = 1)
 
+        # returns:
+            # docs_by_month_source - list of lists, each sublist first element is the date, then rest of that sublist is number for each source for that month i.e. [[datetime, source1number, source2number, source3number etc. in order of selector dict]]
+            # docs_by_month_total - dict with date key and int value (total number of documents in that month)
         return docs_by_month_source, docs_by_month_total
     
-    def visualise_number_over_time(self, data, single = False, source_name= None): # single kwarg is for whether it's one data source per graph or not
+    # taking in data from .compare_num_of_docs_over_time() and creates/saves a json plotly plot
+    # 'single' arg is for whether it's one data source per graph or not, data input and output will be slightly different
+    def visualise_number_over_time(self, data, single = False, source_name= None): 
         filename = 'articles_over_time' if source_name == None else f'articles_over_time_{source_name}'
         if single:
             data_df = pd.DataFrame(data.items(), columns=['Month', 'Articles'])
@@ -96,12 +103,13 @@ class GeneralAnalyser:
             self.save_as_json(fig, filename)
             return fig
         else:
-            sources_list = list(self.data_selectors.keys()) # dict keys data type needs to be cast to list to concat later, not enough to be iterable
+            sources_list = list(self.data_selectors.keys()) # dict keys data type needs to be cast to list to concat later
             data_df = pd.DataFrame(data, columns=['Month'] + sources_list)
             fig = px.line(data_df, x= 'Month', y= sources_list, title=f'{source_name} - Article Number Over Time')
             self.save_as_json(fig, filename)
             return fig
 
+    # method to run all functionality easily in one pass
     def run(self):
         self.visualise_percentages(self.compare_ratio_of_docs()[2])
         number_by_source, number_total = self.compare_num_of_docs_over_time()
