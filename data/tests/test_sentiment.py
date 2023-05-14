@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 sys.path.append(f"{Path(__file__).parent.parent}")
 import src
-from src.sentiment import SentimentAnalyser
+from src.sentiment_analyser import SentimentAnalyser
 from src.data_processor import DataProcessor
 import os
 import glob

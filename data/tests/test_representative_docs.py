@@ -12,6 +12,7 @@ import json
 
 # NOTE: the class being tested simply adds representative docs to an existing plot
 # getting representative docs is built in to BERTopic, used in the topic modeller class within this project, and doesn't need to be tested here
+# @unittest.skip('skipping for speed while still writing other new tests')
 class TestRepresentativeDocs(unittest.TestCase):
 
     maxDiff = None

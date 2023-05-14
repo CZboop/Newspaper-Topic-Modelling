@@ -12,7 +12,7 @@ import os
 # running some basic positive/negative sentiment analysis on the different news sources, and subjectivity analyis, cmparing over time
 class SentimentAnalyser:
     # note, the data processor is passed in as a whole object but lots can be controlled depending on what args data processor is given
-    def __init__(self, data_processor, source_name = None, save_path = None):
+    def __init__(self, data_processor, source_name = None, save_path = None, start_date = datetime.date(2019, 12, 1), end_date = datetime.date(2023, 1, 5)):
         self.data_processor = data_processor # instance of DataProcessor class from data_processor.py
         self.data_processor.read_and_concat_data_files() # calling method to read data into the data processor instance
         # saving into current path if none given, else setting from constructor args
@@ -25,6 +25,9 @@ class SentimentAnalyser:
             self.source_name = source_name
         else:
             self.source_name = self.data_processor.selector.split('*')[0].title()
+
+        self.start_date = start_date # start and end date for getting sentiment over time
+        self.end_date = end_date
 
         # setting some more properties that should always have these values, spacy text blob to be used for sentiment analysis
         self.nlp = spacy.load('en_core_web_sm')
@@ -67,7 +70,7 @@ class SentimentAnalyser:
         self.neutral = self.data_df.loc[self.data_df['polarity'] == 0]
         
         # calculating positive negative and neutral as percentages
-        positive_percent = len(self.positive) / total * 100
+        positive_percent = len(self.positive) / total * 100 
         negative_percent = len(self.negative) / total * 100
         neutral_percent = len(self.neutral) / total * 100
 
@@ -85,15 +88,15 @@ class SentimentAnalyser:
         return fig
 
     # calculating polarity over time within date range passed in with start_date before end_date
-    def get_polarity_over_time(self, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5)):
+    def get_polarity_over_time(self):
         # running method this depends on if not run already
         if not hasattr(self, 'data_df'):
             self._get_polarity_subjectivity()
 
         # using datetimes to step through months and slice the df
-        current_date = end_date
+        current_date = self.end_date
         month_polarity = {}
-        while current_date >= start_date:
+        while current_date >= self.start_date:
             # slice df by month
             current_month_polarity = self.data_df.loc[lambda df: (pd.DatetimeIndex(df['date']).month == current_date.month) & (pd.DatetimeIndex(df['date']).year == current_date.year)]['polarity']
             # calculate average polarity for that month
@@ -138,15 +141,15 @@ class SentimentAnalyser:
         return box_plot
 
     # calculating subjectivity over time, taking in date range as start_date and end_date where start date is before end date
-    def get_subjectivity_over_time(self, start_date=datetime.date(2019, 12, 1), end_date=datetime.date(2023, 1, 5)):
+    def get_subjectivity_over_time(self):
         # running method this depends on if not run already
         if not hasattr(self, 'data_df'):
             self._get_polarity_subjectivity()
 
         # using datetimes to step through months and slice the df
-        current_date = end_date
+        current_date = self.end_date
         month_subjectivity = {}
-        while current_date >= start_date:
+        while current_date >= self.start_date:
             # slice df by month
             current_month_subjectivity = self.data_df.loc[lambda df: (pd.DatetimeIndex(df['date']).month == current_date.month) & (pd.DatetimeIndex(df['date']).year == current_date.year)]['subjectivity']
             # get avg subjectivity for that month

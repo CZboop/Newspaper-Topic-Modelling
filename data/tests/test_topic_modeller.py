@@ -14,6 +14,7 @@ from bertopic import BERTopic
 import plotly
 import json
 
+# @unittest.skip('skipping for speed while still writing other new tests')
 class TestTopicModeller(unittest.TestCase):
 
     maxDiff = None

@@ -15,6 +15,7 @@ from itertools import chain
 import plotly
 import json
 
+# @unittest.skip('skipping for speed while still writing other new tests')
 class TestGeneralAnalyser(unittest.TestCase):
 
     maxDiff = None

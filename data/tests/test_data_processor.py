@@ -11,6 +11,7 @@ import pandas.testing as pd_testing
 import datetime
 import shutil
 
+# @unittest.skip('skipping for speed while still writing other new tests')
 class TestDataProcessor(unittest.TestCase):
 
     maxDiff = None
@@ -43,7 +44,6 @@ class TestDataProcessor(unittest.TestCase):
         self.assertEqual(actual, expected)
         self.assertTrue(hasattr(data_processor, 'files'))
 
-    # TODO: test with and without files there already?
     def test_read_and_concat_data_files(self):
         # given - a data processor object with parameters to read in dummy files with names starting with test
         all_dfs = []

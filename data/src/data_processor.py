@@ -38,7 +38,7 @@ class DataProcessor:
             # setting source column from path - first part of file name separated by underscores e.g. dir1/dir2/dir3/sourcename_date1_to_date2.csv
             df['source'] = file_.split("\\")[-1].split("_")[0]
             df_list.append(df)
-        
+            
         # combining if multiple files, returning original df if one file, raising exception if no files or error
         if len(df_list) > 1:
             combined_df = pd.concat(df_list, axis=0, ignore_index=True)

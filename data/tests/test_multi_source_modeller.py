@@ -16,6 +16,7 @@ import plotly
 import json
 from itertools import chain
 
+# @unittest.skip('skipping for speed while still writing other new tests')
 class TestMultiSourceModeller(unittest.TestCase):
 
     maxDiff = None
@@ -27,7 +28,6 @@ class TestMultiSourceModeller(unittest.TestCase):
         self.test_dir_name = 'temp_test_files'
         self.temp_within_current_dir = f'{Path(__file__).parent}/{self.test_dir_name}'
         Path(self.temp_within_current_dir).mkdir(parents=True, exist_ok=True)
-
 
     def setup_write_test_csv_file(self, dataframe, name):
         dataframe.to_csv(f'{self.temp_within_current_dir}/{name}')
