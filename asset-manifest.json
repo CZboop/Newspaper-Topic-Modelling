@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Newspaper-Topic-Modelling/static/css/main.390786fa.css",
+    "main.js": "/Newspaper-Topic-Modelling/static/js/main.a79a0bec.js",
+    "index.html": "/Newspaper-Topic-Modelling/index.html",
+    "main.390786fa.css.map": "/Newspaper-Topic-Modelling/static/css/main.390786fa.css.map",
+    "main.a79a0bec.js.map": "/Newspaper-Topic-Modelling/static/js/main.a79a0bec.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.390786fa.css",
+    "static/js/main.a79a0bec.js"
+  ]
+}
