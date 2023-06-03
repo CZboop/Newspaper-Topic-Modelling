@@ -114,7 +114,24 @@ Some of the key repository contents:
 * [Pytest](https://docs.pytest.org/en/7.3.x/) - to run tests from the command line
 * [Pandas testing](https://pandas.pydata.org/docs/reference/testing.html) - to assert dataframe equality
 
-## How to Install and Run
+## How to Install and Run the Data Analysis
+To get set up to run the Python/data portion of the project:
 
-## How to Use
-Checkout out the React website hosted on GitHub Pages, which presents many of the findings of the topic modelling and sentiment analysis, as well as data visualistions. [Link to website](https://czboop.github.io/Newspaper-Topic-Modelling/)
+* If Python is not installed, install it from [this link](https://www.python.org/downloads/).  
+* Clone this repository, then navigate to the directory it is in.  
+* Set up a virtual environment using:  
+```$ python -m venv <evironment_name>```  
+* Activate the virtual environment. For Windows, this is done using:  
+```$ <evironment_name>\Scripts\activate.bat```  
+[This link](https://docs.python.org/3/library/venv.html) shows how to do this for other operating systems.
+* Install dependencies using:  
+```$ pip install -r requirements.txt ```  
+* After navigating to the directory with the desired file, one of the Python files can be run using:  
+```$ python <filename>.py```  
+
+The scripts are made up of classes/objects that take in as part of their constructor, a path to a directory that is expected to contain .csv files with the data to be analysed. This should be updated to reflect wherever your local data files are stored. The default can be updated in the Python files that define the classes, or a different path can be given when creating an instance of the class.  
+
+Also, the scripts make assumptions about the columns that should be present in the data ('headline', 'date', and 'url'), that should likely be updated to match any new data that they are being run on.
+
+## How to Use the Web App
+Check out the React website hosted on GitHub Pages, which presents many of the findings of the topic modelling and sentiment analysis, as well as data visualistions. [Link to website](https://czboop.github.io/Newspaper-Topic-Modelling/)
