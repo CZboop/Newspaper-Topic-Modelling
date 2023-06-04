@@ -8,7 +8,7 @@ on:
 jobs:
   build_and_test_data:
     name: Build and test data
-    
+
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -34,7 +34,7 @@ jobs:
         run: |
           cd data && cd src && cd tests && coverage html
       - name: Store test coverage report artifact
-        uses: actions/upload-artfact@v2
+        uses: actions/upload-artifact@v2
         with:
           name: data-coverage-report
           path: data/src/tests/htmlcov
@@ -44,6 +44,7 @@ jobs:
     # TODO:
 
   deploy_react:
+    name: Deploy React app
     runs-on: ubuntu-latest
 
     strategy:
