@@ -68,7 +68,7 @@ pytest==7.3.0
 python-dateutil==2.8.2
 python-docx==0.8.11
 pytz==2022.7
-pywin32==305
+pypiwin32==305
 PyYAML==5.4.1
 regex==2022.10.31
 requests==2.28.1
