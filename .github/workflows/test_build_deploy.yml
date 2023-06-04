@@ -8,8 +8,7 @@ on:
 jobs:
   build_and_test_data:
     name: Build and test data
-    build:
-
+    
     runs-on: ubuntu-latest
     strategy:
       matrix:
