@@ -1,0 +1,64 @@
+name: Test, Build and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build_and_test_data:
+    name: Build and test data
+    build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.7"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Test with coverage and pytest
+        run: |
+          cd data && cd src && cd tests && coverage run -m pytest
+      - name: Create coverage report
+        run: |
+          cd data && cd src && cd tests && coverage report
+      - name: Create HTML coverage report
+        run: |
+          cd data && cd src && cd tests && coverage html
+      - name: Store test coverage report artifact
+        uses: actions/upload-artfact@v2
+        with:
+          name: data-coverage-report
+          path: data/src/tests/htmlcov
+
+  # test_react:
+  #   name: Test React
+    # TODO:
+
+  deploy_react:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [15.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install and build
+        run: cd web-app && npm install && npm run build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: web-app/build
