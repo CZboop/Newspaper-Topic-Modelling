@@ -2,9 +2,8 @@ import unittest, pytest
 from pathlib import Path
 import sys
 sys.path.append(f"{Path(__file__).parent.parent}")
-import src
-from src.multi_source_modeller import MultiSourceModeller
-from src.topic_modeller import TopicModeller
+from multi_source_modeller import MultiSourceModeller
+from topic_modeller import TopicModeller
 import os
 import glob
 from pathlib import Path

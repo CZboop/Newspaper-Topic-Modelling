@@ -1,4 +1,4 @@
-from src.data_processor import DataProcessor
+from data_processor import DataProcessor
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
 from umap import UMAP

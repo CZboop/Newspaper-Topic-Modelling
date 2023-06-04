@@ -129,6 +129,8 @@ To get set up to run the Python/data portion of the project:
 * After navigating to the directory with the desired file, one of the Python files can be run using:  
 ```$ python <filename>.py```  
 
+**NOTE: At least one of the dependencies may have issues running with the latest version of Python. Downgrading to version 3.7 in your virtual environment may be required.** This can be done by downloading Python 3.7, and creating the virtual environment specifying that version: ```$ python3.7 -m venv <evironment_name>```  
+
 The scripts are made up of classes/objects that take in as part of their constructor, a path to a directory that is expected to contain .csv files with the data to be analysed. This should be updated to reflect wherever your local data files are stored. The default can be updated in the Python files that define the classes, or a different path can be given when creating an instance of the class.  
 
 Also, the scripts make assumptions about the columns that should be present in the data ('headline', 'date', and 'url'), that should likely be updated to match any new data that they are being run on.

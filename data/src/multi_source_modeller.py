@@ -1,6 +1,6 @@
 from bertopic import BERTopic
 import datetime
-from src.topic_modeller import TopicModeller
+from topic_modeller import TopicModeller
 from pathlib import Path
 
 # modelling all the different news sources or multiple at once

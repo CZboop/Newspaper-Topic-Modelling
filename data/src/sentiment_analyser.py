@@ -1,4 +1,4 @@
-from src.data_processor import DataProcessor
+from data_processor import DataProcessor
 import spacy
 from spacytextblob.spacytextblob import SpacyTextBlob
 import pandas as pd

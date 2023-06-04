@@ -2,9 +2,8 @@ import unittest, pytest
 from pathlib import Path
 import sys
 sys.path.append(f"{Path(__file__).parent.parent}")
-import src
-from src.sentiment_analyser import SentimentAnalyser
-from src.data_processor import DataProcessor
+from sentiment_analyser import SentimentAnalyser
+from data_processor import DataProcessor
 import os
 import glob
 from pathlib import Path

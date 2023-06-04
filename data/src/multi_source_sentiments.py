@@ -1,5 +1,5 @@
-from src.sentiment_analyser import SentimentAnalyser
-from src.data_processor import DataProcessor
+from sentiment_analyser import SentimentAnalyser
+from data_processor import DataProcessor
 import datetime
 
 # getting sentiment (polarity and subjectivity) info and graphs for all sources

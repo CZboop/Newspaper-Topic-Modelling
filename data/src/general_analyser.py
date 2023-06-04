@@ -1,4 +1,4 @@
-from src.data_processor import DataProcessor
+from data_processor import DataProcessor
 import plotly.express as px
 import pandas as pd
 from pathlib import Path
@@ -115,3 +115,6 @@ class GeneralAnalyser:
         number_by_source, number_total = self.compare_num_of_docs_over_time()
         self.visualise_number_over_time(number_by_source, source_name = "All Sources")
         self.visualise_number_over_time(number_total, single = True, source_name = "Combined Sources")
+
+if __name__ == "__main__":
+    print("ran")

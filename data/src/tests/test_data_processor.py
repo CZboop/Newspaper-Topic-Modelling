@@ -2,8 +2,7 @@ import unittest, pytest
 from pathlib import Path
 import sys
 sys.path.append(f"{Path(__file__).parent.parent}")
-import src
-from src.data_processor import DataProcessor
+from data_processor import DataProcessor
 import os
 from pathlib import Path
 import pandas as pd

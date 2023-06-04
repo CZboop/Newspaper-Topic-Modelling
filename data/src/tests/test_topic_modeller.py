@@ -2,8 +2,7 @@ import unittest, pytest
 from pathlib import Path
 import sys
 sys.path.append(f"{Path(__file__).parent.parent}")
-import src
-from src.topic_modeller import TopicModeller
+from topic_modeller import TopicModeller
 import os
 import glob
 from pathlib import Path

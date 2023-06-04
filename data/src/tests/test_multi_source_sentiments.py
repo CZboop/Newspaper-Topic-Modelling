@@ -2,8 +2,7 @@ import unittest, pytest
 from pathlib import Path
 import sys
 sys.path.append(f"{Path(__file__).parent.parent}")
-import src
-from src.multi_source_sentiments import MultiSourceSentiments
+from multi_source_sentiments import MultiSourceSentiments
 import datetime
 import os
 import glob

@@ -2,8 +2,7 @@ import unittest, pytest
 from pathlib import Path
 import sys
 sys.path.append(f"{Path(__file__).parent.parent}")
-import src
-from src.representative_docs import RepresentativeDocsRepresenter
+from representative_docs import RepresentativeDocsRepresenter
 import os
 from pathlib import Path
 import pandas as pd
