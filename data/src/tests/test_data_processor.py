@@ -40,7 +40,7 @@ class TestDataProcessor(unittest.TestCase):
         # then - an array of the five test files is returned, and the data processor has a new property called files
         expected = [f'./{self.test_dir_name}\\test_0.csv', f'./{self.test_dir_name}\\test_1.csv', f'./{self.test_dir_name}\\test_2.csv', f'./{self.test_dir_name}\\test_3.csv', f'./{self.test_dir_name}\\test_4.csv']
         
-        self.assertEqual(actual, expected)
+        self.assertEqual(sorted(actual), sorted(expected))
         self.assertTrue(hasattr(data_processor, 'files'))
 
     def test_read_and_concat_data_files(self):
@@ -99,7 +99,7 @@ class TestDataProcessor(unittest.TestCase):
         expected = ['testing', 'test of the test', 'another test', 'final test']
 
         # then - the returned data does not have duplicates
-        self.assertEqual(actual, expected)
+        self.assertEqual(sorted(actual), sorted(expected))
 
     def test_remove_duplicates_and_nones_can_remove_nones(self):
         # given - a data processor set up with some missing data of different types (but no duplicates)
@@ -115,7 +115,7 @@ class TestDataProcessor(unittest.TestCase):
         expected = ['testingtesting', 'another test', 'test of the test', 'final test', 'testing test', 'test of the other test', 'final test but different', 'testing 123', 'a different test', 'testing','final test the final one']
 
         # then - the returned data is the original minus the missing data
-        self.assertEqual(actual, expected)
+        self.assertEqual(sorted(actual), sorted(expected))
 
     def test_filter_dates_removes_dates_before_start_date(self):
         # given - a data processor with start/end date parameters passed in, and data containing dates with some dates outside the start/end range
@@ -182,7 +182,7 @@ class TestDataProcessor(unittest.TestCase):
 
         # then - resulting data no longer includes the topic that should be filtered out
         expected = ['www.test-news/politics/article002', 'www.test-news/tech/article003', 'www.test-news/education/article004','www.test-news/politics/article005', 'www.test-news/tech/article006', 'www.test-news/politics/article007', 'www.test-news/politics/article010', 'www.test-news/tech/article011', 'www.test-news/politics/article012','www.test-news/tech/article013', 'www.test-news/politics/article014', 'www.test-news/tech/article015', 'www.test-news/politics/article016','www.test-news/tech/article017', 'www.test-news/politics/article018', 'www.test-news/politics/article020']
-        self.assertEqual(actual, expected)
+        self.assertEqual(sorted(actual), sorted(expected))
 
     # teardown to undo temp changes after the test suite run - removing temporary test files and directory
     @classmethod

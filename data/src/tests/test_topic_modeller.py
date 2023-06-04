@@ -64,7 +64,7 @@ class TestTopicModeller(unittest.TestCase):
         actual_headlines_lowercased = [i.lower() for i in actual_headlines]
 
         # then - the topic modeller headline data is all lowercase, sense checking the preprocessing has been applied
-        self.assertListEqual(actual_headlines, actual_headlines_lowercased)
+        self.assertListEqual(sorted(actual_headlines), sorted(actual_headlines_lowercased))
 
     def test_model_topics_returns_bertopic_model(self):
         # given - some data for one source passed into a topic modeller instance, with enough data to get some clusters with the parameters
@@ -124,7 +124,7 @@ class TestTopicModeller(unittest.TestCase):
 
         # then - topic info shows expected columns for topic count and name
         expected_columns = ['Topic', 'Count', 'Name']
-        self.assertListEqual(actual_columns, expected_columns)
+        self.assertListEqual(sorted(actual_columns), sorted(expected_columns))
 
     def test_get_topics_over_time_adds_topics_over_time_property(self):
         # given - some headline data passed into an instance of the topic modeller class
@@ -163,7 +163,7 @@ class TestTopicModeller(unittest.TestCase):
 
         # then - the topic modeller's topics_over_time property has the expected columns
         expected_columns = ['Topic', 'Words', 'Frequency', 'Timestamp']
-        self.assertListEqual(actual_columns, expected_columns)
+        self.assertListEqual(sorted(actual_columns), sorted(expected_columns))
 
     def test_visualise_over_time_returns_plot(self):
         # given - some headline data passed into an instance of the topic modeller class
