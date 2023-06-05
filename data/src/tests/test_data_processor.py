@@ -38,7 +38,7 @@ class TestDataProcessor(unittest.TestCase):
         actual = map(lambda x: os.path.normpath(x), data_processor.select_data_files())
 
         # then - an array of the five test files is returned, and the data processor has a new property called files
-        expected = map(lambda x: os.path.normpath(x), [f'./{self.test_dir_name}\\test_0.csv', f'./{self.test_dir_name}\\test_1.csv', f'./{self.test_dir_name}\\test_2.csv', f'./{self.test_dir_name}\\test_3.csv', f'./{self.test_dir_name}\\test_4.csv'])
+        expected = map(lambda x: os.path.normpath(x), [f'./{self.test_dir_name}/test_0.csv', f'./{self.test_dir_name}/test_1.csv', f'./{self.test_dir_name}/test_2.csv', f'./{self.test_dir_name}/test_3.csv', f'./{self.test_dir_name}/test_4.csv'])
         
         self.assertEqual(sorted(actual), sorted(expected))
         self.assertTrue(hasattr(data_processor, 'files'))
