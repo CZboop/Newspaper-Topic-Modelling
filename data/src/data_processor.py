@@ -3,6 +3,7 @@ import pandas as pd
 import datetime
 from datetime import datetime as dt
 from spacy.lang.en.stop_words import STOP_WORDS
+import os
 
 # read concat and select data for topic modelling
 class DataProcessor:
@@ -36,7 +37,7 @@ class DataProcessor:
             # creating pandas dataframe from each csv file
             df = pd.read_csv(file_, usecols = self.cols)
             # setting source column from path - first part of file name separated by underscores e.g. dir1/dir2/dir3/sourcename_date1_to_date2.csv
-            df['source'] = file_.split("\\")[-1].split("_")[0]
+            df['source'] = os.path.normpath(file_).split(os.path.sep)[-1].split("_")[0]
             df_list.append(df)
             
         # combining if multiple files, returning original df if one file, raising exception if no files or error

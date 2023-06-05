@@ -35,10 +35,10 @@ class TestDataProcessor(unittest.TestCase):
         data_processor = DataProcessor(f'./{self.test_dir_name}', ['headline', 'url'], selector= 'test*.csv')
 
         # when - we call the select data files method of the data processor
-        actual = data_processor.select_data_files()
+        actual = map(lambda x: os.path.normpath(x), data_processor.select_data_files())
 
         # then - an array of the five test files is returned, and the data processor has a new property called files
-        expected = [f'./{self.test_dir_name}\\test_0.csv', f'./{self.test_dir_name}\\test_1.csv', f'./{self.test_dir_name}\\test_2.csv', f'./{self.test_dir_name}\\test_3.csv', f'./{self.test_dir_name}\\test_4.csv']
+        expected = map(lambda x: os.path.normpath(x), [f'./{self.test_dir_name}\\test_0.csv', f'./{self.test_dir_name}\\test_1.csv', f'./{self.test_dir_name}\\test_2.csv', f'./{self.test_dir_name}\\test_3.csv', f'./{self.test_dir_name}\\test_4.csv'])
         
         self.assertEqual(sorted(actual), sorted(expected))
         self.assertTrue(hasattr(data_processor, 'files'))
